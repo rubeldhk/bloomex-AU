@@ -47,3 +47,9 @@ id_rsa*
 /nzpost_request_response/
 /robots.txt
 configuration_bk/
+
+# Secrets
+.env
+.env.*
+*.local
+config.local.php
