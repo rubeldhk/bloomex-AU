@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<mosinstall type="component" version="1.0.0">
+ <name>assignorder</name>
+ <creationDate>18 March 2008</creationDate>
+ <author>Nguyen Duy Anh</author>
+ <copyright>PhpMagic</copyright>
+ <authorEmail>123clicksite@gmail.com</authorEmail>
+ <authorUrl>www.123clicksite.com</authorUrl>
+ <version>1.0</version>
+ <description>
+	Postal Code For The WareHouse Manager
+ </description>
+ 
+	<files>
+		<filename>index.html</filename>
+	</files>
+	
+	<install>
+		<queries>
+			<query>
+				CREATE TABLE IF NOT EXISTS `jos_postcode_warehouse` (
+					  `id` int(11) NOT NULL auto_increment,
+					  `postal_code` varchar(255) NOT NULL,
+					  `warehouse_id` int(11) NOT NULL,
+					  PRIMARY KEY  (`id`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+			</query>
+			<query>
+				INSERT INTO `jos_postcode_warehouse` (`id`, `postal_code`, `warehouse_id`) VALUES
+				(1, 'vvv', 8),
+				(2, 'ttt', 7),
+				(3, 'cop', 10);
+			</query>
+		</queries>
+	</install>
+	<uninstall>
+		<queries>
+			<query>DELETE FROM `jos_postcode_warehouse`;</query>
+		</queries>
+	</uninstall>
+	
+ <administration>
+		<menu link="option=com_assignorder">Postal Code For The WareHouse Manager</menu>
+		<files>
+			<filename>admin.assignorder.php</filename>
+			<filename>admin.assignorder.html.php</filename>
+			<filename>toolbar.assignorder.php</filename>
+			<filename>toolbar.assignorder.html.php</filename>
+			<filename>assignorder.class.php</filename>
+			<filename>index.html</filename>
+		</files>
+	</administration>
+</mosinstall>

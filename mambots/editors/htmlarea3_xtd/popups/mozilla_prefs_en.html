@@ -1,0 +1,57 @@
+<html style="height: 100%">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Mozilla/Netscape help</title>
+<script type="text/javascript" src="popup.js"></script>
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+table .label { text-align: right; width: 8em; }
+
+.title { background: none; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+
+#buttons {
+      margin-top: 1em; border-top: 1px solid black;
+      padding: 2px; text-align: center;
+}
+</style>
+</HEAD>
+
+<BODY scroll="yes" onLoad="self.focus();" onUnLoad="opener.focus();">
+
+<div class="title">Help enabling clipboard actions for Mozilla/Netscape</div>
+
+<P>
+You'll have to quit Mozilla/Netscape before you do this!<br /><br />
+Find the files &quot;prefs.js&quot; and &quot;user.js&quot; on your local computer. Open them up with a texteditor and add the following lines:
+<pre>
+user_pref("capability.policy.allowclipboard.Clipboard.cutcopy", "allAccess");
+user_pref("capability.policy.allowclipboard.Clipboard.paste", "allAccess");
+user_pref("capability.policy.policynames", "allowclipboard");
+user_pref("capability.policy.allowclipboard.sites", "http://www.YOUR SERVER HERE.com");
+</pre>
+<b>"http://www.YOUR SERVER HERE.com"</b> of course must contain the URL of the server you want to allow to execute clipboard functions (such as cut, copy and paste).
+<br /><br />Restart your browser.
+</P>
+<form>
+<div id="buttons">
+  <button type="button" name="cancel" onclick="self.close();">OK</button>
+</div>
+</form>
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<mosinstall type="component" version="1.0.0">
+ <name>Landing Pages</name>
+ <creationDate>18 March 2008</creationDate>
+ <author>Nguyen Duy Anh</author>
+ <copyright>PhpMagic</copyright>
+ <authorEmail>123clicksite@gmail.com</authorEmail>
+ <authorUrl>www.123clicksite.com</authorUrl>
+ <version>1.0</version>
+ <description>
+	Survey
+ </description>
+ 
+	<files>
+		<filename>index.html</filename>
+	</files>
+	
+	<install>
+	</install>
+	<uninstall>
+	</uninstall>
+	
+ <administration>
+	</administration>
+</mosinstall>

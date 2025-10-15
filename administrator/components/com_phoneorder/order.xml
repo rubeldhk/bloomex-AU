@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<order>
+	<customerEmail>phpmagic2@phpmagic.com</customerEmail>	
+	<customerUsername>phpmagic</customerUsername>
+	
+	<deliver>
+		<addressNickName>123clicksite.com2</addressNickName>
+		<firstName>Anh</firstName>
+		<lastName>Nguyen</lastName>
+		<middleName>Duy</middleName>
+		<address1>HN</address1>
+		<address2>HN</address2>
+		<city>HN</city>
+		<zipCode>l;ksajdfs</zipCode>
+		<country>VN</country>
+		<state>HN</state>
+		<phone>049711490</phone>
+		<cellPhone>0986327278</cellPhone>
+		<eveningPhone>049711490</eveningPhone>
+		<fax>049711490</fax>
+		<recipientEmail>123clicksite@gmail.com</recipientEmail>
+		<shippingMethod>Regular delivery (12 p.m.-5 p.m.)</shippingMethod>
+		<deliverDay>07</deliverDay>
+		<deliverMonth>03</deliverMonth>		
+		<cardMsg>It will be printed exactly as you entered</cardMsg>		
+		<signature>Mr Anh</signature>		
+		<cardComment>We will keep this information confidential</cardComment>		
+	</deliver>
+	
+	<payment>
+		<paymentMethod>>VISA</paymentMethod>
+		<nameOnCard>ANH NGUYEN DUY</nameOnCard>
+		<creditCardNumber>40019382189219</creditCardNumber>
+		<creditCardSecurityCode>111</creditCardSecurityCode>
+		<expireMonth>04</expireMonth>
+		<expireYear>2011</expireYear>
+	</payment>	
+	
+	<product>
+		<sku quantity ="1">CO92</sku>
+		<sku quantity ="1">CO190 </sku>
+		<sku quantity ="4">CF83M</sku>
+		<sku quantity ="2"></sku>
+		<sku quantity ="1"></sku>
+	</product>	
+</order>

@@ -1,0 +1,242 @@
+table.hydraContainer,
+table.hydraContainer tr td,
+table.hydraContainer input,
+table.hydraContainer select
+{
+   font-family                  : Arial, Verdana, sans-serif;
+   font-size                    : 11px;
+   font-weight                  : normal;
+   color                        : #000000; 
+}
+
+
+table.hydraContainer a,
+table.hydraContainer a:link,
+table.hydraContainer a:visted
+{
+   font-family                  : Arial, Verdana, sans-serif;
+   font-size                    : 11px;
+   font-weight                  : normal;
+   color                        : #C64934;
+}
+
+
+table.hydraContainer
+{
+   background-color             : #FFFFFF;
+}
+
+
+table.hydraContainer tr td.hydraLeft
+{
+   width                        : 15%;
+   padding-top                  : 5px;
+}
+
+
+table.hydraContainer tr td.hydraCenter
+{
+   width                        : 85%;
+   padding                      : 5px 0px 0px 5px;
+}
+
+
+table.hydraContainer tr td.hydra_navtitle,
+table.hydraContainer tr td.hydra_navpanel,
+table.hydraContainer tr td.hydra_msgtitle,
+table.hydraContainer tr td.hydra_msgpanel
+{
+   background                   : #f1f3f5;
+   border                       : 1px solid #cccccc;
+   padding                      : 1px 0px 1px 0px;
+   text-indent                  : 5px;
+   -moz-border-radius-topleft   : 6px;
+}
+
+
+table.hydraContainer tr td.hydra_navpanel
+{
+   background                   : #f9f9f9;
+   border-left                  : 0px;
+   -moz-border-radius-topleft   : 0px;
+   -moz-border-radius-topright  : 6px;
+   text-indent                  : 0px;
+}
+
+
+table.hydraContainer tr td.hydra_msgtitle
+{
+   border-top                   : 1px solid #FFFFFF;
+   -moz-border-radius-topleft   : 0px; 
+}
+
+
+table.hydraContainer tr td.hydra_msgpanel
+{
+   background                   : #f9f9f9;
+   border-top                   : 1px solid #FFFFFF;
+   border-left                  : 0px;
+   -moz-border-radius-topleft   : 0px;
+}
+
+
+
+/* context menu */
+
+div.hydra_menuBar,
+div.hydra_menuBar a.hydra_menuButton,
+table.hydra_menu,
+table.hydra_menu a.hydra_menuItem
+{
+   font-family            : Arial, Verdana, sans-serif;
+   font-size              : 11px;
+   font-style             : normal;
+   font-weight            : normal;
+   color                  : #000000;
+   text-align             : left;
+}
+
+
+div.hydra_menuBar a.hydra_menuButton
+{
+   background-color       : transparent;
+   color                  : #000000 !important;
+   cursor                 : pointer;
+   position               : relative;
+   text-decoration        : none;
+   z-index                : 100;
+   text-align             : left;
+}
+
+
+div.hydra_menuBar a.hydra_menuButton:hover
+{
+   background-color       : transparent;
+   color                  : #000000 !important;
+   text-decoration        : none;
+}
+
+
+div.hydra_menuBar a.hydra_menuButtonActive,
+div.hydra_menuBar a.hydra_menuButtonActive:hover
+{
+   color                  : #000000 !important;
+   text-align             : left;
+}
+
+
+table.hydra_menu
+{
+   background-color       : #FFFFFF;
+   border                 : 1px solid #8c867b;
+   top                    : 0px;
+   left                   : 0px;
+   position               : absolute !important;
+   z-index                : 999;
+}
+
+
+a.hydra_menuItem
+{
+   display                : block;
+   height                 : 16px;
+   line-height            : 16px;
+   color                  : #000000 !important;
+   cursor                 : pointer !important;
+   padding                : 0px 5px 0px 5px;
+   text-decoration        : none !important;
+   white-space            : nowrap;
+   text-align             : left;
+}
+
+
+a.hydra_menuItem:hover,
+a.hydra_menuItemHighlight
+{
+   display                : block;
+   height                 : 16px;
+   line-height            : 16px;
+   padding                : 0px 5px 0px 5px;
+   margin-right           : 0px;
+   text-align             : left;
+   text-decoration        : none;
+}
+
+
+a.hydra_menuItem2
+{
+   display                : block;
+   height                 : 16px;
+   line-height            : 16px;
+   color                  : #cccccc;
+   padding                : 0px 25px 0px 5px;
+   text-decoration        : none;
+   white-space            : nowrap;
+   text-align             : left;
+}
+
+
+div.hydra_menuItem3
+{
+   color                  : #000000;
+   padding                : 0px 25px 0px 5px;
+   text-decoration        : none;
+   white-space            : nowrap;
+   text-align             : left;
+}
+
+
+table.hydra_menu td.hydra_itemContainer
+{
+   height                 : 16px;
+   line-height            : 16px;
+   background-color       : #FFFFFF;
+   padding                : 0px;
+   margin                 : 0px;
+   border                 : 0px;
+   text-align             : left;
+}
+
+
+table.hydra_menu td.hydra_itemspace
+{
+   background-color       : #dde1e6;
+   border                 : 0px;
+}
+
+
+table.hydra_menu span.hydra_menuItemText a.hydra_menuItem
+{
+   color                  : #000000 !important;
+   text-decoration        : none !important;
+   cursor                 : pointer !important;
+   text-align             : left;
+}
+
+
+span.hydra_menuItemText a
+{
+   color                  : #000000 !important;
+   text-decoration        : none !important;
+   cursor                 : pointer !important;
+   text-align             : left;
+}
+
+
+table.hydra_menu a.hydra_menuItem span.hydra_menuItemArrow
+{
+   margin-right           : -.75em;
+   color                  : #000000 !important;
+   text-decoration        : none !important;
+   cursor                 : pointer !important;
+   text-align             : left;
+}
+
+
+table.hydra_menu div.hydra_menuItemSep
+{
+   border-top             : 1px solid #909090;
+   border-bottom          : 1px solid #f0f0f0;
+   margin                 : 4px 2px;
+   text-align             : left;
+}

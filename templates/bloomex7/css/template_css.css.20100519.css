@@ -1,0 +1,662 @@
+/* Стиль для тэга body вашего сайта, задает фон, шрифты и т.д. */
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: Verdana, Arial, Helvetica, Sans Serif;
+	font-size: 11px;
+	color: Black;
+	background: Rgb(239,237,237);
+	text-align: left;
+}
+
+hr {
+  background: Black;
+	height: 1px;
+	width: 100%;
+}
+
+ul#mainlevel-nav {
+  font-size        : 11px;
+  list-style       : none;
+  padding          : 0;
+  margin           : 0;
+  font-size        : 0.8em;
+}
+ul#mainlevel-nav li {
+	display: block;
+	background-image: none;
+	padding-left: 1px;
+	padding-right: 1px;
+	float: left;
+	margin: 0;
+	width: auto !important;
+	font-size: 11px; /*line-height      : 22px;*/
+/*	white-space: nowrap; /*border-left      : 1px solid #cccccc;*/
+	font-weight: bold;
+}
+ul#mainlevel-nav li a {
+	font-size: 11px;
+	display: block;
+	padding-left: 16px;
+	padding-right: 15px;
+	text-decoration: none;
+	color: #663366;
+	background: transparent;
+	font-weight: bold;
+}
+ul#mainlevel-nav li a:hover {
+	font-size: 11px;
+	color: #333333;
+	font-weight: bold;
+}
+
+
+.maintitle {
+	color: #cc0000;
+	font-size: 11px;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+.error {
+  font-style: italic;
+  text-transform: uppercase;
+  padding: 5px;
+  color: #cccccc;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
+/* Стиль для кнопки "Вернуться" */
+.back_button {
+	border: 2px solid #cc0000;
+	margin: 15px 0px 10p 0px;
+	font-weight: bold;
+	font-size: 11px;
+	cursor:pointer;
+	float: left;
+	width: 40px;
+	padding: 4px;
+}
+
+
+/* Форматирует все <div>, для которых нет своего класса. */
+p {}
+/* Форматирует все <td> элементы. Используется, когда для определенной <td> нет своего класса. */
+td {
+		font-size: 11px;
+}
+
+/* Главный стиль ссылок */
+a:link, a:visited {
+	color: #333333;
+	text-decoration: none;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+a:hover {
+	color: #CC0000;
+	text-decoration: none;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+
+
+table.contentpaneopen {
+	width: 98%;
+	padding: 0px;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+table.contentpane td {
+	margin: 0px;
+	padding: 0px;
+}
+
+/*table.contentpane td.componentheading {
+	padding-left: 4px;
+}*/
+
+table.contentpane td.contentheading {
+  padding-left: 20px;
+  padding-top: 0px;
+    padding-bottom: 9px;
+}
+/* НАСТРОЙКИ ФОРМ */ 
+.button {
+	font: bold 10px Verdana, Arial, Helvetica, sans-serif;
+	background-color: #333366;
+	margin-bottom: 0px;
+	color: #FFFFFF;
+	padding: 1px;
+	cursor:pointer;
+}
+
+.button-bigger {
+	padding:7px 5px 7px 5px;
+	font-size:12px;
+}
+
+
+.inputbox {
+	/*border: 1px solid #663366;
+	background-color: #FFFFFF;
+	margin-bottom: 1px;
+	color: #333333;*/
+	/*height: 18px;*/
+	border: 1px solid #663366;
+	background-color: rgb(250,250,250);
+	font-family: verdana, arial, sans serif;
+	color: rgb(52,35,91);
+	font-size: 10px;
+}
+ 
+
+/*.contentcolumn {
+	padding-right: 5px;
+}*/
+
+/* Название стаьи, новости и т.д. */
+.contentheading {
+	height: 26px;
+	background: url(../images/contenthead.png) no-repeat;
+	color: Black;
+	text-align: left;
+	padding-left: 20px;
+	padding-bottom: 12px;
+	font-weight: bold;
+	font-size: 11px;
+	white-space: nowrap;
+}
+ /* Таблица, в которой находяться компоненты, контакты, но не элементы контента. */
+ /* Таблица для контента. */
+/* Название статьи */
+.contentpagetitle {
+	font-size: 11px;
+	font-weight: bold;
+	color: #cccccc;
+	text-align:left;
+}
+
+table.searchinto {
+	width: 100%;
+}
+
+table.searchintro td {
+	font-weight: bold;
+}
+/* Форматирование таблицы модуля */
+table.moduletable {
+   width: 100%;
+	padding: 0px;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	margin-left: 0px;
+	margin-right: 0px;
+	font-family: Verdana,Arial, Helvetica, sans-serif;
+}
+/* Форматирование заголовка модуля и названия модуля */
+table.moduletable th {
+	color: Black;
+	text-align: left;
+	font-weight: bold;
+}
+
+table.moduletable td {
+	padding: 0px;
+	margin: 0x;
+	
+	
+}
+
+
+/* Форматирование таблицы самого модуля с содержимым */
+table.pollstableborder td {
+  padding: 2px;
+}
+/* Это стиль для отображения заголовка секции
+ Например: заголовок таблицr "Дата", "Название", "Автор" и "Просмотров" */
+
+.sectiontableheader {
+	font-weight: bold;
+	background: rgb(216,190,232);
+	padding: 4px;
+	font-size: 11px
+}
+
+.sectiontablefooter {
+
+}
+
+.sectiontableentry1 {
+	background-color: #E4E4E4;
+}
+
+.sectiontableentry2 {
+	background-color: #F1F1F1;
+}
+/* Форматирование "Автор:...." текста */
+.small {
+	color: #999999;
+	font-size: 9px;
+	font-weight: bold;
+	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+.smalldark {}/* Стиль для результатов опроса, строка "Число голосовавших".. */
+/* ОПРОСЫ */
+.poll {} /* Формат таблицы опроса */
+.pollstableborder {} /* Задает рамку для опроса */
+
+/* Стиль для отображения даты создания статьи/новости */
+.createdate {
+	height: 15px;
+	padding-bottom: 10px;
+	color: #999999;
+	font-size: 9px;
+	font-weight: bold;
+	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+/* Стиль для отображения даты последнего обновления статьи/новости */
+.modifydate {
+	height: 15px;
+	padding-top: 10px;
+	color: #999999;
+	font-size: 9px;
+	font-weight: bold;
+	font: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+table.contenttoc {
+  border: 1px solid #cccccc;
+  padding: 2px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+}
+
+table.contenttoc th {
+  background: url(../images/subhead_bg.png) repeat-x;
+  color: #666666;
+	/*text-align: left;*/
+	padding-top: 2px;
+	padding-left: 4px;
+	height: 21px;
+	font-weight: bold;
+	font-size: 10px;
+	text-transform: uppercase;
+}
+
+a.mainlevel:link, a.mainlevel:visited {
+	color: #333366;
+	font-size: 11px;
+	text-decoration: none;
+	text-align: left;
+	background: url(../images/menu_hover.gif) top left no-repeat;
+	padding-left: 12px !important;
+	padding-top: 2px !important;
+	line-height: 19px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+a.mainlevel:hover {
+	color: #CC0000;
+	background: url(../images/menu_hover.gif) top left no-repeat;
+	text-decoration: underline;
+	
+}
+
+a.sublevel:link, a.sublevel:visited {
+	color: Black;
+	text-decoration: none;
+	text-align: left;
+	display: block;
+	padding-left: 14px !important;
+	padding-top: 5px !important;
+	height: 25px !important;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+a.sublevel:hover {
+	color: #009933;
+	text-decoration: none;
+	background: url(../images/menu_hover.gif) top left no-repeat;
+}
+
+.sitemap {
+	/*background: #FFFFFF url(../images/sitemap.png) repeat-x;*/
+	color: #000066;
+	text-align: left;
+	padding-top: 9px;
+	padding-left: 6px;
+	font-weight: bold;
+	font-size: 11px; /*white-space: nowrap;*/
+/*text-indent: 15px;)*/
+	font-weight: bold;
+	font-size: 11px;
+	width: 80%;
+}
+/* этот стиль применяется для элемента меню, когда он активный */
+#active_menu {
+	color: #FF0000;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a#active_menu:hover {
+	color: #838383;
+	font-weight: bold;
+	text-decoration: underline;
+}
+a.readon:link, a.readon:visited {
+	color: #838383;
+	text-decoration: none;
+	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	list-style: inside url(../images/read.png);
+	list-style-type: disc;
+	display: list-item;
+	white-space: normal;
+	font-weight: normal;
+	padding-bottom: 8px;
+}
+
+/* Устанавливает стиль для нижней навигации ("<< Start < Prev Next > End >>"), когда они не работают как гиперссылки (если размещено всего несколько статей). */
+.pagenavbar {
+	padding-right: 5px;
+	float: right;
+}
+/* форматирование в нижней навигации отображения страниц "<< Start < Previous 1 Next > End >>" */
+.pagenav {
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+	border: 3px double #ccccCC;
+	width: auto; 
+	background: url(../images/button_bg.png) repeat-x;
+	padding: 0px 2px;
+	line-height: 20px;
+	margin: 1px;
+}
+/* Стиль для кнопки "Подробнее" в статье/новости */
+a.readon:hover {
+	color: #C4C4C4;	text-decoration: underline;
+	font-weight: normal;
+	font-family:  Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	/*list-style: inside url(../images/read.png);*/
+	list-style-type: disc;
+	display: list-item;
+	white-space: normal;
+	}
+.highlight {
+	background-color: Yellow;
+	color: #003366;
+	padding: 0px 2px 0px 2px;
+}
+.code {
+	background-color: #ddd;
+	border: 1px solid #bbb;
+}
+/* TOP Buttons */
+#buttons {
+	margin: 0x;
+	padding: 0px;
+	float: right;
+	height: 20px;
+	background-color: #333366;
+	color: #fffff;
+	font-family: Verdana,Arial, Helvetica, Sans Serif;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+#fullPage {
+	FONT-SIZE: 0.7em; COLOR: rgb(92,96,98); FONT-FAMILY: verdana, arial, sans serif; BACKGROUND-COLOR: rgb(239,229,246)
+}
+TD.borderLeft {
+	BACKGROUND-POSITION: left top; BACKGROUND-IMAGE: url(../images/borderLeft.gif); BACKGROUND-REPEAT: repeat-y
+}
+TD.borderLeftBottom {
+	BACKGROUND-IMAGE: url(../images/borderLeftBottom.gif) 
+}
+TD.borderRight {
+	BACKGROUND-POSITION: left top; BACKGROUND-IMAGE: url(../images/borderRight.gif); BACKGROUND-REPEAT: repeat-y
+}
+TD.borderRightBottom {
+	BACKGROUND-IMAGE: url(../images/borderRightBottom.gif) 
+}
+TD.borderBottom {
+	BACKGROUND-POSITION: top; BACKGROUND-IMAGE: url(../images/borderBottom.gif); BACKGROUND-REPEAT: repeat-x
+}
+
+tr.loginTR td {
+	background-color: white;
+	border-left: 3px solid rgb(213,188,229);
+	border-right: 3px solid rgb(213,188,229);
+	padding-left: 9px;
+	padding-right: 9px;
+	font-family: verdana, arial, sans serif;
+	color: rgb(52,35,91);
+	font-size: 10px;
+}
+
+.inputLogin {
+	width: 140px;
+	height: 18px;
+	border: 1px solid rgb(187,187,187);
+	background-color: White;
+	font-family: verdana, arial, sans serif;
+	color: rgb(52,35,91);
+	font-size: 10px;
+}
+
+tr.loginTR2 td {
+	background-color: white;
+	border-left: 3px solid rgb(213,188,229);
+	border-right: 3px solid rgb(213,188,229);
+	padding-left: 9px;
+	padding-right: 9px;
+	font-family: verdana, arial, sans serif;
+	color: rgb(52,35,91);
+	font-size: 10px;
+}
+
+tr.loginTR2 td a {
+	color: rgb(52,35,91);
+}
+
+
+/*===========================================================================================*/
+div.product-list-items {	
+	padding:0px;
+	margin:0px;
+	width:570px;
+}
+
+div.product-list {	
+	margin: 15px 6px 0px 10px !important;
+	margin: 5px 6px 0px 8px;
+	padding: 0px 0px 0px 0px; 
+	text-align:center;
+	display:block;
+	width:170px;
+	float:left;
+}
+
+a.product-title:link, a.product-title:visited {
+	font:bold 11px Tahoma, Verdana;
+	padding:0px 5px 0px 5px;
+	vertical-align:bottom;
+	color:#333333;
+	line-height:14px;
+	height:28px;
+	display:block;
+}
+
+span.sku-code, span.price  {
+	font:bold 11px Tahoma, Verdana;
+	padding:5px 0px 5px 0px;
+	text-align:center;
+	display:block;
+	color:#666666;
+	float:left;
+	width:40%;
+}
+
+span.price {
+	color:#FF0000;
+	width:57%;
+}
+
+span.price a:link, span.price:visited {
+	font:bold 10px Tahoma, Verdana;
+	text-decoration:none;
+	color:#0000FF;
+}
+
+span.price a:hover {
+	text-decoration:underline;
+}
+
+div.product-image {
+	text-align:center;
+}
+
+div.product-detail {
+	font:bold 11px Tahoma, Verdana;
+	padding:5px 5px 5px 5px;
+	text-align:justify;
+	display:block;
+	color:#666666;
+}
+
+div.product-detail a:link, div.product-detail a:visited{
+	font:bold italic 11px Tahoma, Verdana;
+	text-align:center;
+	display:block;
+	color:#FF6600;
+}
+
+a.show-cart-now:link, a.show-cart-now:visited{
+	background:url(../images/show_cart.jpg) top left no-repeat; 
+	margin:5px 0px 0px 35px;
+	display:block;
+	width:106;
+	height:19px;
+}
+
+div.product-detail a:hover{
+	text-decoration:underline;
+}
+
+div.form-add-cart {
+	font:bold 11px Tahoma, Verdana;
+	text-align:center;
+	color:#3366FF;
+	/*border:1px solid red;*/
+}
+
+div.form-add-cart form, form.add-to-cart{
+	margin:0px;
+	padding:0px;
+}
+
+div.msgReportBlock {
+	font:bold 11px Tahoma, Verdana;
+	margin:20px 0px 0px 0px;
+	text-align:left;
+	display:block;
+	color:#3366FF;
+	
+}
+
+div.msgReport {
+	font:bold 11px Tahoma, Verdana;
+	padding:5px 5px 5px 5px;
+	text-align:center;
+	display:block;
+	color:#3366FF;
+}
+
+a.update-cart-item:link, a.update-cart-item:visited, a.delete-cart-item:link, a.delete-cart-item:visited {
+	margin:0px 10px 0px 10px;
+}
+
+a.mod-add-to-cart:link, a.mod-add-to-cart:visited {
+	text-decoration:none;
+	margin:5px 5px 15px 5px;
+	display:block;
+}
+
+a.add-shipping-address:link, a.add-shipping-address:visited {
+	text-decoration:none;
+	font-weight:bold;
+	color:#FF0000;
+}
+
+a.add-shipping-address:hover {
+	color:#333333
+}
+
+
+/*==========================================================================================*/
+#modalOverlay {background-color:#000; cursor:default;}
+
+/* Container */
+#modalContainer {height:500px; width:480px; left:50%; top:15%; margin-left:-200px; background-color:#fff; border:3px solid #ccc;}
+#modalContainer a.modalCloseImg {background:url(../img/basic/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-18px; cursor:pointer;}
+#modalContainer #basicModalContent {padding:8px;}
+
+/*==========================================================================================*/
+td.calculate-price{
+	font:bold 12px Tahomam, Verdana;
+	color:#FF0000;
+}
+
+
+td.shipping-method div{
+	display:block;
+	line-height:150%;
+	height:24px;
+}
+
+td.shipping-method label{
+	font:normal 12px Tahoma, Verdana;	
+}
+
+td.shipping-method div input{
+	margin:2px 5px 0px 0px !important;
+	*margin:-3px 5px 0px 0px !important;
+	display:block;
+	float:left;
+}
+
+form#adminForm table td {
+	text-align:left;
+}
+
+
+
+#sidebar { 
+	width: 26px; 
+	height:100px;
+	left: 50%; 
+	top: 90px; 
+	position: fixed; 
+	margin: 0 0 0 379px; 
+	background:url(../images/mobile_version.jpg) top left no-repeat;	
+}
+
+#sidebar a:link, #sidebar a:hover, #sidebar a:visited{
+	text-decoration:none; 
+	width: 26px; 
+	height:100px;
+	display:block;
+}
+
+
+
+
+

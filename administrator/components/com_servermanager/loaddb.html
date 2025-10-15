@@ -1,0 +1,55 @@
+<?xml version="1.0"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+ 
+<style>
+    #loading{
+        background-color: #CCCCCC;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        padding: 10px;
+    }
+</style>     
+    </head>
+
+    <body>      
+
+
+<div id="workResult"></div>
+<table id="loading">
+    <tr>
+        
+        <td>Loading ... </td>
+        <td><div id="loadingPercent">0 / 0</div></td>
+    </tr>
+</table>
+<script>
+    var $j = jQuery.noConflict();
+    function get_row(j1){
+   
+    
+    if(j1<100000){
+        $j.post("rendfunc.php",
+             function(data)
+            {
+                j1=j1+25; 
+                document.getElementById("loadingPercent").innerHTML=j1; 
+               get_row(j1); 
+               
+             }
+        );
+      
+    }else{
+     document.getElementById("loadingPercent").innerHTML="end "+j1; 
+ }
+     }
+      document.getElementById("loadingPercent").innerHTML="start"; 
+     get_row(0);
+    </script>
+</body>
+</html>
+
+

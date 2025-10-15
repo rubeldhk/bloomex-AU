@@ -1,0 +1,527 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::import('JLPlatform');
+JLCoreAPI::import('jltime');
+JLCoreAPI::import('jllog');
+
+/**
+ * Class for reading a URL and outputting it to a local file on your file system.
+ * There are currently 4 methods of file retrieval supported:
+ * 1. Curl libraries
+ * 2. Fopen URL wrapper
+ * 3. Direct socket
+ * 4. Wget
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLFileTransfer {
+	/** @var Array of methods that will be used to try and fetch this file */
+	var $downloadMethods;
+	/** @var object JLLog Logging object */
+	var $log;
+	/** @var string error message holder */
+	var $_errorStr;
+	
+	/**
+     * Return the major and minor version of the JLFileTransfer API.
+     *
+     * @return array major number, minor numberb
+     */
+    function getApiVersion() {
+		return array(1, 1);
+    }
+    
+    /**
+     * Constructor
+     *
+     * @param JLLog Optional logging object
+     */
+	function JLFileTransfer($logObj = null){
+		return $this->__construct($logObj);
+	}
+	
+	function __construct($logObj = null){
+		$this->downloadMethods = array(new JLCurlProtocol($logObj), new JLWgetProtocol($logObj), new JLFopenProtocol($logObj),
+									   new JLFsockopenProtocol($logObj));
+		
+		if(!$logObj) {
+			$logObj = new JLLog('jl');
+		}
+		$this->log = $logObj;
+	}
+	
+	/**
+	 * Download a file from a remote location and write it to an output file
+	 *
+	 * @param string URL to fetch
+	 * @param string $outPutFile
+	 * @param string, wgetprotocol, fopenprotocol, curlprotocol, fsockopenprotocol
+	 *
+	 * @return null on success, Error string on failure.
+	 */
+	function getFile($url, $outPutFile, $method=''){
+		$method = $this->getMethod($method);
+		if($method === false) {
+			$errorMsg = 'No transfer methods available.';
+			$this->log->l(9, $errorMsg);
+			return $errorMsg;
+		}
+		$protocol = new $method($this->log);
+		$return = $protocol->downloadFile($url, $outPutFile);
+		if($return === true){
+			if(file_exists($outPutFile)){
+				@chmod($outPutFile, 0777);
+				return null;
+			} else {
+				$str = $this->log->l(10, 'File %s doesn\'t exist!', $outPutFile);
+				return $str;
+			}
+		} 
+		return $return;
+	}
+	
+	/**
+	 * Download a file from a remote location and get it as a string
+	 *
+	 * @param string URL to fetch
+	 * @param string, wgetprotocol, fopenprotocol, curlprotocol, fsockopenprotocol
+	 *
+	 * @return mixed False on error, string of file contents on success
+	 */
+	function getFileAsString($url, $method='') {
+		$tempName = tempnam("/tmp", "jl");
+		if(!$tempName) {
+			$this->_errorStr = $this->log->l(10, "Unable to allocate temporary file for fetching '%s'", $url);
+			return false;
+		}
+		
+		$st = $this->getFile($url, $tempName, $method);
+		if($st != null) {
+			$this->_errorStr = $this->log->l(10, "getFile said: %s for '%s'", $st, $url);
+			return false;
+		}
+		
+		/* Read the contents of the file */
+		if(function_exists('file_get_contents')) {
+			$str = file_get_contents($tempName);
+			if(!$str) {
+				$this->_errorStr = $this->log->l(10, "file_get_contents failed on temp file %s", $tempName);
+				return false;
+			}
+		}
+		else {
+			/* Don't support fread because user requirements are PHP 4.3+ */
+			$this->_errorStr = $this->log->l(10, "Can't read file without file_get_contents()");
+			return false;
+		}
+		
+		return $str;
+	}
+	
+	/**
+	 * Find out which method will be used to transfer files.
+	 *
+	 * @param string Preferred method for fetching files. Will be method used if supported.
+	 *
+	 * @return string Method to be used on success. false if no methods were supported.
+	 */
+	function getMethod($userDefine=''){
+		$downloadMethods = array();
+        foreach	($this->downloadMethods as $method) {
+            $downloadMethods[strtolower(get_class($method))] = $method->isSupported();
+        }
+        if(!empty($userDefine)){
+        	if($downloadMethods[strtolower($userDefine)]){
+        		return strtolower($userDefine);
+        	}
+        }
+		foreach($downloadMethods as $method => $allowed){
+			if($allowed){
+				return $method;
+			}
+		}
+		$str = $this->log->l(9, 'No transfer methods available.');
+		return false;
+	}
+	
+	/**
+	 * Find out which transfer methods are available
+	 *
+	 * @return array
+	 */
+	function getCapabilities(){
+		$downloadMethods = array();
+        foreach	($this->downloadMethods as $method) {
+            $downloadMethods[] = array('isSupported' => $method->isSupported(),
+            			     'name' => $method->getName(),
+            			     'command' => strtolower(get_class($method)));
+        }
+        return $downloadMethods;
+	}
+}
+
+
+/**
+ * Factory class for the transfer protocols used by JLFileTransfer
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLTransferProtocol {
+	/** @var JLLog object to log to */
+	var $_jllog = null;
+	
+	/**
+	 * Instantiate a transfer protocol. Make sure to call this from the protocol constructor.
+	 *
+	 * @param JLLog Logging object to log to
+	 */
+	function JLTransferProtocol($jllog)
+	{
+		$this->_jllog = $jllog;
+	}
+	
+	/**
+	 * Download a URL to a local file using this protocol
+	 *
+	 * @param string URL to download
+	 * @param string File to write contents of file at URL to
+	 *
+	 * @return mixed true If the file was downloaded successfully. Error string on failure
+	 * @abstract 
+	 */
+	function downloadFile($url, $outputFile) {
+		return false;
+    }
+
+    /**
+     * Find out if this protocol is supported by our PHP installation.
+     *
+     * @return boolean Is this protocol supported by our PHP installation? true=yes. false=no
+     * @abstract
+     */
+    function isSupported() {
+		return false;
+    }
+
+    /**
+     * Get a plain-text name for this protocol
+     *
+     * @return string Protocol name
+     * @abstract 
+     */
+    function getName() {
+    	die('Missing abstract method getName()');
+    	return '';
+    }
+}
+
+/**
+ * WGet Protocol
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLWgetProtocol extends JLTransferProtocol {
+    
+	function JLWgetProtocol($jllog) {
+		$this->JLTransferProtocol($jllog);
+	}
+	
+	function downloadFile($url, $outputFile) {
+	    $status = 0;
+	    $output = array();
+	    $wget = JLPlatform::getBinaryPath('wget');
+		exec("$wget -O$outputFile $url ", $output, $status);
+		if ($status) {
+			$error = is_array($output) ? implode('<br>', $output) : '';
+			$msg = $this->_jllog->l(10, 'exec returned an error status ', $outputFile);
+		    return $msg;
+		}
+		return true;
+    }
+
+    function isSupported() {
+    	global $JL;
+    	
+    	if(!$JL->ftUseWget) {
+    		return false;
+    	}
+    	
+    	/* most IIS aren't properly configured */
+    	if (!strncasecmp(PHP_OS, 'win', 3)) {
+    		return false;
+    	}
+		return JLPlatform::isBinaryAvailable('wget');
+    }
+
+    function getName() {
+    	return 'Wget protocol';
+    }
+}
+
+/**
+ * Fopen wrapper protocol
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLFopenProtocol extends JLTransferProtocol {
+	function JLFopenProtocol($jllog)
+	{
+		$this->JLTransferProtocol($jllog);
+	}
+	
+    function downloadFile($url, $outputFile) {
+		if (!JLPlatform::isDirectoryWritable($outputFile)) {
+			$msg = $this->_jllog->l(10, 'Unable to write to current working directory %s', dirname($outputFile));
+		    return $msg;
+		}
+		$start = JLTime::sTime();
+	
+		$fh = fopen($url, 'rb');
+		if (empty($fh)) {
+			$msg = $this->_jllog->l(10, 'Unable to open url %s', $url);
+		    return $msg;
+		}
+		$ofh = fopen($outputFile, 'wb');
+		if (!$ofh) {
+		    fclose($fh);
+		    $msg = $this->_jllog->l(10, 'Unable to open output file in writing mode %s', $outputFile);
+		    return $msg;
+		}
+	
+		$failed = $results = false;
+		while (!feof($fh) && !$failed) {
+	           $buf = fread($fh, 4096);
+	           if (!$buf) {
+	           		$results = $this->_jllog->l(10, 'Error during download');
+	               	$failed = true;
+	               	break;
+	           }
+	           if (fwrite($ofh, $buf) != strlen($buf)) {
+	               $failed = true;
+	               $results = $this->_jllog->l(10, 'Error during writing');
+	               break;
+	           }
+	           if (JLTime::sTime() - $start > 55) {
+	           	JLPlatform::extendTimeLimit();
+	           	$start = JLTime::sTime();
+	           }
+		}
+		fclose($ofh);
+		fclose($fh);
+		if ($failed) {
+		    return $results;
+		}
+	
+		return true;
+    }
+
+    function isSupported() {
+    	global $JL;
+    	
+    	if(!$JL->ftUseFopen) {
+    		return false;
+    	}
+    	
+		$actual = ini_get('allow_url_fopen');
+    	if (in_array($actual, array(1, 'On', 'on')) && JLPlatform::isPhpFunctionSupported('fopen')) {
+	    	return true;
+		}
+		return false;
+    }
+
+    function getName() {
+    	return 'Fopen() protocol';
+    }
+}
+
+/**
+ * Curl protocol
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLCurlProtocol extends JLTransferProtocol {
+	
+	function JLCurlProtocol($jllog) {
+		$this->JLTransferProtocol($jllog);
+	}
+	
+    function downloadFile($url, $outputFile) {
+		$ch = curl_init();
+		$ofh = fopen($outputFile, 'wb');
+		if (!$ofh) {
+		    curl_close($ch);
+		    $msg = $this->_jllog->l(10, 'Unable to open output file in writing mode %s', $outputFile);
+		    return $msg;
+		}
+	
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FILE, $ofh);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 20 * 60);
+		curl_exec($ch);
+	
+		$errorString = curl_error($ch);
+		$errorNumber = curl_errno($ch);
+		curl_close($ch);
+	
+		if ($errorNumber != 0) {
+		    if (!empty($errorString)) {
+				return $errorString;
+		    } else {
+		    	$msg = $this->_jllog->l(10, 'CURL download failed');
+				return $msg;
+		    }
+		}
+	
+		return true;
+    }
+
+    function isSupported() {
+    	global $JL;
+    	
+    	if(!$JL->ftUseCurl) {
+    		return false;
+    	}
+    	
+    	// There's a bug in the OS X Server/cURL combination that results in 
+		// memory allocation problems so don't use cURL even if it's available
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Darwin') !== false) {
+			return false;
+		}
+		foreach (array('curl_init', 'curl_setopt', 'curl_exec', 'curl_close', 'curl_error')
+				as $functionName) {
+		    if (!JLPlatform::isPhpFunctionSupported($functionName)) {
+		    	return false;
+		    }
+		}
+		return true;
+    }
+
+    function getName() {
+    	return 'Curl protocol';
+    }
+}
+
+/**
+ * Direct socket protocol
+ *
+ * @package JL
+ * @subpackage JLFileTransfer
+ */
+class JLFsockopenProtocol extends JLTransferProtocol {
+	function JLFsockopenProtocol($jllog) {
+		$this->JLTransferProtocol($jllog);
+	}
+	
+    function downloadFile($url, $outputFile) {
+    	/* Code from WebHelper_simple.class */
+	
+		$components = parse_url($url);
+		$port = empty($components['port']) ? 80 : $components['port'];
+	
+		$errno = $errstr = null;
+		$fd = @fsockopen($components['host'], $port, $errno, $errstr, 2);
+		if (empty($fd)) {
+			$msg = $this->_jllog->l(10, 'Error %s: %s retriewing %s', $errno, $errstr, $url);
+		    return $msg;
+		}
+	
+		$get = $components['path'];
+		if (!empty($components['query'])) {
+		    $get .= '?' . $components['query'];
+		}
+	
+		$start = JLTime::sTime();
+	
+		/* Read the web file into a buffer */
+		$ok = fwrite($fd, sprintf("GET %s HTTP/1.0\r\n" .
+					       "Host: %s\r\n" .
+					       "\r\n",
+					       $get,
+					       $components['host']));
+		if (!$ok) {
+			$msg = $this->_jllog->l(10, 'Download request failed (fwrite)');
+		    return $msg;
+		}
+		$ok = fflush($fd);
+		if (!$ok) {
+			$msg = $this->_jllog->l(10, 'Download request failed (fflush)');
+		    return $msg;
+		}
+	
+		/*
+		 * Read the response code. fgets stops after newlines.
+		 * The first line contains only the status code (200, 404, etc.).
+		 */
+		$headers = array();
+		$response = trim(fgets($fd, 4096));
+	
+		/* Jump over the headers */
+		while (!feof($fd)) {
+		    $line = trim(fgets($fd, 4096));
+		    if (empty($line)) {
+			break;
+		    }
+		}
+	
+		$success = false;
+		$ofd = fopen($outputFile, 'wb');
+		if ($ofd) {
+		    /* Read the body */
+		    $failed = false;
+		    while (!feof($fd) && !$failed) {
+			$buf = fread($fd, 4096);
+			if (fwrite($ofd, $buf) != strlen($buf)) {
+			    $failed = true;
+			    break;
+			}
+			if (JLTime::sTime() - $start > 55) {
+	           	    JLPlatform::extendTimeLimit();
+	           	    $start = JLTime::sTime();
+	           	}
+		    }
+		    fclose($ofd);
+		    if (!$failed) {
+			$success = true;
+		    }
+		} else {
+			$msg = $this->_jllog->l(10, 'Could not open %s in write mode', $outputFile);
+		    return $msg;
+		}
+		fclose($fd);
+	
+	    /* if the HTTP response code did not begin with a 2 this request was not successful */
+		if (!preg_match("/^HTTP\/\d+\.\d+\s2\d{2}/", $response)) {
+		    return "Download failed with HTTP status: $response";
+		}
+	
+		return true;
+    }
+
+    function isSupported() {
+    	global $JL;
+    	
+    	if(!$JL->ftUseRawSocket) {
+    		return false;
+    	}
+    	
+    	return JLPlatform::isPhpFunctionSupported('fsockopen');
+    }
+
+    function getName() {
+    	return 'fsockopen() protocol';
+    }
+}
+?>

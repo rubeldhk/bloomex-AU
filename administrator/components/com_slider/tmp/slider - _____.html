@@ -1,0 +1,69 @@
+</form>
+{RESULT}
+<form action="{ACTION}" enctype="multipart/form-data" method="post" name="insert-form">
+<table class="adminlist">
+    <tr>
+        <th width="13%" align='left'>
+            Image
+        </th>
+        <th width="13%" align='left'>
+            URL
+        </th>
+        <th width="13%" align='left'>
+            Lang
+        </th>
+        <th width="13%" align='left'>
+            Published
+        </th>
+        <th align="left">
+            Insert
+        </th>
+    </tr>
+    <tr>
+        <td align="left">
+            <input type="file" name="filename">
+        </td>
+        <td align="left">
+            <input type="text" name="src" value="" />
+        </td>
+        <td align="left">
+            <select name="lang">
+                <option value="en">English</option>
+                <option value="fr">French</option>
+            </select>
+        </td>
+        <td align="left">
+            <input type="checkbox" name="public" value="1">
+        </td>
+        <td align="left">
+            <input type="button" name="insert" value="Insert" >
+        </td>
+    </tr>
+</table>
+</form>
+
+{VIEW}
+
+<form>
+
+<script>
+
+    $('input[name=insert]').click(function(){
+        var completed = true;
+        completed = ( $('input[name=filename]').val().length < 4 ) ? red('filename') : normal('filename');
+        if( completed ) completed = ( $('input[name=src]').val().length < 1 ) ? red('src') : normal('src');
+        if(completed){
+            $('form[name=insert-form]').submit();
+        }
+    });
+    
+    function red(name){
+        $('input[name='+name+']').css('border', '1px solid #f00');
+        return false;
+    }
+    
+    function normal(name){
+        $('input[name='+name+']').css('border', '1px solid #000');
+        return true;
+    }
+</script>

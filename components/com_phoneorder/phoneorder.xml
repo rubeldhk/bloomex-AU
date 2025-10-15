@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<mosinstall type="component" version="1.0.0">
+<name>PhoneOrder</name>
+<creationDate>18 March 2008</creationDate>
+<author>Nguyen Duy Anh</author>
+<copyright>PhpMagic</copyright>
+<authorEmail>123clicksite@gmail.com</authorEmail>
+<authorUrl>www.123clicksite.com</authorUrl>
+<version>1.0</version>
+<description>
+	Phone Order Manager
+</description>
+ 
+<files>
+	<filename>index.html</filename>
+	<filename>phoneorder.php</filename>
+	<filename>phoneorder.html.php</filename>
+</files>	
+	
+<administration>
+	<menu link="option=com_phoneorder">Phone Order Manager</menu>
+	
+	<files>
+		<filename>admin.phoneorder.php</filename>
+		<filename>admin.phoneorder.html.php</filename>
+		<filename>toolbar.phoneorder.php</filename>
+		<filename>toolbar.phoneorder.html.php</filename>
+		<filename>phoneorder.class.php</filename>
+		<filename>index.html</filename>
+	</files>
+	</administration>
+</mosinstall>

@@ -1,0 +1,77 @@
+<?php
+$mosConfig_MetaAuthor = '0';
+$mosConfig_MetaDesc = 'Send flowers in Australia with Bloomex. Order online flower delivery or call +61 (02)9645 3938. Freshest local flowers, Sydney flowers, Melbourne flowers, Canberra flowers, Brisbane flowers from $20. Birthday, Sympathy, romance and any occasion.';
+$mosConfig_MetaKeys = 'florists, flower delivery, flower shop, online florist, online flower delivery, birthday, sympathy, flowers, online flowers, fresh flowers, send flowers, buy flowers, flowers australia';
+$mosConfig_MetaTitle = '1';
+$mosConfig_absolute_path = '/var/www/dev1.bloomex.com.au';
+$mosConfig_admin_expired = '1';
+$mosConfig_allowUserRegistration = '1';
+$mosConfig_back_button = '0';
+$mosConfig_cachepath = '/var/www/dev1.bloomex.com.au/cache';
+$mosConfig_cachetime = '900';
+$mosConfig_caching = '0';
+$mosConfig_db = 'blxcomau_dev';
+$mosConfig_dbprefix = 'jos_';
+$mosConfig_debug = '0';
+$mosConfig_dirperms = '';
+$mosConfig_editor = 'tinymce';
+$mosConfig_enable_log_items = '0';
+$mosConfig_enable_log_searches = '1';
+$mosConfig_enable_stats = '1';
+$mosConfig_error_message = 'This site is temporarily unavailable.<br /> Please notify the System Administrator';
+$mosConfig_error_reporting = '-1';
+$mosConfig_favicon = 'bloomex.ico';
+$mosConfig_fileperms = '';
+$mosConfig_fromname = 'Bloomex';
+$mosConfig_frontend_login = '1';
+$mosConfig_frontend_userparams = '1';
+$mosConfig_gzip = '0';
+$mosConfig_helpurl = 'http://help.joomla.org';
+$mosConfig_hideAuthor = '1';
+$mosConfig_hideCreateDate = '1';
+$mosConfig_hideEmail = '0';
+$mosConfig_hideModifyDate = '1';
+$mosConfig_hidePdf = '1';
+$mosConfig_hidePrint = '0';
+$mosConfig_hits = '0';
+$mosConfig_host = '192.168.100.250';
+$mosConfig_icons = '1';
+$mosConfig_item_navigation = '0';
+$mosConfig_lang = 'english';
+$mosConfig_lifetime = '900';
+$mosConfig_link_titles = '0';
+$mosConfig_list_limit = '20';
+$mosConfig_live_site = 'http://dev1.bloomex.com.au';
+$mosConfig_locale = 'en_GB';
+$mosConfig_mailer = 'smtp';
+$mosConfig_mailfrom = 'wecare@bloomex.com.au';
+$mosConfig_ml_support = '0';
+$mosConfig_multipage_toc = '1';
+$mosConfig_offline = '0';
+$mosConfig_offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
+$mosConfig_offset = '14';
+$mosConfig_offset_user = '10';
+$mosConfig_pagetitles = '1';
+$mosConfig_password = '7wnokxh1';
+$mosConfig_readmore = '1';
+$mosConfig_secret = 'HrY6w5BCoacV6eJn';
+$mosConfig_sef = '1';
+$mosConfig_sendmail = '/usr/sbin/sendmail';
+$mosConfig_session_life_admin = '18000';
+$mosConfig_session_type = '0';
+$mosConfig_shownoauth = '0';
+$mosConfig_sitename = 'bloomex.com.au';
+$mosConfig_smtpauth = '1';
+$mosConfig_smtphost = 'mail.bloomex.com.au';
+$mosConfig_smtppass = 'fr8jaSar';
+$mosConfig_smtpuser = 'wecare@bloomex.com.au';
+$mosConfig_uniquemail = '1';
+$mosConfig_user = 'blxcomau_dev';
+$mosConfig_useractivation = '0';
+$mosConfig_vote = '0';
+setlocale (LC_TIME, $mosConfig_locale);
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>

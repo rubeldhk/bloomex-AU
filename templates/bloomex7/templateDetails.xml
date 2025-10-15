@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="template" version="4.5.3">
+	<name>bloomex7</name>
+	<creationDate>13/03/06</creationDate>
+	<author>Bilenko Maryna</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>email at lute@voliacable.com</authorEmail>
+	<authorUrl>https://www.w3easy.com.ua</authorUrl>
+	<version>1.0</version>
+	<description>You have installed your bloomex template. Don't forget to visit www.w3easy.com.ua for the lastest template updates</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>template_thumbnail.png</filename>
+	</files>
+	<images>
+		<filename>images/arrow.png</filename>
+        <filename>images/contenthead.png</filename>
+        <filename>images/header_bg.png</filename>
+        <filename>images/header_logo.png</filename>
+        <filename>images/header_right_corner.png</filename>
+        <filename>images/horizontal_dots.png</filename>
+        <filename>images/indent1.png</filename>
+        <filename>images/indent2.png</filename>
+        <filename>images/indent3.png</filename>
+        <filename>images/indent4.png</filename>
+        <filename>images/left_box_1.png</filename>
+        <filename>images/left_box_2.png</filename>
+        <filename>images/left_box_3.png</filename>
+        <filename>images/left_box_4.png</filename>
+        <filename>images/left_box_5.png</filename>
+        <filename>images/left_box_6.png</filename>
+        <filename>images/left_box_7.png</filename>
+        <filename>images/left_box_8.png</filename>
+        <filename>images/left_box_9.png</filename>
+        <filename>images/mag_glass.png</filename>
+        <filename>images/menu_bg.png</filename>
+        <filename>images/moduleheading.png</filename>
+        <filename>images/rating_star.png</filename>
+        <filename>images/rating_star_blank.png</filename>
+        <filename>images/read.png</filename>
+        <filename>images/right_box_1.png</filename>
+        <filename>images/right_box_2.png</filename>
+        <filename>images/right_box_3.png</filename>
+        <filename>images/right_box_4.png</filename>
+        <filename>images/right_box_5.png</filename>
+        <filename>images/right_box_6.png</filename>
+        <filename>images/right_box_7.png</filename>
+        <filename>images/right_box_8.png</filename>
+        <filename>images/right_box_9.png</filename>
+        <filename>images/subhead_bg.png</filename>
+		</images>
+	<css>
+		<filename>css/template_css.css</filename>
+	</css>
+</mosinstall>
+

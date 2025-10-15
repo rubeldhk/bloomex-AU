@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.0.12" type="component">
+    <name>RokReporter</name>
+    <version>1.0 RC 1</version>
+    <creationDate>April 2006</creationDate>
+    <author>Andrew Eddie</author>
+    <authorEmail>andrew.eddie@newlifeinit.com</authorEmail>
+    <authorUrl>http://www.newlifeinit.com</authorUrl>
+    <copyright>2005 - 2006 New Life in IT Pty Ltd</copyright>
+    <license>GNU General Public License</license>
+    <description>A general report writing framework for Joomla!</description>
+    <files>
+        <filename>assets/css/component.css</filename>
+        <filename>assets/css/index.html</filename>
+        <filename>assets/images/external.png</filename>
+        <filename>assets/images/index.html</filename>
+        <filename>assets/index.html</filename>
+        <filename>defines.php</filename>
+        <filename>framework/database/index.html</filename>
+        <filename>framework/database/query.php</filename>
+        <filename>framework/datetime.php</filename>
+        <filename>framework/filesystem/file.php</filename>
+        <filename>framework/filesystem/folder.php</filename>
+        <filename>framework/filesystem/index.html</filename>
+        <filename>framework/filesystem/path.php</filename>
+        <filename>framework/index.html</filename>
+        <filename>index.html</filename>
+        <filename>reports/content_aging/index.html</filename>
+        <filename>reports/content_aging/list.html</filename>
+        <filename>reports/content_aging/metadata.xml</filename>
+        <filename>reports/content_aging/report.php</filename>
+        <filename>reports/content_edits/index.html</filename>
+        <filename>reports/content_edits/list.html</filename>
+        <filename>reports/content_edits/metadata.xml</filename>
+        <filename>reports/content_edits/report.php</filename>
+        <filename>reports/export_csv/index.html</filename>
+        <filename>reports/export_csv/list.html</filename>
+        <filename>reports/export_csv/metadata.xml</filename>
+        <filename>reports/export_csv/report.php</filename>
+        <filename>reports/index.html</filename>
+        <filename>reports/search_terms/index.html</filename>
+        <filename>reports/search_terms/list.html</filename>
+        <filename>reports/search_terms/metadata.xml</filename>
+        <filename>reports/search_terms/report.php</filename>
+        <filename>reports/ua_browsers/index.html</filename>
+        <filename>reports/ua_browsers/list.html</filename>
+        <filename>reports/ua_browsers/metadata.xml</filename>
+        <filename>reports/ua_browsers/report.php</filename>
+        <filename>reports/ua_domains/index.html</filename>
+        <filename>reports/ua_domains/list.html</filename>
+        <filename>reports/ua_domains/metadata.xml</filename>
+        <filename>reports/ua_domains/report.php</filename>
+        <filename>reports/ua_platforms/index.html</filename>
+        <filename>reports/ua_platforms/list.html</filename>
+        <filename>reports/ua_platforms/metadata.xml</filename>
+        <filename>reports/ua_platforms/report.php</filename>
+        <filename>reports/user_visits/list.html</filename>
+        <filename>reports/user_visits/metadata.xml</filename>
+        <filename>reports/user_visits/report.php</filename>
+        <filename>rokreporter.class.php</filename>
+        <filename>rokreporter.html.php</filename>
+        <filename>rokreporter.php</filename>
+        <filename>rokreporter.xml</filename>
+        <filename>tmpl/about.html</filename>
+        <filename>tmpl/common.html</filename>
+        <filename>tmpl/index.html</filename>
+        <filename>tmpl/list.html</filename>
+    </files>
+    <administration>
+        <files folder="admin">
+            <filename>admin.rokreporter.html.php</filename>
+            <filename>admin.rokreporter.php</filename>
+            <filename>assets/css/help.css</filename>
+            <filename>assets/css/index.html</filename>
+            <filename>assets/images/index.html</filename>
+            <filename>assets/images/logo.png</filename>
+            <filename>assets/images/rokreporter.png</filename>
+            <filename>help/index.html</filename>
+            <filename>index.html</filename>
+            <filename>tmpl/about.html</filename>
+            <filename>tmpl/index.html</filename>
+            <filename>toolbar.rokreporter.php</filename>
+        </files>
+        <menu link="option=com_rokreporter">RokReporter</menu>
+    </administration>
+    <params />
+</mosinstall>

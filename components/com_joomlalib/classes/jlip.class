@@ -1,0 +1,231 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+
+JLCoreApi::import('JLApp');
+JLCoreApi::import('JLLog');
+JLCoreApi::import('JLTime');
+JLCoreApi::import('JLFileTransfer');
+/** @ignore */
+defined('_JL_NA') or define('_JL_NA', 'N/A');
+/** @ignore */
+defined('_JL_PRIVATEADDRESS') or define('_JL_PRIVATEADDRESS', 'Private Address');
+
+/**
+ * Interface for getting meta information about an IP address. This information is
+ * cached in the database.
+ *
+ * @package JL
+ * @subpackage JLIp
+ */
+class JLIp
+{
+	/* Private Variables */
+	/** @var object JLLog Logging object */
+	var $_jllog;
+	/** @var string Error string, if an error occured */
+	var $_errorStr;
+	/** @var integer Expiration age in seconds of a cached IP address */
+	var $_cacheAge;
+	/** @var string Url to an image of this country's flag */
+	var $_flagUrl;
+	
+	/* Mapped database fields. One of these needs to exist for every field in the db table 
+	   all other fields must start with '_' because of the mapping function */
+	/** @var string IP address this object represents */
+	var $ip;
+	/** @var double Latitude */
+	var $latitude;
+	/** @var double Longitude */
+	var $longitude;
+	/** @var string City */
+	var $city; 
+	/** @var string Country */
+	var $country;
+	/** @var integer Unix timestamp of when this IP address was last cached */
+	var $whenupdated;
+	
+	/**
+	 * Constructor. If an error occurs, ->ip will be an empty string
+	 *
+	 * @param string IP Address to get meta information for
+	 * @param JLLog Logging class
+	 *
+	 */
+	function JLIp($ip, $jllog = null)
+	{
+		$this->_cacheAge = 0; /* Cache entries forever. Otherwise, set to max age in seconds for stale cache */
+		
+		/* Mapped database fields */
+		$this->ip = $ip;
+		$this->latitude = 0.0;
+		$this->longitude = 0.0;
+		$this->city = '';
+		$this->country = '';
+		$this->whenupdated = 0;
+		$this->_flagUrl = '';
+		
+		$this->_errorStr = '';
+		
+		/* Create the logging object if it was missing */
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+
+		/* Try and get the cached one first */
+		if(false === $this->loadCached()) {
+			$this->fetchAndCache();
+		}
+		
+		$this->_flagUrl = sprintf("http://api.hostip.info/flag.php?ip=%s", $this->ip);
+	}
+	
+	/**
+	 * Try to load the globals of this object from the database
+	 *
+	 * @return boolean True if loaded. False if wasn't loaded (could have been exipired)
+	 *
+	 */
+	function loadCached()
+	{
+		global $database;
+		
+		$now = JLTime::sTime();
+		$expires = $now + $this->_cacheAge;
+		
+		$query = 'SELECT * FROM #__jl_ip WHERE ip=\''.$this->ip.'\'';
+		$database->setQuery($query);
+		if(false === $database->loadObject($this)) {
+			return false;
+		}
+		else if($this->_cacheAge > 0 && $expires > $this->whenupdated) {
+			$this->_jllog->l(9, "Removing expired IP %s. ca %d, lu %d", $this->ip, $this->_cacheAge, $this->whenupdated);
+			
+			$query = 'DELETE FROM #__jl_ip WHERE ip=\''.$this->ip.'\'';
+			$database->setQuery($query);
+			$database->query();
+			return false;
+		}
+		
+		$this->latitude = doubleval($this->latitude);
+		$this->longitude = doubleval($this->longitude);
+		$this->whenupdated = intval($this->whenupdated);
+		return true;
+	}
+	
+	/**
+	 * Fetch the meta information for an IP address and cache it
+	 *
+	 * @return boolean true if OK. false on error
+	 */
+	function fetchAndCache()
+	{
+		global $database;
+		
+		$this->_errorStr = '';
+		$this->latitude = 0.0;
+		$this->longitude = 0.0;
+		$this->city = '';
+		$this->country = '';
+		$this->whenupdated = JLTime::sTime();
+
+		/* Fetch the IP */
+		$jlft = new JLFileTransfer($this->_jllog);
+		
+		$tempName = tempnam("/tmp", "jl");
+		if(!$tempName) {
+			$this->_errorStr = $this->_jllog->l(10, "Unable to allocate temporary file for fetching.");
+			return false;	
+		}
+		
+		$rpcBaseUrl = "http://api.hostip.info/get_html.php?ip=%s&position=true";
+		$rpcUrl = sprintf($rpcBaseUrl, $this->ip);
+		$str = $jlft->getFileAsString($rpcUrl);
+		if($str === false) {
+			$this->_errorStr = $this->_jllog->l(10, "JLFileTransfer failed to get '%s'", $rpcUrl);
+			return false;
+		}
+		
+		/* Parse the string into the fields of this class */
+		$contentsArr = split("\n", $str);
+		$this->country = trim(substr($contentsArr[0], 8));
+		$this->city = trim(substr($contentsArr[1], 6));
+		sscanf($contentsArr[2], "Latitude: %f\n", $this->latitude);
+		sscanf($contentsArr[3], "Longitude: %f\n", $this->longitude);
+		
+		/* Filter and translate the values */
+		if ($this->country == '(Unknown Country?) (XX)') {
+			$this->country = _JL_NA;
+		}
+		else if ($this->country == '(Private Address) (XX)') {
+			$this->country = _JL_PRIVATEADDRESS;	
+		}
+		
+		if ($this->city == '(Unknown city)' || $this->city == '(Unknown City?)') {
+			$this->city = _JL_NA;
+		}
+		else if ($this->city == '(Private Address)') {
+			$this->city = _JL_PRIVATEADDRESS;
+		}
+		
+		/* Insert the database record */
+		if(!$database->insertObject('#__jl_ip', $this)) {
+			$this->_errorStr = $database->getErrorMsg();
+			$this->_jllog->l(15, __FUNCTION__.' '.$this->_errorStr);
+			return false;
+		}
+		
+		$this->latitude = doubleval($this->latitude);
+		$this->longitude = doubleval($this->longitude);
+		$this->whenupdated = intval($this->whenupdated);
+		return true;
+	}
+	
+	/**
+	 * Get flag HTML
+	 * 
+	 * @return string HTML for the image if successful. FALSE on error.
+	 *
+	 */
+	function getFlagHTML()
+	{
+		$retStr = '<a href="http://www.hostip.info" target="_blank"><img border=\"0\" src="'.$this->_flagUrl.'" alt="'._BSQ_FLAGFORUSERSCOUNTRY.'"></a>';
+		return $retStr;
+	}
+	
+	/**
+	 * Get last error string
+	 *
+	 * @return string Last error text
+	 */
+	function getErrorStr()
+	{
+		return $this->_errorStr;
+	}
+	
+	/**
+	 * Install needed database table
+	 *
+	 */
+	function install() 
+	{
+		global $database;
+		
+		$query = 	"CREATE TABLE IF NOT EXISTS `#__jl_ip` (
+  					`ip` varchar(15) NOT NULL default '',
+  					`latitude` double default '0',
+  					`longitude` double default '0',
+  					`city` varchar(128) default NULL,
+  					`country` varchar(128) default NULL,
+  					`whenupdated` int(11) default '0',
+  					PRIMARY KEY  (`ip`)
+					) TYPE=MyISAM;";
+		$database->setQuery($query);
+		$database->query();
+	}
+}

@@ -1,0 +1,14 @@
+
+
+1. Paymentech has TWO environments: Test and Production. Each has to have a unique Merchant ID associated with it in order for things to be set up on their end correctly. Meaning, if you've selected Test mode through the OSC Admin and you pass Paymentech your Production Merchant ID, it won't work.
+
+2. The Paymentech environments do not talk to each other. If you've got the OSC switch set to run in Test mode, you'll be sending data to their Test server. If you've got the OSC switch set to run in Production mode, you'll be sending data to their Production server. Each server needs to have your shopping cart's IP addresses loaded on it. If they're not, you'll bomb out with a 20412 error ("Precondition Failed: Security Information is missing"). The only way to get your IP addresses loaded on each server is to call the Orbital 800 number.
+
+[FYI: Once the IP addresses have been added, you need to wait about an hour before you sending a sale through.]
+
+3. Make sure that you've got the correct merchant information in the correct field in the OSC Admin. Paymentech sends their Orbital customers a document showing their "Group" number and "Merchant Number". The "Merchant Number" is the "Bank Merchant Number" or "Visa/Mastercard Merchant Number". Meaning, if there's ever a question about a sale and someone calls on it, the "Merchant Number" would come into play. For sending data to the Paymentech Test and Production environments, the GROUP number needs to be sent. If the Group number is NOT sent, Paymentech will return a "9717 Security Information - agent/chain/merchant is missing" error and you'll be scratching your head thinking, "But I SENT the Merchant ID! What else could be missing?!!"
+
+Also, the "Paymentech Trace ID" field shown on the OSC Admin is actually the Paymentech "Terminal ID". "Terminal ID" doesn't seem to be included in any of the initial documents sent by Paymentech, but a quick call to their 800 number should provide that. If the wrong "Terminal ID" is sent, Paymentech will return a "523 An invalid TID was received (xxx)" (where xxx is the ID that was entered in the "Payment Trace ID" field through the OSC Admin.
+
+Lastly, double-check everything. This seems obvious, but when you're trying to get a new module working and the pressure is on, it's easy to overlook stuff like this.
+

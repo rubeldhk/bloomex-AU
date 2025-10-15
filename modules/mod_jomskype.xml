@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+	<name>JomSkype</name>
+	<author>Vince Wooll</author>
+	<creationDate>May 2006</creationDate>
+	<copyright>(C) 2006 Vince Wooll. All rights reserved.</copyright>
+	<license>http://www.opensource.org/licenses/lgpl-license.html</license>
+	<authorEmail>jomres@woollyinwales.co.uk</authorEmail>
+	<authorUrl>www.jomres.net</authorUrl>
+	<version>1.2</version>
+	<description>Displays your Skype status. See www.skype.com/share/buttons/status.html for info about SkypeWebStatus. Note: Skype versions lower than appx 2.0.0.80 may not have the skype web status option, so don't forget to upgrade your skype. Note2: This module has the potential to slow loading of your website. That is not because the module has any fault but because Skype may be slow in responding to your pages request for the status image. If you find that this is the case then switch "Use skype's images" to No. You will not be able to use the nice pretty optional status images, however your page will load a lot quicker because it is using the images stored on your server. There is also the added benefit that your status will be more accurately reflected. </description>
+	<files>
+		<filename module="mod_jomskype">mod_jomskype.php</filename>
+		<filename module="mod_jomskype">jomskype/call_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/chat_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/sendfile_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/add_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/userinfo_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/voicemail_blue.png</filename>
+		<filename module="mod_jomskype">jomskype/call_green.png</filename>
+		<filename module="mod_jomskype">jomskype/chat_green.png</filename>
+		<filename module="mod_jomskype">jomskype/sendfile_green.png</filename>
+		<filename module="mod_jomskype">jomskype/add_green.png</filename>
+		<filename module="mod_jomskype">jomskype/userinfo_green.png</filename>
+		<filename module="mod_jomskype">jomskype/voicemail_green.png</filename>
+		<filename module="mod_jomskype">jomskype/status_online.png</filename>	
+		<filename module="mod_jomskype">jomskype/status_skypeme.png</filename>		
+		<filename module="mod_jomskype">jomskype/status_away.png</filename>		
+		<filename module="mod_jomskype">jomskype/status_notavailable.png</filename>		
+		<filename module="mod_jomskype">jomskype/status_dnd.png</filename>		
+		<filename module="mod_jomskype">jomskype/status_unknown.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/AngelSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/ArchitectSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/BeachSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/BehindSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/BusinessSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/CallMeSweetheart.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/CallMe.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/CarnavalSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/ChicSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/ChristmasSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/CollegeSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/DesertSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/DesignerSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/DevilSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/DIYSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/DJSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/EarbudSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/EmpireSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/FaxSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/GeishaSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/HulaSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/MakeSkypeNotWar.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/MetalSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/NinjaSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/PartySkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/PopSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/RiceSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skypahontas.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skype502.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeAid.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeArtiste.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeBeauty.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeBling.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeBoarder.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeBrrr.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeCandy.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeCola.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeCoolShades.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeExtreme.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeGoaaaaal.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeHeadset.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeinaBag.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeJah.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeJyve.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeSafety.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeSan.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeShorty.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeSmiley.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypeTime.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skype-a-Manger.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skype-ahoy.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skype-in-one.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/Skype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SkypersoftheCaribbean.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/StarSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/SushiSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/TheSkypeness.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/TravelSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/WetsuitSkype.png</filename>
+		<filename module="mod_jomskype">jomskype/myskype/YinYangSkype.png</filename>		
+	</files>
+		<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="skypeid" type="text" default="" label="Skype Id" description="Your skype id" />
+		<param name="showtext" type="radio" default="1" label="Show language specific status text" description="You can show your status in text format. See the list of languages below to choose a language.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="lang" type="list" default="en" label="Language" description="Return status text in specified language. Defaults to english">
+			<option value="en">English</option>
+			<option value="de">German</option>
+			<option value="fr">French</option>
+			<option value="it">Italian</option>
+			<option value="pl">Polish</option>
+			<option value="ja">Japanese</option>
+			<option value="es">Spanish</option>
+			<option value="pt">pt</option>
+			<option value="pt-br">Pt/br</option>
+			<option value="se">Swedish</option>
+			<option value="zh-cn">zh</option>
+			<option value="zh-cn">cn</option>
+			<option value="zh-cn">Zh/cn</option>
+			<option value="zh-tw">hk</option>
+			<option value="zh-tw">tw</option>
+			<option value="zh-tw"> Zh/tw</option>
+		</param>
+		<param name="mystatusis" type="text" default="I am currently..." label="My status is blurb" description="You can add some text before the textual description of your current skype status." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="useskypesimages" type="radio" default="1" label="Use skype's images?" description="Set this to Yes if you want to use Skype's own images (see next option for different image types). The drawback of using these images is that you may find you page loads slowly sometimes if Skype is busy. Set it to No to use the status images that come with this module.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="type" type="list" default="smallicon" label="Skype online status images" description="">
+			<option value="balloon">Balloon style</option>
+			<option value="bigclassic">Big Classic Style</option>
+			<option value="smallclassic">Small Classic Style</option>
+			<option value="smallicon">Small Icon (transparent background)</option>
+			<option value="mediumicon">Medium Icon</option>
+			<option value="dropdown-white">Dropdown White Background</option>
+			<option value="dropdown-trans">Dropdown Transparent Background</option>
+		</param>
+		<param name="showcallalways" type="radio" default="1" label="Always show status icon as call me link?" description="Set this to Yes if you want to show the call icon regardless of your status. If set to No, then the image will only be shown as a link when you are in Online or Skype me modes. Never means, well, never show the status icon.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+			<option value="2">Never</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="usemyskypeimages" type="radio" default="1" label="Use mySkype image as callme link" description="You can use one of the images listed below as a callme link.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="myskypeimagesize" type="text" default="96" label="Skype image width-height" description="You can modify the width and height here. Default is 96px." />		
+		<param name="myskypeimage" type="list" default="DevilSkype.png" label="Myskype image" description="">
+			<option value="AngelSkype.png">AngelSkype.png</option>
+			<option value="ArchitectSkype.png">ArchitectSkype.png</option>
+			<option value="BeachSkype.png">BeachSkype.png</option>
+			<option value="BehindSkype.png">BehindSkype.png</option>
+			<option value="BusinessSkype.png">BusinessSkype.png</option>
+			<option value="CallMeSweetheart.png">CallMeSweetheart.png</option>
+			<option value="CallMe.png">CallMe.png</option>
+			<option value="CarnavalSkype.png">CarnavalSkype.png</option>
+			<option value="ChicSkype.png">ChicSkype.png</option>
+			<option value="ChristmasSkype.png">ChristmasSkype.png</option>
+			<option value="CollegeSkype.png">CollegeSkype.png</option>
+			<option value="custom">--- CUSTOM ---</option>
+			<option value="DesertSkype.png">DesertSkype.png</option>
+			<option value="DesignerSkype.png">DesignerSkype.png</option>
+			<option value="DevilSkype.png">DevilSkype.png</option>
+			<option value="DIYSkype.png">DIYSkype.png</option>
+			<option value="DJSkype.png">DJSkype.png</option>
+			<option value="EarbudSkype.png">EarbudSkype.png</option>
+			<option value="EmpireSkype.png">EmpireSkype.png</option>
+			<option value="FaxSkype.png">FaxSkype.png</option>
+			<option value="GeishaSkype.png">GeishaSkype.png</option>
+			<option value="HulaSkype.png">HulaSkype.png</option>
+			<option value="MakeSkypeNotWar.png">MakeSkypeNotWar.png</option>
+			<option value="MetalSkype.png">MetalSkype.png</option>
+			<option value="NinjaSkype.png">NinjaSkype.png</option>
+			<option value="PartySkype.png">PartySkype.png</option>
+			<option value="PopSkype.png">PopSkype.png</option>
+			<option value="RiceSkype.png">RiceSkype.png</option>
+			<option value="Skypahontas.png">Skypahontas.png</option>	
+			<option value="Skype502.png">Skype502.png</option>			
+			<option value="SkypeAid.png">SkypeAid.png</option>			
+			<option value="SkypeArtiste.png">SkypeArtiste.png</option>			
+			<option value="SkypeBeauty.png">SkypeBeauty.png</option>			
+			<option value="SkypeBling.png">SkypeBling.png</option>			
+			<option value="SkypeBoarder.png">SkypeBoarder.png</option>			
+			<option value="SkypeBrrr.png">SkypeBrrr.png</option>
+			<option value="SkypeCandy.png">SkypeCandy.png</option>
+			<option value="SkypeCola.png">SkypeCola.png</option>
+			<option value="SkypeCoolShades.png">SkypeCoolShades.png</option>
+			<option value="SkypeExtreme.png">SkypeExtreme.png</option>
+			<option value="SkypeGoaaaaal.png">SkypeGoaaaaal.png</option>
+			<option value="SkypeHeadset.png">SkypeHeadset.png</option>
+			<option value="SkypeinaBag.png">SkypeinaBag.png</option>
+			<option value="SkypeJah.png">SkypeJah.png</option>
+			<option value="SkypeJyve.png">SkypeJyve.png</option>
+			<option value="SkypeSafety.png">SkypeSafety.png</option>
+			<option value="SkypeSan.png">SkypeSan.png</option>
+			<option value="SkypeShorty.png">SkypeShorty.png</option>
+			<option value="SkypeSmiley.png">SkypeSmiley.png</option>
+			<option value="SkypeTime.png">SkypeTime.png</option>
+			<option value="Skype-a-Manger.png">Skype-a-Manger.png</option>
+			<option value="Skype-ahoy.png">Skype-ahoy.png</option>
+			<option value="Skype-in-one.png">Skype-in-one.png</option>
+			<option value="Skype.png">Skype.png</option>
+			<option value="SkypersoftheCaribbean.png">SkypersoftheCaribbean.png</option>
+			<option value="StarSkype.png">StarSkype.png</option>
+			<option value="SushiSkype.png">SushiSkype.png</option>
+			<option value="TheSkypeness.png">TheSkypeness.png</option>
+			<option value="TravelSkype.png">TravelSkype.png</option>
+			<option value="WetsuitSkype.png">WetsuitSkype.png</option>
+			<option value="YinYangSkype.png">YinYangSkype.png</option>
+		</param>
+		<param name="customimage" type="text" default="clock.jpg" label="Custom image" description="If you choose CUSTOM from the list above, you can choose instead an image from the /stories/images folder. Use the full filename and remember that this is case sensative." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="useimages" type="radio" default="1" label="Use images for links" description="You can also show add me links, view my profile links etc. This option and those below are for configuring those links.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="colourscheme" type="radio" default="1" label="Choose your colourscheme" description="">
+			<option value="1">Green</option>
+			<option value="2">Blue</option>
+		</param>
+		<param name="showcall" type="radio" default="1" label="Show call link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_call" type="text" default="Call me" label="Call link text" description="" />
+		<param name="showchat" type="radio" default="0" label="Show chat link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_chat" type="text" default="Chat with me" label="Chat link text" description="" />
+		<param name="showsendfile" type="radio" default="0" label="Show send file link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_sendfile" type="text" default="Send me a file" label="Send file link text" description="" />
+		<param name="showadd" type="radio" default="0" label="Show add contact link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_add" type="text" default="Add me as a skype contact" label="Add contact link text" description="" />
+		<param name="showprofile" type="radio" default="0" label="Show profile link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_profile" type="text" default="View my profile" label="Profile link text" description="" />
+		<param name="showvoicemail" type="radio" default="0" label="Show voicemail link" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linktext_voicemail" type="text" default="Leave me voicemail" label="Voicemail link text" description="" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+	</params>
+</mosinstall>

@@ -1,0 +1,249 @@
+<?php
+
+class emailserveraccount{
+    // connect to the server and get the inbox emails
+    protected $server = 'mail.flowerswholesale.ca';
+    //protected $user = 'test@bloomex.com.au';
+    //protected $pass = 'vqfVQNMk6ze;';
+     protected $user = 'reviews@bloomex.com.au';
+     protected $pass = 'F(k2-W@6$,#Pw';
+    protected $port_imap = 993; // adjust according to server settings
+    protected $port_smtp = 465; // adjust according to server settings
+    protected $protocol = 'tls';
+}
+
+class Email_reader extends emailserveraccount {
+
+    // imap server connection
+    public $conn;
+    // inbox storage and inbox message count
+    private $inbox;
+    private $msg_cnt;
+
+    function __construct() {
+        $this->connect();
+        $this->inbox();
+    }
+
+    // close the server connection
+    function close() {
+        $this->inbox = array();
+        $this->msg_cnt = 0;
+
+        imap_close($this->conn);
+    }
+
+    // open the server connection
+    // the imap_open function parameters will need to be changed for the particular server
+    // these are laid out to connect to a Dreamhost IMAP server
+    function connect() {
+        $this->conn = imap_open('{' . $this->server . ':' . $this->port_imap . '/imap/ssl/novalidate-cert}', $this->user, $this->pass);
+        $errors = imap_last_error();
+        if ($errors) {
+            var_dump($errors);
+            die();
+        }
+    }
+
+    // move the message to a new folder
+    function move($msg_index = 1, $folder = 'INBOX.processed') {
+        // move on server
+        $imapresult = imap_mail_move($this->conn, $msg_index, $folder);
+        if ($imapresult == false) {
+            echo imap_last_error();
+            echo "<hr>";
+        }
+        imap_expunge($this->conn);
+    }
+
+    // get a specific message (1 = first email, 2 = second email, etc.)
+    function get($msg_index = 0) {
+        if (isset($this->inbox[$msg_index])) {
+            return $this->inbox[$msg_index];
+        } else {
+            return array();
+        }
+    }
+
+    // read the inbox
+    function inbox() {
+        $this->msg_cnt = imap_num_msg($this->conn);
+
+        $in = array();
+        for ($i = 1; $i <= $this->msg_cnt; $i++) {
+            $in[$i] = array(
+                'index' => $i,
+                'header' => imap_headerinfo($this->conn, $i),
+                'body' => imap_body($this->conn, $i),
+                'structure' => imap_fetchstructure($this->conn, $i)
+            );
+        }
+
+        $this->inbox = $in;
+    }
+
+    function process_list() {
+        $list = array();
+        foreach ($this->inbox as $k => $v) {
+            if (is_array($v['header']->from)) {
+                $list[$k] = $v['header']->from[0]->mailbox . "@" . $v['header']->from[0]->host;
+            } else {
+                $list[$k] = $v['header']->from['mailbox'] . "@" . $v['header']->from['host'];
+            }
+            $this->move();
+        }
+        return $list;
+    }
+
+}
+
+class sendemail extends emailserveraccount{
+
+    public $database;
+    public $mail;
+    public $mail_connect;
+
+    function __construct() {
+
+        include "../configuration.php";
+        include "MAIL5.php";
+        define('_VALID_MOS', 'true');
+        define('_JEXEC', 'true');
+        require_once $mosConfig_absolute_path . '/includes/joomla.php';
+        $this->database = new database($mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix);
+
+        $this->mail = new MAIL5;
+        $this->mail->From('reviews@bloomex.com.au');
+        $this->mail_connect = $this->mail->Connect($this->server, (int) $this->port_smtp, $this->user, $this->pass, $this->protocol, 20);
+    }
+
+    function generateRandomcodes($count) {
+
+        $query_get_coupons = "SELECT coupon_code FROM jos_vm_coupons";
+        $this->database->setQuery($query_get_coupons);
+        $result = $this->database->loadAssocList();
+        $exist_coupons = array();
+        foreach ($result as $coupon) {
+            $exist_coupons[] = $coupon['coupon_code'];
+        }
+
+        $codes = array();
+        while (count($codes) < $count) {
+            $new_coupon = $this->generateRandomString($exist_coupons);
+            $codes[] = $new_coupon;
+            $exist_coupons[] = $new_coupon;
+        }
+
+        return $codes;
+    }
+
+    function generateRandomString($exist_coupons) {
+        $prefix = 'RGC-';
+        $length = 6;
+        $characters = '2345679ABCDEHJKLMNOPQSUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        if (!$length) {
+            die('wrong pattern');
+        }
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $randomString = $prefix . $randomString;
+        if (!in_array($randomString, $exist_coupons)) {
+            return $randomString;
+        } else {
+            return $this->generateRandomString($exist_coupons);
+        }
+    }
+
+    function get_list_emails($list) {
+        $resend_list = array();
+        $i = 0;
+        foreach ($list as $k => $v) {
+            $q = "SELECT email FROM `tbl_email_newsletter` WHERE email='" . $this->database->getEscaped($v) . "' and send_date > DATE_FORMAT(CURDATE(), '%Y-%m-01') - INTERVAL 3 MONTH";
+            $this->database->setQuery($q);
+            $res = $this->database->loadResult();
+            if (!$res) {
+                $resend_list[$i]['email'] = $v;
+                $i++;
+            }
+        }
+        if ($resend_list) {
+
+            $coupons = $this->generateRandomcodes(count($resend_list));
+            foreach ($resend_list as $k => $l) {
+                $resend_list[$k]['coupon_code'] = $coupons[$k];
+            }
+        }
+        return $resend_list;
+    }
+
+    function send_email($emails_list) {
+        $sent_emails = array();
+        foreach ($emails_list as $e) {
+
+            $addto = $this->mail->AddTo($e['email']);
+            if ($addto) {
+
+                $query = "SELECT `email_subject`, `email_html` FROM `jos_vm_emails` WHERE `email_type`='8'";
+                $confirmation_obj = false;
+                $this->database->setQuery($query);
+                $this->database->loadObject($confirmation_obj);
+
+                $this->mail->Subject($confirmation_obj->email_subject);
+                $this->mail->Html(str_replace('{phpShopReviewCoupon}', $e['coupon_code'], $confirmation_obj->email_html));
+
+
+                if ($this->mail_connect) {
+                    if ($this->mail->Send($this->mail_connect)) {
+                        $sent_emails[] = $e;
+                    }
+                }
+            }
+            $this->mail->delto();
+        }
+        if ($sent_emails) {
+            $this->add_emails_into_table($sent_emails);
+        }
+        return $sent_emails;
+    }
+
+    function add_emails_into_table($sent_emails) {
+        $query_insert_coupons = "INSERT INTO jos_vm_coupons  (coupon_code, percent_or_total,coupon_type,coupon_value) VALUES ";
+        $query_insert_newslater = "INSERT INTO tbl_email_newsletter  (email, coupon_code,send_date) VALUES ";
+        $datetime = date('Y-m-d');
+        foreach ($sent_emails as $s => $c) {
+            $query_insert_newslater .= "('{$c['email']}','{$c['coupon_code']}','$datetime'),";
+            $query_insert_coupons .= "('{$c['coupon_code']}','total','gift','20.00'),";
+        }
+
+        $query_insert_newslater = rtrim($query_insert_newslater, ',');
+        $query_insert_coupons = rtrim($query_insert_coupons, ',');
+        $this->database->setQuery($query_insert_newslater);
+        $this->database->query();
+        $this->database->setQuery($query_insert_coupons);
+        $this->database->query();
+    }
+
+    function __destruct() {
+        $this->mail->Disconnect();
+        $this->database->close();
+    }
+
+}
+
+$mail = new Email_reader();
+$list = $mail->process_list();
+$list = array_unique($list);
+//$list[]='danielyanlevon89@mail.ru';
+//$list[]='danielyanlevon89@gmail.com';
+$sendemail = new sendemail();
+$emails_list = $sendemail->get_list_emails($list);
+$sent_emails = $sendemail->send_email($emails_list);
+if ($sent_emails) {
+    foreach ($sent_emails as $s => $c) {
+        echo 'Email successfully sent to <strong>' . $c['email'] . '</strong> coupon code is <strong>' . $c['coupon_code'] . '</strong><br>';
+    }
+}
+

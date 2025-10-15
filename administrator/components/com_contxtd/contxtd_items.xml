@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component" version="4.5.2">
+	
+	<name>Contacts XTD Items</name>
+	<version>1.0.1</version>
+	<mamboVersion>4.5.2</mamboVersion>
+	
+	<author>clockbit.com</author>
+	<authorName>Kurt Banfi</authorName>
+	<authorEmail>mambo@clockbit.com</authorEmail>
+	<authorUrl>www.clockbit.com</authorUrl>
+	
+	<productPicture></productPicture>
+	<productUrl>http://www.clockbit.com</productUrl>
+		
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	
+	<description>Parameters for individual Contacts XTD Items</description>
+	
+	<params>
+		<param name="menu_image" type="imagelist" directory="/images/stories" hide_default="1" default="" label="Menu Image" description="A small image to be placed to the left or right of your menu item, images must be in images/stories/" />
+		<param name="pageclass_sfx" type="text" size="20" default="" label="Page Class Suffix" description="A suffix to be applied to the css classes of the page, this allows individual page styling" />
+		<param name="print" type="list" default="" label="Print Icon" description="Show/Hide the item print button - only affects this page">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="back_button" type="list" default="" label="Back Button" description="Show/Hide a Back Button, that returns you to the previously view page">
+			<option value="">Use Global</option>
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="name" type="radio" default="1" label="Name" description="Show/Hide the name info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="position" type="radio" default="1" label="Position" description="Show/Hide the position info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="company" type="radio" default="1" label="Company" description="Show/Hide the company info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email" type="radio" default="0" label="Email" description="Show/Hide the email info, if you set to show the address will be protected from spambots by javascript cloaking">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="website" type="radio" default="1" label="Website" description="Show/Hide the website info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="street_address" type="radio" default="1" label="Street Address" description="Show/Hide the street address info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="suburb" type="radio" default="1" label="Town/Suburb" description="Show/Hide the suburb info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="state" type="radio" default="1" label="State" description="Show/Hide the state info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="country" type="radio" default="1" label="Country" description="Show/Hide the country info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="postcode" type="radio" default="1" label="Post/Zip Code" description="Show/Hide the post code info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="telephone1" type="radio" default="1" label="Telephone 1" description="Show/Hide the first telephone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="telephone2" type="radio" default="1" label="Telephone 2" description="Show/Hide the second telephone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="mobile1" type="radio" default="1" label="Mobile 1" description="Show/Hide the first mobile phone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="mobile2" type="radio" default="1" label="Mobile 2" description="Show/Hide the second mobile phone info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="fax" type="radio" default="1" label="Fax" description="Show/Hide the fax info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="misc1" type="radio" default="1" label="Misc Info 1" description="Show/Hide the first misc info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="misc2" type="radio" default="1" label="Misc Info 2" description="Show/Hide the second misc info">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="vcard" type="radio" default="0" label="Vcard" description="Show/Hide the Vcard">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param> 
+		<param name="image" type="radio" default="1" label="Image" description="Show/Hide the image">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="email_description" type="radio" default="1" label="Email description" description="Show/Hide the Description Text below">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_description_text" type="text" size="30" default="" label="Description text" description="The Description text for the Email form, if left blank it will use the _EMAIL_DESCRIPTION language definition" />
+		<param name="email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_copy" type="radio" default="1" label="Email Copy" description="Show/Hide the checkbox to email a copy to the senders address">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		<param name="email_redirect" type="list" default="1" label="Redirect page" description="The page to which visitors will be redirected after sending the email">
+			<option value="0">Contact Category</option>
+			<option value="1">Contact Details</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="drop_down" type="radio" default="0" label="Drop Down" description="Show/Hide the Drop Down select list in Contact view">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>	
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="contact_icons" type="list" default="0" label="Icons/text" description="Use Icons, text or nothing next to the contact information displayed">
+			<option value="0">Icons</option>
+			<option value="1">Text</option>
+			<option value="2">None</option>
+		</param>
+		<param name="icon_company" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Company Icon" description="Icon for the Company info" />
+		<param name="icon_address" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Address Icon" description="Icon for the Address info" />
+		<param name="icon_email" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Email Icon" description="Icon for the Email info" />
+		<param name="icon_website" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Website Icon" description="Icon for the Website info" />
+		<param name="icon_telephone" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Telephone Icon" description="Icon for the Telephone info" />
+		<param name="icon_mobile" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Mobile Icon" description="Icon for the Mobile Phone info" />
+		<param name="icon_fax" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Fax Icon" description="Icon for the Fax info" />
+		<param name="icon_misc1" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon 1" description="Icon for the first Misc info" />
+		<param name="icon_misc2" type="imagelist" directory="/images/M_images" hide_none="1" default="" label="Misc Icon 2" description="Icon for the second Misc info" />
+	</params>
+	
+</mosinstall>

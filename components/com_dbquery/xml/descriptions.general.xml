@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Database Descriptions Parameter File</name>
+	<creationDate>June 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Description definitions for a query object.</description>
+	<params>
+		<param name="GENERAL_DESCRIPTION" type="textarea" rows="5" cols="60" default="" label="General Description" description="A description of the variable that will appear on the form view."/>
+	</params>
+
+</mosparams>

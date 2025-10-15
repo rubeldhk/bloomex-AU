@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+    $(function() {
+        $('.icon').show()
+        $.post('/scripts/update_old_users_groups_by_company.php',{
+                option: 'get_domains_list',
+            }, function(result){
+                {
+                    var obj=JSON.parse(result)
+
+                    if(obj.result=='success'){
+                        $('.result').html("domains  list created ")
+                        count = obj.count
+                        $.each(obj.groups,function(x,y){
+                            $('.icon').show()
+                            $.post('/scripts/update_old_users_groups_by_company.php',{
+                                option: 'update_users',
+                                group_id: x,
+                                domains: y,
+                            }, function(data){
+                                $('.result').append(data)
+                                if (!--count){
+                                    $('.icon').hide()
+                                }
+                            });
+
+                        })
+                    }else{
+                        $('.error').html(obj.result)
+                        $('.icon').hide()
+                    }
+                }
+            }
+        );
+    })
+</script>
+<div class="error" style="color: red"></div><br>
+<div class="result"></div>
+<div class="icon"  style="display: none"><img src="/images/loading.gif"></div>
+
+</body>
+</html>

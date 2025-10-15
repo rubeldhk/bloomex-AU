@@ -1,0 +1,162 @@
+<html>
+
+<head>
+  <title>Tabelle einfügen</title>
+
+<script type="text/javascript" src="popup.js"></script>
+
+<script type="text/javascript">
+
+window.resizeTo(450, 200);
+
+function Init() {
+  __dlg_init();
+  document.getElementById("f_rows").focus();
+};
+
+function onOK() {
+  var required = {
+    "f_rows": "Bitte geben Sie die Anzahl der Zeilen ein!",
+    "f_cols": "Bitte geben Sie die Anzahl der Spalten ein!"
+  };
+  for (var i in required) {
+    var el = document.getElementById(i);
+    if (!el.value) {
+      alert(required[i]);
+      el.focus();
+      return false;
+    }
+  }
+  var fields = ["f_rows", "f_cols", "f_width", "f_unit",
+                "f_align", "f_border", "f_spacing", "f_padding"];
+  var param = new Object();
+  for (var i in fields) {
+    var id = fields[i];
+    var el = document.getElementById(id);
+    param[id] = el.value;
+  }
+  __dlg_close(param);
+  return false;
+};
+
+function onCancel() {
+  __dlg_close(null);
+  return false;
+};
+
+</script>
+
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+form p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.fl { width: 9em; float: left; padding: 2px 5px; text-align: right; }
+.fr { width: 7em; float: left; padding: 2px 5px; text-align: right; }
+fieldset { padding: 0px 10px 5px 5px; }
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+.space { padding: 2px; }
+
+.title { background: none; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+form { padding: 0px; margin: 0px; }
+</style>
+
+</head>
+
+<body onload="Init();self.focus();">
+
+<div class="title">Tabelle einfügen</div>
+
+<form action="" method="get">
+<table border="0" style="padding: 0px; margin: 0px">
+  <tbody>
+
+  <tr>
+    <td style="width: 4em; text-align: right">Zeilen:</td>
+    <td><input type="text" name="rows" id="f_rows" size="5" title="Anzahl Zeilen" value="2" /></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="width: 4em; text-align: right">Spalten:</td>
+    <td><input type="text" name="cols" id="f_cols" size="5" title="Anzahl Spalten" value="4" /></td>
+    <td style="width: 4em; text-align: right">Breite:</td>
+    <td><input type="text" name="width" id="f_width" size="5" title="Breite der Tabelle" value="100" /></td>
+    <td><select size="1" name="unit" id="f_unit" title="Breite in">
+      <option value="%" selected="1">Prozent</option>
+      <option value="px">Pixel</option>
+    </select></td>
+  </tr>
+
+  </tbody>
+</table>
+
+<p />
+
+<fieldset style="float: left; margin-left: 5px;">
+<legend>Layout</legend>
+
+<div class="space"></div>
+
+<div class="fl">Ausrichtung:</div>
+<select size="1" name="align" id="f_align"
+  title="Ausrichtung der Tabelle">
+  <option value="" selected="1">[Standard]</option>
+  <option value="left">Links</option>
+  <option value="right">Rechts</option>
+  <option value="center">Zentriert</option>
+</select>
+
+<p />
+
+<div class="fl">Rahmen (Pixel):</div>
+<input type="text" name="border" id="f_border" size="5" value="1"
+title="Leer, falls kein Rand gewünscht" />
+
+<div class="space"></div>
+
+</fieldset>
+
+<fieldset style="float:right; margin-right: 5px;">
+<legend>Abstände</legend>
+
+<div class="space"></div>
+
+<div class="fr">Zellenabstand:</div>
+<input type="text" name="spacing" id="f_spacing" size="5" value="1"
+title="Abstand zwischen angrenzenden Zellen" />
+
+<p />
+
+<div class="fr">Zellauffüllung:</div>
+<input type="text" name="padding" id="f_padding" size="5" value="1"
+title="Abstand zwischen Inhalt und Rahmen in einer Zelle" />
+
+<div class="space"></div>
+
+</fieldset>
+
+<div style="margin-top: 85px; border-top: 1px solid #999; padding: 5px; text-align: right;">
+<button type="button" name="ok" onclick="return onOK();">Anwenden</button>&nbsp;&nbsp;
+<button type="button" name="cancel" onclick="return onCancel();">Abbrechen</button>
+</div>
+
+</form>
+
+</body>
+</html>

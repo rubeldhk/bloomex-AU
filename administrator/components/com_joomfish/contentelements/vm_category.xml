@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>VM Product Category</name>
+  <author>EI</author>
+  <version>1.0</version>
+  <description>Definition for VM component (Product Category)</description>
+  <reference>
+  	<table name="vm_category">
+  		<field type="referenceid" name="category_id" translate="0">ID</field>
+  		<field type="titletext" name="category_name" translate="1">Name</field>
+                <field type="text" name="alias" translate="1">Alias</field>
+  		<field type="textarea" name="category_description" translate="1">Description</field>
+  	</table>
+  </reference>
+</joomfish>

@@ -1,0 +1,202 @@
+*{
+    cursor:default;
+}
+a:hover {
+    cursor:pointer;
+}
+#new-wrapper{
+    width:100%;
+}
+#new-main-container{
+    margin: 0px auto;
+}
+#new-bloomex-logo img{
+    width: 210px;
+    margin: 10px;
+}
+#new-bloomex-logo img:hover{
+    opacity:0.9;
+}
+#new-bloomex-logo-container{
+    width:160px;
+}
+
+#new-deliveries-outside-block{
+    font-family: Helvetica,'Open Sans';
+    /*font-weight: 700;*/
+    padding-top: 12px;
+    font-size:12px;
+    color: #767675;
+}
+.new-deliverys-outside-link{
+    /*font-weight: 700;*/
+    color: #767675;
+}
+
+.new-deliverys-outside-link:hover{
+    opacity: 0.9;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px #AAA;
+    color: #555;
+}
+.new-deliverys-outside-link img {
+    cursor: pointer;
+}
+
+#new-information-menu{
+    float:right;
+}
+#new-information-menu ul li{
+    float: left;
+    list-style-type:none;
+}
+
+
+#new-account-menu ul li{
+    -webkit-padding-start: 0px;
+    float: left;
+    list-style-type:none;
+}
+#new-account-menu ul li a{
+    margin-left:10px;
+    font-weight: 700;
+    color: #767675;
+    font-size: 14px;
+    text-align: left;
+    background:none;
+    /*font-family: 'Helvetica Condensed','Open Sans Condensed',sans-serif;*/
+    font-family: Helvetica,'Open Sans';
+    font-weight: normal;
+}
+#new-account-menu ul li a:hover{
+    text-shadow: 2px 2px 4px #DDD;
+    color: #555;
+    text-decoration:underline;
+}
+#new-main-menu{
+    float:left;
+    width: 700px;
+}
+#new-main-menu ul{
+    -webkit-padding-start: 0px;
+}
+#new-main-menu ul li{
+    float: left;
+    list-style-type:none;
+}
+#new-main-menu ul li a{
+    color: #767675;
+    text-decoration: none;
+    text-align: left;
+    background: none;
+    padding-left: 12px !important;
+    padding-top: 2px !important;
+    line-height: 33px;
+    font-size: 16px;
+    font-family: 'Helvetica Condensed';
+    vertical-align: bottom;
+}
+#new-main-menu ul li a:hover{
+    text-shadow: 2px 2px 4px #AAA;
+    color: #9a36bd;
+}
+/*#new-product-menu ul.dropdown li a{
+    color: gray;
+    font-size: 18px;
+    font-weight:bold;
+    text-decoration: none;
+    text-align: left;
+    background:none;
+    padding-right: 12px !important;
+    padding-top: 2px !important;
+    line-height: 19px;
+    font-family: Open Sans;
+    background-color: white;
+}
+#new-product-menu ul.dropdown ul li a:hover{
+    text-shadow: 2px 2px 4px #AAA;
+    background: #9a36bd;
+    color: #555;
+}
+*/
+
+/* 1280px - standart for now*/
+/* rubber design - onhold
+@media screen and (max-width: 1600px) {
+    #new-main-container{
+        width:1560px;
+
+    }
+}
+@media screen and (max-width: 1230px) {
+    #new-main-container{
+        width:980px;
+
+    }
+}
+@media screen and (max-width: 980px) {
+    #new-main-container{
+        width:700px;
+
+    }
+}
+@media screen and (max-width:700px) {
+    #new-inside{
+        width:320px;
+    }
+}
+*/
+
+@media (min-width:980px) and (max-width:1230px) {
+    #new-wrapper,#new-main-container,.pop_div{
+         width:980px !important;
+         margin: 0px auto;
+    }
+    .pop2{
+       left: 350px !important;
+    }
+    #appendTopBodyBanner a img{
+        width: 980px !important;
+    }
+    #new-header {
+        width: 100%;
+    }
+    .topLiveChatImg{
+        width: 150px;
+    }
+    #topPhone{
+        font-size: 16px;
+    }
+    #new-deliveries-outside-block{
+        width: 208px;
+    }
+    #new-account-menu{
+        float: none;
+    }
+    #rotator , #rotatorContainerFull,#rotatorContainer,#rotatorLanding {
+        visibility: hidden;
+        cursor: default;
+        display: none;
+    }
+    #rotator a{
+        display: none;
+        cursor: default;
+    }
+    #new-search-container input{
+        width: 140px;
+    }
+
+    #new-search-container input::-webkit-input-placeholder::before {
+    content:" Search  by  Keywords  ";
+    }
+    #new-main-banner-testomonials{
+        display: none;
+    }
+    #product-top-cell tr td div>a>img ,#product-top-headers tr td div>a>img,.product-list-related>a>img{
+        width: 172px;
+        height: 200px;
+    }
+    .new-header-table-right-cell{
+        width:250px !important;
+    }
+}

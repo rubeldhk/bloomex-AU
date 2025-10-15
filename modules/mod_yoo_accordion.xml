@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+	<name>YOOaccordion</name>
+	<author>YOOtheme</author>
+	<creationDate>November 2007</creationDate>
+	<copyright>Copyright (C) 2007 YOOtheme Ltd. &amp; Co. KG</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>info@yootheme.com</authorEmail>
+	<authorUrl>http://www.yootheme.com</authorUrl>
+	<version>1.0.1</version>
+	<description>YOOaccordion module of the YOOtheme club (http://www.yootheme.com) for Joomla! 1.0. Requires mootools 1.1</description>
+	<files>
+		<filename module="mod_yoo_accordion">mod_yoo_accordion.php</filename>
+		<filename>mod_yoo_accordion/changelog.php</filename>
+		<filename>mod_yoo_accordion/helper.php</filename>
+		<filename>mod_yoo_accordion/mod_yoo_accordion.css.php</filename>	
+		<filename>mod_yoo_accordion/mod_yoo_accordion.js</filename>		
+		<filename>mod_yoo_accordion/index.html</filename>
+		<filename>mod_yoo_accordion/tmpl/_item.php</filename>
+		<filename>mod_yoo_accordion/tmpl/default.php</filename>
+		<filename>mod_yoo_accordion/tmpl/index.html</filename>
+		<filename>mod_yoo_accordion/tmpl/watermark.php</filename>
+		<filename>mod_yoo_accordion/tmpl/whitespace.php</filename>
+		<filename>mod_yoo_accordion/styles/default/images/index.html</filename>
+		<filename>mod_yoo_accordion/styles/default/images/item_header.png</filename>
+		<filename>mod_yoo_accordion/styles/default/index.html</filename>
+		<filename>mod_yoo_accordion/styles/default/style.css</filename>
+		<filename>mod_yoo_accordion/styles/index.html</filename>
+		<filename>mod_yoo_accordion/styles/style.css</filename>
+		<filename>mod_yoo_accordion/styles/watermark/images/index.html</filename>
+		<filename>mod_yoo_accordion/styles/watermark/images/item_header.png</filename>
+		<filename>mod_yoo_accordion/styles/watermark/images/watermark.png</filename>
+		<filename>mod_yoo_accordion/styles/watermark/index.html</filename>
+		<filename>mod_yoo_accordion/styles/watermark/style.css</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/images/index.html</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/images/item_header_l.png</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/images/item_header_m.png</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/images/item_header_r.png</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/index.html</filename>
+		<filename>mod_yoo_accordion/styles/whitespace/style.css</filename>
+	</files>
+	<params>
+		<param name="catid" type="mos_category" default="0" label="Category" description="A content category which items are used for the YOOaccordion" />
+		<param name="style" type="list" default="default" label="Style" description="The YOOaccordion styling">
+			<option value="default">Default</option>
+			<option value="watermark">Watermark</option>
+			<option value="whitespace">Whitespace</option>
+		</param>
+		<param name="multiple_open" type="radio" default="0" label="Allow multiple open" description="Allow multiple open items">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="open_all" type="radio" default="0" label="Open all items" description="Open all items on startup">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+		<param name="order" type="list" default="o_asc" label="Ordering" description="Ordering options">
+			<option value="o_asc">Article Order</option>
+			<option value="c_dsc">Recently Added First</option>
+			<option value="m_dsc">Recently Modified First</option>
+			<option value="h_dsc">Most Popular</option>			
+			<option value="rnd">Randomize</option>
+	  	</param>
+		<param name="items" type="text" default="4" label="No. of Items" description="Maximum no of items to display" />
+		<param name="moduleclass_sfx" type="text" default="-blank" label="Module Class Suffix" description="Module Class Suffix" />
+	</params>
+</mosinstall>

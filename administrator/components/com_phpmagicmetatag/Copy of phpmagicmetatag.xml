@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<mosinstall type="component" version="1.0.0">
+ <name>PhpMagic Meta Tag</name>
+ <creationDate>December 2010</creationDate>
+ <author>Nguyen Duy Anh</author>
+ <copyright>PhpMagic</copyright>
+ <authorEmail>123clicksite@gmail.com</authorEmail>
+ <authorUrl>www.123clicksite.com</authorUrl>
+ <version>1.0</version>
+ <description>
+	PhpMagic Meta Tag Configuration Manager
+ </description>
+ 
+	<files>
+		<filename>index.html</filename>
+	</files>
+	
+	<install>
+		<queries>
+			<query>
+				CREATE TABLE IF NOT EXISTS `tbl_metatag` (
+				  `id` int(11) NOT NULL auto_increment,
+				  `skey` varchar(255) NOT NULL,
+				  `svalue` text NOT NULL,
+				  PRIMARY KEY  (`id`)
+				) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+			</query>
+		</queries>
+	</install>
+	<uninstall>
+		<queries>
+			<query></query>
+		</queries>
+	</uninstall>
+	
+ <administration>
+		<menu link="option=com_phpmagicmetatag">Meta Tag Configuration Manager</menu>
+		<files>
+			<filename>admin.phpmagicmetatag.php</filename>
+			<filename>admin.phpmagicmetatag.html.php</filename>
+			<filename>toolbar.phpmagicmetatag.php</filename>
+			<filename>toolbar.phpmagicmetatag.html.php</filename>
+			<filename>phpmagicmetatag.class.php</filename>
+			<filename>index.html</filename>
+		</files>
+	</administration>
+</mosinstall>

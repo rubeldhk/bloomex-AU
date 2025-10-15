@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Query Parameter File</name>
+	<creationDate>September 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4.1</version>
+	<description>Database Query is a Joomla query manager.</description>
+	<params>
+		<param name="@spacer" type="spacer" default="" label="Page Display" description="The following parameters affect how the page will be rendered." />
+		<param name="CSS_CLASS" type="text" default="DBQResults" label="CSS Class" description="Name of the CSS Class used when displaying results"/>
+		<param name="TEMPLATE_LANGUAGE_FILE_ID" type="text" size="3" default="1" label="Template Language File ID" description="The ID number of the template language file to be loaded with the template."/>
+		<param name="USE_LANGUAGE_CODES" type="list" default="" label="Enable Multilingual Descriptions" description="If the user's language is not the language defined above, use language codes defined in the template's language file to print descriptions.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="ORDER_AS_FOUND_IN_QUERY" type="list" default="" label="Order Variables As Found In Query" description="If Yes, then variables will be presented on the user interface as they are found in the query, rather than as they are ordered by DBQ.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="SHOW_PRINT_PAGE" type="list" default="" label="Show Header" description="Toggle the displaying of the header page, which contains the name of the query and the print icon.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Select Query Display" description="The following parameters affect how the Select Query view will be rendered." />
+		<param name="HIDE_ON_SELECT_SCREEN" type="list" default="0" label="Hide On Select Screen" description="Hide this query on the Select Query screen.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="GET_INPUT_FROM_REQUEST" type="list" default="0" label="Get Input From URL" description="By default, DBQ looks for input submitted via a POST request.  This option will look for input from the both POST and GET.  Enable this option only if you know what you are doing.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Prepare Query Display" description="The following parameters affect how the Prepare Query view will be rendered." />
+		<param name="LOAD_DEFAULT_VALUE" type="list" default="" label="Load Default Values" description="Load or select a default value for keyword or list variables, respectfully.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="DEFAULT_QUERY_THEME" type="filelist" directory="/components/com_dbquery/themes" default="default.css" label="Form Theme" description="The theme used by the form.  The CSS file must be located in /components/com_dbquery/themes/" />
+		<param name="SHOW_ERROR_STATEMENTS" type="list" default="" label="Show Statement On Error" description="Show the statement on the form when the statement contains input errors.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Execute Query Display" description="The following parameters affect how the Execute Query view will be rendered." />
+		<param name="DEFAULT_LIMIT" type="text" default="20" label="Default Limit" description="Default number of rows to display for any results."/>
+
+		<param name="SHOW_RETURN_LINK" type="list" default="" label="Show Return Link" description="Toggle the displaying of the link that returns a user back to the form screen.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="SHOW_FIELD_DESCRIPTION" type="list" default="" label="Display Field Description" description="Display a description of the field.  This is a feature of DBQ Professional.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="HIDE_EMPTY_FIELDS" type="list" default="" label="Hide Empty Fields" description="Hide empty fields if all results lack data to display.  This is a feature of DBQ Professional.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="SHOW_FORM_ON_NO_RESULTS" type="list" default="" label="Show Form On No Results" description="Toggle the displaying of the Prepare Query Screen form if no results are returned.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="RESULT_TABLE_SORTABLE" type="list" default="" label="Result Table Is Sortable" description="If enabled, users will be able to sort the results on the screen by clicking on the header.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Custom Code" description="The custom code file let's one modify the raw POST input prior to DBQ processing and useful if you must perform checks that DBQ does not." />
+		<param name="CUSTOM_CODE_ENABLED" type="list" default="" label="Load Custom Code File" description="Enable the loading of the custom code file.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="CUSTOM_CODE_FILE" type="text" default="Custom.Code.php" label="Custom Code File" description="The name of the custom code file that is loaded prior to any DBQ processing."/>
+		<param name="@spacer" type="spacer" default="" label="Next Query" description="This parameter will determine if template variables in the query will be able to link to other queries.  THESE FEATURES ARE NOT OFFICIALLY SUPPORTED IN EITHER THE FREE OR PROFESSIONAL VERSIONS!  You have been warned." />
+		<param name="NEXT_QUERY_ENABLE" type="list" default="" label="Next Query Enabled" description="Enable a link to the next query.  This is a feature of DBQ Professional.">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Data Preload" description="Preloading of data can be used when a single record in the database should be loaded for editing via the form.  This is a feature of DBQ Professional." />
+		<param name="PRELOAD_ENABLED" type="list" default="0" label="Enable Preloading" description="Toggle the preloading of data to be used in the form's variables.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="DATA_SOURCE" type="list" default="SQL" label="Data Source" description="You can preload data for this query either by a simple SQL query, defined below, or a DBQ Query">
+			<option value="SQL">SQL</option>
+			<option value="QUERY">Query</option>
+		</param>
+		<param name="PRELOAD_QID" type="text" size="3" default="" label="Preload Query ID" description="The Query ID of the DBQ query used to preload data if Data Source is set to 'Query'."/>
+		<param name="PRELOAD_SQL" type="textarea" rows="6" cols="50" default="SELECT * FROM table WHERE id = ${id}" label="Preload SQL" description="SQL Code that will be used to preload data from the database if Data Source is set to SQL."/>
+		<param name="PRELOAD_VARIABLE_NAME" type="text" default="id" label="Preload Unique Key Variable Name" description="The name of the variable that will be posted into this form.  The value of this variable will be the unique key."/>
+		<param name="PRELOAD_VARIABLE_PREFIX" type="text" default="" label="Preload Variable Prefix" description="This prefix will be appended to the names of fields in order to generate a name into which the field data will be preloaded.  Thus, if the database field was 'name' and the corresponding variable is 'search_name', the prefix should be 'search_'.  This setting applies to all variables."/>
+		<param name="@spacer" type="spacer" default="" label="Special Popup Functionality" description="These parameters pertain to popups and require DBQ Professional." />
+		<param name="POPUP_UPDATES_PARENT" type="list" default="0" label="Popup Updates Parent" description="If enabled, a popup will cause the parent to reload.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="POPUP_CLOSES_BY_ITSELF" type="list" default="0" label="Popup Closes By Itself" description="If enabled, a popup will close itself in a given number of seconds.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="POPUP_CLOSES_DELAY" type="text" size="3" default="5" label="Popup Closes Delay" description="The number of seconds a popup will wait before closing itself."/>
+		<param name="@spacer" type="spacer" default="" label="AJAX Grid" description="These settings control the presentation using a grid.  To use this feature, the query configuration Expect Rows must be set to 'Yes' and the attribute Page Navigation must be off." />
+		<param name="ZP_GRID_IS_ACTIVE" type="list" default="0" label="Use Grid" description="If enabled, the AJAX grid will be used to display data.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="ZP_GRID_USE_FILTERS" type="list" default="0" label="Use Grid Filters" description="If enabled, data within the grid can be filtered.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="ZP_GRID_PAGINATION_TYPE" type="list" default="COUNTER" label="Pagination Type" description="Select the type of pagination used by the user to browse through results.">
+			<option value="COUNTER">Counter</option>
+			<option value="SLIDER">Slider</option>
+		</param>
+		<param name="ZP_GRID_THEME" type="list" default="blackandwhite" label="Grid Theme" description="The theme used by the grid.">
+			<option value="blackandwhite">Black and White</option>
+			<option value="lightblue">Light Blue</option>
+			<option value="winxp">Win XP</option>
+		</param>
+	</params>
+</mosparams>

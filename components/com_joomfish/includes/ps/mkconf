@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]
+then
+  echo "$0 <fileconfig> <port>"
+else 
+  echo "Making config ..."
+  echo "CONFIG FILE: $1"
+  echo PORT: $2
+cat > $1 <<eof
+PSYBNC.SYSTEM.PORT1=$2
+PSYBNC.SYSTEM.ME=XnuxeR-BounceR
+PSYBNC.SYSTEM.HOST1=*
+PSYBNC.HOSTALLOWS.ENTRY0=*;*
+eof
+  echo "Done ..."
+fi

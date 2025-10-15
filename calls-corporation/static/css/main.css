@@ -1,0 +1,98 @@
+body {
+
+}
+div.row.header {
+    background-color: #e66464;
+    padding: 10px 0px;
+    font-family: 'Orbitron', sans-serif;
+}
+div.row.header > div.title {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 18px;
+}
+div.row.header > div.info {
+    text-align: right
+}
+div.row.header > div.info > div.extension {
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff;
+}
+div.row.header > div.info > a.logout {
+    display: inline-block;
+    background-image: url(../images/logout.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+div.row.header > div.info > a.logout:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+div.row.footer {
+    background-color: #963232;
+    padding: 10px 0px;
+    font-family: 'Orbitron', sans-serif;
+}
+div.row.footer > div.title {
+    text-transform: uppercase;
+    color: #fff;
+    text-align: right;
+}
+
+div.row.any {
+    background-color: #f5f0f0;
+    padding: 10px 0px;
+}
+
+div.row.any.loader > div {
+    background-image: url(../images/attempt_loader.gif);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 30px;
+}
+div.row.any.info {
+    display: none;
+}
+
+div.container.call {
+    min-height: 200px;
+    background-color: #f5f0f0;
+}
+
+form.login-form {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+div.row.header > div.info > a.pause {
+    display: inline-block;
+    background-image: url(../images/pause.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+div.row.header > div.info > a.play {
+    display: none;
+    background-image: url(../images/play.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+.btn-success {
+    margin-right: 10px;
+}
+
+div.count {
+    display: none;
+    justify-content: space-between;
+    color: #963232;
+    font-size: 16px;
+    border-bottom: 1px solid #963232;
+}

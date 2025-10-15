@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-9"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Tab Module</name>
+	<author>Soner Ekici</author>
+	<creationDate>05 Eylül 2004</creationDate>
+	<copyright>2005 Soner Ekici</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>pisdoktor@joomlaturkiye.org</authorEmail>
+	<authorUrl>www.sonerekici.com</authorUrl>
+	<version>3.0</version>
+	<description>This module allows to show lots of modules in one position.</description>
+	<files>
+		<filename module="mod_tabmodul">mod_tabmodul.php</filename>
+		<filename>mod_tabs/shade.gif</filename>
+		<filename>mod_tabs/shadeactive.gif</filename>
+		<filename>mod_tabs/tabcontent.css</filename>
+		<filename>mod_tabs/tabfunc.php</filename>
+	</files>
+	<params>
+	<param name="@spacer" type="spacer" default="" label="Module Settings" description="Module settings" />
+	<param name="position" type="text" default="right" label="Position" description="Module position that the modules shown" />
+	<param name="cookies" type="radio" default="1" label="Enable Cookies" description="If set to Yes, Cookie will hold last used tab between page refreshes">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+	</param>
+	<param name="@spacer" type="spacer" default="" label="CSS File Settings" description="Module CSS file settings" />
+	<param name="css" type="radio" default="0" label="Use Module CSS" description="Do Tab module use custom css file">
+			<option value="0">Yes</option>
+			<option value="1">No</option>
+	</param>
+	<param name="cssfile" type="text" default="/templates/rhuk_solarflare_ii/css/template_css.css" label="CSS File" description="CSS File that using in the module if you choose custom css file above" />
+	</params>
+</mosinstall>

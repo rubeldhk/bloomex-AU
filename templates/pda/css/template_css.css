@@ -1,0 +1,10 @@
+body {margin:0;padding:0;color:#333;background:#fff;font-family:verdana,arial,helvetica,sans-serif;}
+#header {background-color:#fc6;}
+a {color:#25d;}
+table {width:100%}
+.blog {margin:1em 0;}
+.small, .createdate, .modifydate {color:#aaa;font-size:0.8em;line-height:0.8em;height:auto;}
+#active_menu {color:#c00;}
+h3 {color:#339;background:#fc6;font-weight:bold;margin:0;padding:0;}
+.contentheading {color:#fff;background:#36c;font-weight:bold;font-size:120%;margin:1em 0 0 0;padding:0.3em;}
+.highlight {color:#000;background-color:#ffc;}

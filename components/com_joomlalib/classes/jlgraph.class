@@ -1,0 +1,1590 @@
+<?php
+/**
+ * Fusion Charts Graphing class for JoomlaLib
+ *
+ * @package JL
+ */
+
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::import('jllog');
+JLCoreApi::import('jlplatform');
+JLCoreApi::import('jlfilelocking');
+JLCoreApi::import('jltime');
+/** @ignore */
+defined('_JL_GRAPHSBYJOOMLALIB') or define('_JL_GRAPHSBYJOOMLALIB', 'Graphs by JoomlaLib');
+
+/**
+ * Fusion Charts parent class for JoomlaLib. Don't instantiate this directly
+ *
+ * @package JL
+ * @subpackage JLGraph
+ * @todo We need a handling mecahnisme for attributes and parameters and check each of them. 
+ */
+class JLGraph
+{
+	/* Globals */
+	var $graphBgColor = null; /** @var string */
+	var $canvasBgColor = null; /** @var string */
+	var $xAxisName = null; /** @var string */
+	var $yAxisName = null; /** @var string */
+	var $title = ''; /** @var string */
+	var $subTitle = ''; /** @var string */
+	var $yAxisMin = null; /** @var integer */
+	var $yAxisMax = null; /** @var integer */
+	var $commasForThousands = 0; /** @var integer Show 10000 as 10,000 instead */
+	var $numberPrefix = null; /** @var string Prepend this to numbers. Like a dollar sign */
+	var $numberSuffix = null; /** @var string */
+	var $decimalSeparator = '.'; /** @var string */
+	var $thousandsSeparator = ','; /** @var string */
+	var $decimalPrecision = null; /** @var integer */
+	var $shortenBigNumbers = 0; /** @var integer Show 1000 as 1K and 1000000 as 1M */
+	var $doAnimation = 0; /** @var integer Animate the graph while rendering it */
+	var $animationSpeed = null; /** @var integer Animation speed from 1-10 */
+	var $canvasFont = null; /** @var string */
+	var $canvasFontSize = null; /** @var integer */
+	var $canvasFontColor = null; /** @var string */
+	var $font = null; /** @var string */
+	var $fontSize = null; /** @var integer */
+	var $fontColor = null; /** @var string */
+	var $showCanvas = 1; /** @var boolean */
+	var $showValues = 0; /** @var integer Show values on the end of bars/lines. */
+	var $pointColor = null; /**  @var string Color of the points between line segments on a line chart */
+	var $pointBgColor = null; /** @var string Background color of the points between line segments on a line chart */
+	var $pointScale = null; /** @var integer Size of the points between line segments on a line chart. 100=default */
+	var $pointSegmentColor = null; /** @var string Color of the segments between the points on a line chart */
+	
+	/* Globals that don't have to do with direct Fusion Charts variables */
+	var $JLGraphColor = null; /** @var object Colors to be used for multicolored graphs (pie charts, bar charts) */
+	var $chartWidth = 0; /** @var integer Width of the chart to be generated */
+	var $chartHeight = 0; /** @var integer Height of the chart to be generated */
+	var $cacheExpireTime = 0; /** @var string Amount of time to cache charts for before regenerating XML for them */
+	
+	/* Private */
+	var $_jllog = null; /* JLLog object that should be set by the child class of this */
+	var $_errorStr = ''; /** @var string Last error */
+	var $_appHandle = 'jl'; /** @var string Application handle */
+	var $_chartIdentifier = ''; /** @var string Chart identifier */
+	var $_trendlines = array(); /** @var array trendlines xml container */
+	var $_data; /** @var array data array holder */
+	
+	/**
+     * Return the major and minor version of the JLLog API.
+     *
+     * @return array major number, minor number
+     */
+	function getApiVersion() {
+		return array(1, 1);
+	}
+	
+	/**
+	 * Find out if a chart is up to date already. Calling this could save you the work of generating the data
+	 * for a chart.
+	 * 
+	 * @return boolean True if the cache is up to date
+	 */
+	function isUpToDate()
+	{
+		global $JL;
+		
+		$filename = JLCoreApi::getJLBasePath().'/graphs/'.$this->getXMLFilename();
+		
+		if(!$this->cacheExpireTime) {
+			$this->cacheExpireTime = $JL->graphExpireSecs;
+		}
+		
+		if(!$this->cacheExpireTime) {
+			/* No expire time. Must want to always be updated */
+			return false;
+		}
+		
+		$now = JLTime::sTime();
+		$mtime = @filemtime($filename);
+		if(!$mtime || $mtime < $now - $this->cacheExpireTime) {
+			/* No file or cache is expired. Write it */
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Get the HTML code for a Chart
+	 *
+	 * @return string HTML code for the chart to include in your document
+	 */
+	function getChart()
+	{
+		global $JL;
+		
+		if(!$this->chartWidth) {
+			$this->chartWidth = $JL->graphWidth;
+		}
+		
+		if(!$this->chartHeight) {
+			$this->chartHeight = $JL->graphHeight;
+		}
+		
+		$str = '';
+		
+		$chartType = $this->getChartType();
+		$swfUrl = JLCoreApi::getJLUrl().'/swf/'.$chartType.'.swf';
+		
+		$xmlFilename = $this->getXMLFilename();
+		$xmlUrl = JLCoreApi::getJLUrl().'/graphs/'.$xmlFilename;
+		
+		$params = $this->_getParameters();
+		/* so browser cahce doesn't mess it up */
+		$params['unique'] = time();
+		$paramStr = '';
+		foreach($params as $param => $value){
+			/* this check has to change as it filter out integer 0 */
+			if(!empty($value)){
+				$paramStr .= "&$param=$value";
+			}
+		}
+		
+		$str = 	"<OBJECT classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" ".
+				"codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0\" ".
+				"WIDTH=\"$this->chartWidth\" HEIGHT=\"$this->chartHeight\" id=\"$chartType\" ALIGN=\"\">\n".
+				"<PARAM NAME=movie VALUE=\"$swfUrl?dataUrl=$xmlUrl$paramStr\">\n".
+				"<PARAM NAME=quality VALUE=high>\n".
+				"<PARAM NAME=bgcolor VALUE=#FFFFFF>\n".
+				"<EMBED src=\"$swfUrl?dataUrl=$xmlUrl$paramStr\" quality=high bgcolor=#FFFFFF WIDTH=\"$this->chartWidth\" ".
+				        "HEIGHT=\"$this->chartHeight\" NAME=\"$chartType\"\n".
+				"ALIGN=\"\"".
+				"TYPE=\"application/x-shockwave-flash\" PLUGINSPAGE=\"http://www.macromedia.com/go/getflashplayer\"></EMBED>\n".
+				"</OBJECT>\n";
+		return $str;
+		
+	}
+	
+	/**
+	 * Write the graph to XML
+	 *
+	 * @param array Array of datapoints. This is the array of bars for a bar chart or the array of lines for a line chart
+	 *
+	 * @return mixed true if OK. Error string on error.
+	 *
+	 */
+	function writeToXML()
+	{
+		if(!is_array($this->_data)) {
+			$msg = $this->_jllog->l(10, 'Missing data points for graph \'%s\'', $this->getXMLFilename());
+			return $msg;
+		}
+		
+		$filename = JLCoreApi::getJLBasePath().'/graphs/'.$this->getXMLFilename();
+		
+		if(!JLPlatform::isDirectoryWritable($filename)) {
+			$msg = $this->_jllog->l('JLGraph Unable to write XML to \'%s\'', $filename);
+			return $msg;
+		}
+		
+		if($this->JLGraphColor === null) {
+			$this->JLGraphColor = new JLGraphColorDefault();
+		}
+		
+		if(!$this->title) {
+			$this->title = _JL_GRAPHSBYJOOMLALIB;
+		}
+		else if(!$this->subTitle) {
+			$this->subTitle = _JL_GRAPHSBYJOOMLALIB;
+		}
+		
+		/* Yes this is redundant, but it gets called before getChart() */
+		if(!$this->chartWidth) {
+			global $JL;
+			$this->chartWidth = $JL->graphWidth;
+		}
+		
+		if(!$this->chartHeight) {
+			global $JL;
+			$this->chartHeight = $JL->graphHeight;
+		}
+		
+		$attribs = $this->_getAttribs();
+		
+		$str = '<graph';
+		
+		foreach($attribs as $key=>$value) {
+			/* Skip over blank attributes */
+			if($value === null) {
+				continue;
+			}
+			
+			$str .= " $key='$value'";
+		}
+		
+		$str .= ">\n";
+		
+		/* Call the child class's set creator */
+		$childStr = $this->getSetsXML();
+		if($childStr === false) {
+			return $this->_errorStr;
+		}
+		$str .= $childStr;
+		$str .= $this->getTrendlinesXml();
+		$str .= "</graph>\n";
+		
+		$jlFileLocker = new JLFileLocking($this->_jllog);
+		$jlFileLocker->write($filename, $str);
+		return true;
+	}
+	
+	/**
+	 * Sets data points
+	 *
+	 * @param array containing data points for the graph
+	 * @return mixed, true on succes string on failure
+	 */
+	function setData($data){
+		if(!is_array($data)) {
+			$msg = $this->_jllog->l('Missing data points for graph \'%s\'', $this->getXMLFilename());
+			return $msg;
+		}
+		$this->_data = $data;
+		return true;
+	}
+	
+	/**
+	 * Get the filename for the XML file to be generated
+	 *
+	 * @return string XML Filename, based on the application handle and chart identifier
+	 */
+	function getXMLFilename()
+	{
+		$xmlFilename = $this->_appHandle.$this->getChartType().$this->_chartIdentifier.'.xml';
+		return $xmlFilename;
+	}
+	
+	/**
+	 * Stub function for child classes to generate the guts of the XML document
+	 *
+	 * @return string Guts of XML document on success. false on error (_errorStr will be set)
+	 *
+	 * @abstract
+	 */
+	function getSetsXML()
+	{
+		die('Missing stub function getSetsXML');
+	}
+	
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		die('Missing stub function getChartType');
+	}
+	
+	/**
+	 * Gets the stored Trendlines
+	 *
+	 * @return string xml part of the trendlines
+	 */
+	function getTrendlinesXml(){
+		if(count($this->_trendlines) == 0){
+			return '';
+		}
+		$str = "\t<trendlines>\n";
+		foreach($this->_trendlines as $set){
+			$str .= "\t\t".$set."\n";
+		}
+		$str .= "\t</trendlines>\n";
+		return $str;
+	}
+	
+	/**
+	 * Add a trendline to the Graph
+	 *
+	 * @todo Only the pie chart doesn't support this! but will allow it in xml file.
+	 * 
+	 * @param integer value
+	 * @param string name if not set value is used
+	 * @param hex Line color default is black
+	 * @param integer Line thickness default is 1
+	 * @param integer alpha value should be between 0 and 100. default is 100.
+	 * @return mixed bool on succes, string on failure
+	 */
+	function addTrendline($value, $name=null, $color='000000', $thickness = 1, $alpha=100){
+		
+		if(!is_int($value) && !is_float($value)){
+			$msg = $this->_jllog->l(10, 'value parameter must be an integer or float.');
+			return $msg;
+		}
+		if(empty($name)){
+			$name=$value;
+		}
+		if((!is_int($thickness) && !is_float($thickness)) || $thickness < 0 ){
+			$thickness = 1;
+		}
+		if(!is_int($alpha) || $alpha < 0 || $alpha > 100){
+			$alpha = 100;
+		}
+		
+		$template = "<line value='%d' color='%s' displayValue='%s' thickness='%d' alpha='%d'/>";
+		$this->_trendlines[] = sprintf($template, $value, $color, $name, $thickness, $alpha);
+		return true;
+	}
+	
+	/**
+	 * Add a trendzone
+	 *
+	 * @todo Only the pie chart doesn't support this! but will allow it in xml file.
+	 * 
+	 * @param integer/float border value 1
+	 * @param integer/float border value 2
+	 * @param hex color of the zone
+	 * @param integer $alpha
+	 * @return bool
+	 */
+	function addTrendZone($start, $end, $color='FF0000', $alpha = 100){
+		if(!is_array($this->_data)) {
+			$msg = $this->_jllog->l('Missing data points for graph \'%s\'', $this->getXMLFilename());
+			return $msg;
+		}
+		$linesMod = 0.0033 * $this->chartHeight;
+		$xMax = (JLGraphHelper::max($this->_data) < 0) ? floor((JLGraphHelper::max($this->_data)-0.001) / 10) : ceil((JLGraphHelper::max($this->_data)+0.001) / 10);
+		$lineWidth = ($this->chartHeight / ( $xMax * 10)) / $linesMod;
+		$max = max($start, $end);
+		$thickness =  ($lineWidth * ($max-min($start, $end)));
+
+		/* add the zone*/
+		return $this->addTrendline($max, ' ', $color, $thickness, $alpha);
+	}
+	
+	/**
+	 * Set color object to use
+	 *
+	 * @param object JLGraphColor object
+	 * @return mixed string on error, boolean true on succes.
+	 * @since 1.1.0
+	 */
+	function setColor($obj){
+		if(!is_subclass_of($obj, 'JLGraphColor')){
+			$msg = $this->_jllog->l(10, 'Color object must have JLGraphColor as Parent');
+			return $msg;
+		}
+		$this->JLGraphColor = $obj;
+		return true;
+	}
+	
+	/**
+	 * Parses a data set array
+	 *
+	 * @param array data set array
+	 * @param array params to ignore default is "issliced"as it's only used by pie charts
+	 * @return string, xml
+	 */
+	function _arrayToXml($data, $ignore = array('issliced' => 1)){
+		$buf ='';
+		
+		foreach($data as $set){
+			/* validate set we need a name && value */
+			if((!isset($set['name']) && !isset($set['x'])) || (!isset($set['value']) && !isset($set['y']))){
+				/* no go, exit and throw error, for now continue */
+				continue;
+			}
+			/* we also need a default color, we can fix this with the color wheel */
+			if(!isset($set['color'])){
+				$set['color'] = $this->JLGraphColor->next();
+			}
+			/* parse the array set and confert to xml string */
+			$setXml = '<set ';
+			foreach($set as $k => $v){
+				$k = strtolower($k);
+				if(isset($ignore[$k])){
+					continue;
+				}
+				
+				switch(strtolower($k)){
+					case 'x':
+					case 'name':
+						$setXml .= 'name="'.$v.'" ';
+					break;
+					case 'y':
+					case 'value':
+						$setXml .= 'value="'.$v.'" ';
+					break;
+					case 'color':
+						$setXml .= 'color="'.$v.'" ';
+					break;
+					case 'link':
+						$setXml .= 'link="'.$v.'" ';
+					break;
+					case 'alpha':
+						$v = ($v > 100) ? 100 : $v;
+						$v = ($v < 0) ? 0 : $v;
+						$setXml .= 'alpha="'.$v.'" ';
+					break;
+					case 'issliced':
+						if(is_bool($v)){
+							$v = $v ? 1 : 0;
+						}
+						$setXml .= 'isSliced="'.$v.'" ';
+					break;
+					case 'showname':
+						if(is_bool($v)){
+							$v = $v ? 1 : 0;
+						}
+						$setXml .= 'showName="'.$v.'" ';
+					break;
+					default:
+					/* we could throw a error */
+					//$msg = $this->_jllog->l(10, 'Parameter(%s) unknown.', $k);
+				}
+			}
+			$setXml .= '/>';
+			$buf .= "\t".$setXml."\n";
+		}
+		return $buf;
+	}
+	
+	/**
+	 * graph attributes
+	 *
+	 * @return array
+	 */
+	function _getAttribs(){
+		
+		$ct = $this->getChartType();
+			
+		$attribs = array();
+		/* Chart and Axis titles */
+		$attribs['caption'] 				= $this->title;		/* works */
+		$attribs['subcaption'] 				= $this->subTitle;	/* works */
+		$attribs['xaxisname'] 				= $this->xAxisName; /* works */
+		$attribs['yaxisname'] 				= $this->yAxisName; /* works */
+		
+		/* Chart Mumerical Limits */
+		$attribs['yaxisminvalue'] 			= $this->yAxisMin;	/* works */
+		$attribs['yaxismaxvalue'] 			= $this->yAxisMax;	/* works */
+		
+		/* Generic Properties */
+		$attribs['showValues']				= $this->showValues; /* works */
+		$attribs['animation'] 				= $this->doAnimation;
+		$attribs['animspeed'] 				= $this->animationSpeed;
+			/* untested */
+			$attribs['shownames']				= $this->showNames = null;	/* not */
+			$attribs['showLimits']				= $this->showLimits = null; /* not */
+			$attribs['rotateNames']				= $this->rotateNames = null; /* not */
+		
+		/* font properties on Canvas */
+		$attribs['basefont'] 				= $this->canvasFont; /* works */
+		$attribs['basefontsize'] 			= $this->canvasFontSize; /* works */
+		$attribs['basefontcolor'] 			= $this->canvasFontColor; /* works */
+		
+		/* font properties Out side of canvas */
+		$attribs['outcnvbasefont'] 			= $this->font = null; /* seems to be the same as above */
+		$attribs['outcnvbasefontsize'] 		= $this->fontSize = null;/* seems to be the same as above */
+		$attribs['outcnvbasefontcolor'] 	= $this->fontColor = null;/* seems to be the same as above */
+		
+		/* Canvas Properties */
+		$attribs['showCanvas'] 				= $this->showCanvas; 		/* works */
+		$attribs['canvasBgColor'] 			= $this->canvasBgColor; 	/* works */
+			/* untested */
+			$attribs['canvasBgAlpha'] 			= $this->canvasBgAlpha = null; 			/* not */
+			$attribs['canvasBorderColor'] 		= $this->canvasBorderColor = null;		/* not */
+			$attribs['canvasBorderThickness'] 	= $this->canvasBorderThickness = null; 	/* not */
+			$attribs['showCanvasBg'] 			= $this->showCanvasBg = null; 			/* not */
+			$attribs['showCanvasBase'] 			= $this->showCanvasBase = null; 		/* not */
+			/* found some in 3D Column chart */
+			$attribs['canvasBaseColor'] 			= $this->canvasBaseColor = null; 	/* not */
+			$attribs['canvasBaseDepth'] 			= $this->canvasBaseDepth = null; 	/* not */
+			$attribs['canvasBgDepth'] 				= $this->canvasBaseColor = null; 	/* not */
+
+		
+		/* formatting of numbers and labels */
+		$attribs['formatNumber'] 			= $this->commasForThousands;
+		$attribs['formatNumberScale'] 		= $this->shortenBigNumbers;
+		$attribs['numberPrefix'] 			= $this->numberPrefix;
+		$attribs['numberSuffix'] 			= $this->numberSuffix;
+		$attribs['decimalSeparator'] 		= $this->decimalSeparator;
+		$attribs['thousandSeparator'] 		= $this->thousandsSeparator;
+		$attribs['decimalPrecison'] 		= $this->decimalPrecision;
+			/* un tested */
+			$attribs['divLineDecimalPrecision']		= $this->divLineDecimalPrecision = null;
+			$attribs['limitsDecimalPrecision']		= $this->limitsDecimalPrecision = null;
+		
+		/* Background Properties */
+		$attribs['bgcolor'] 				= $this->graphBgColor = null; /* works */
+			/* untested */
+			$attribs['bgAlpha'] 				= $this->bgAlpha = null; /* not */
+			$attribs['bgSWF'] 					= $this->bgSWF; /* not tested */
+		
+			/* Zero Plane,  untested */
+			$attribs['zeroPlaneShowBorder']		= $this->zeroPlaneShowBorder = null; 	/* not */
+			$attribs['zeroPlaneBorderColor']	= $this->zeroPlaneBorderColor = null; 	/* not */
+			$attribs['zeroPlaneColor']			= $this->zeroPlaneColor; 				/* works */
+			$attribs['zeroPlaneAlpha']			= $this->zeroPlaneAlpha; 				/* works */
+			
+			/* divisional lines horizontal, untested */
+			$attribs['numdivlines']					= $this->numdivlines; 					/* works */
+			$attribs['divlinecolor']				= $this->divlinecolor; 					/* works */
+			$attribs['divLineThickness']			= $this->divLineThickness;				/* works */
+			$attribs['divLineAlpha']				= $this->divLineAlpha; 					/* works */
+			$attribs['showDivLineValue']			= $this->showDivLineValue = null; 		/* not */
+			$attribs['showAlternateHGridColor']		= $this->showAlternateHGridColor = null;/* not */
+			$attribs['alternateHGridColor']			= $this->alternateHGridColor = null;	/* not */
+			$attribs['alternateHGridAlpha']			= $this->alternateHGridAlpha = null;	/* not */
+
+			/* divisional lines Vertical, untested */
+			$attribs['numVDivLines']				= $this->numVDivLines; 				/* works */
+			$attribs['VDivlinecolor']				= $this->VDivlinecolor; 			/* works */
+			$attribs['VdivLineThickness']			= $this->VdivLineThickness; 		/* works */
+			$attribs['VdivLineAlpha']				= $this->VdivLineAlpha; 			/* works */
+			$attribs['showAlternateVGridColor']		= $this->showAlternateVGridColor = null; /* not */
+			$attribs['alternateVGridColor']			= $this->alternateVGridColor = null; /* not */
+			$attribs['alternateVGridAlpha']			= $this->alternateVGridAlpha = null; /* not */
+		
+			/* Hover Caption Properties, untested */
+			$attribs['showhovercap']				= $this->showhovercap = null;
+			$attribs['hoverCapBgColor']				= $this->hoverCapBgColor = null;
+			$attribs['hoverCapBorderColor']			= $this->hoverCapBorderColor = null;
+			$attribs['hoverCapSepChar']				= $this->hoverCapSepChar = null;
+
+			/* Chart Margins, untested */
+			$attribs['chartLeftMargin']				= $this->chartLeftMargin = null;	/* not */
+			$attribs['chartRightMargin']			= $this->chartRightMargin = null;	/* not */
+			$attribs['chartTopMargin']				= $this->chartTopMargin = null;		/* not */
+			$attribs['chartBottomMargin']			= $this->chartBottomMargin = null;	/* not */
+								
+			/* line Properties, 2D line chart */
+			$attribs['lineColor']					= $this->lineColor = null; /* not */
+			$attribs['lineThickness']				= $this->lineThickness; /* works */
+			$attribs['lineAlpha']					= $this->lineAlpha = null; /* not */
+
+			/* line Shadow Properties, 2D line chart */
+			$attribs['showShadow']					= $this->showShadow; /* works */
+			$attribs['shadowColor']					= $this->shadowColor; /* works */
+			$attribs['shadowThickness']				= $this->shadowThickness = null; /* not */
+			$attribs['shadowAlpha']					= $this->shadowAlpha = null; /* not */
+			$attribs['shadowXShift']				= $this->shadowXShift; /* works */
+			$attribs['shadowYShift']				= $this->shadowYShift; /* works */
+			
+			/* anchor properties, 2D line chart */
+			$attribs['showAnchors']					= $this->showAnchors = null; /* not */
+			$attribs['anchorSides']					= $this->anchorSides = null; /* not */
+			$attribs['anchorRadius']				= $this->anchorRadius; /* works */
+			$attribs['anchorBorderColor']			= $this->anchorBorderColor = null; /* not */
+			$attribs['anchorBorderThickness']		= $this->anchorBorderThickness = null; /* not */
+			$attribs['anchorBgColor']				= $this->anchorBgColor; /* works */
+			$attribs['anchorBgAlpha']				= $this->anchorBgAlpha = null; /* not */
+			$attribs['anchorAlpha']					= $this->anchorAlpha = null; /* not */
+			
+			$attribs['anchorbrdrcolor'] 			= $this->pointColor; /* works */
+			$attribs['anchorscale'] 				= $this->pointScale; /* works */
+			
+			/* area Properties */
+			$attribs['showAreaBorder']				= $this->showAreaBorder = null;
+			$attribs['areaBorderThickness']			= $this->areaBorderThickness = null;
+			$attribs['areaBorderColor']				= $this->areaBorderColor = null;
+			$attribs['areaBgColor']					= $this->areaBgColor = null;
+			$attribs['areaAlpha']					= $this->areaAlpha = null;
+			
+			/* pie properties */
+			$attribs['pieRadius']					= $this->pieRadius = null;			/* not */
+			$attribs['pieSliceDepth']				= $this->pieSliceDepth = null;		/* not */
+			$attribs['pieYScale']					= $this->pieYScale = null;			/* not */
+			$attribs['pieBorderThickness']			= $this->pieBorderThickness = null;	/* not */
+			$attribs['pieBorderAlpha']				= $this->pieBorderAlpha = null;		/* not */
+			$attribs['pieFillAlpha']				= $this->pieFillAlpha = null;		/* not */
+			
+		
+		return $attribs;
+	}
+	
+	/**
+	 * Gets The graph parameters
+	 *
+	 * @return array
+	 */
+	function _getParameters(){
+		$ct = $this->getChartType();
+		$params = array();
+		/* where are the global's then haven't found them in the docs yet */
+		
+		
+		/* these are type specefiek according to crappy doc */
+		if($ct == 'pie'){
+			$params['sliceSpacingDistance'] 	= $this->sliceSpacingDistance; 	/* works */
+			$params['shadowDepth'] 				= $this->shadowDepth; 			/* works */
+			$params['yRadiusScale'] 			= $this->yRadiusScale;			/* works */
+			$params['xRadius'] 					= $this->xRadius;				/* works */
+			$params['pieOriginX'] 				= $this->pieOriginX;			/* works */
+			$params['pieOriginY'] 				= $this->pieOriginY;			/* works */
+			$params['nameTbDistance'] 			= $this->nameTbDistance;		/* works */
+			$params['showLegend'] 				= $this->showLegend;			/* works */
+			$params['legendBoxX'] 				= $this->legendBoxX; 			/* works */
+			$params['legendBoxY'] 				= $this->legendBoxY; 			/* works */
+			$params['legendBoxHeight'] 			= $this->legendBoxHeight;		/* works */
+			$params['legendBoxWidth'] 			= $this->legendBoxWidth;		/* works */
+			$params['legendBoxItems'] 			= $this->legendBoxItems;		/* works */
+			$params['legendItemHorSpacing'] 	= $this->legendItemHorSpacing;	/* works */
+			$params['legendItemVerSpacing'] 	= $this->legendItemVerSpacing;	/* works */
+			$params['navBtnSpacingX'] 			= $this->navBtnSpacingX;		/* works */
+		}
+		
+		if($ct == 'pipe'){
+			$params['lineGradientLightColor'] 	= $this->lineGradientLightColor;
+			$params['shadowXShift'] 			= $this->shadowXShift;
+			$params['shadowYShift'] 			= $this->shadowYShift;
+			$params['shadowColor'] 				= $this->shadowColor;
+		}
+		
+		if($ct == 'line' || $ct == 'area' || $ct == 'column'){
+			$params['shadowDarkIntensity'] 		= $this->shadowDarkIntensity;
+			$params['shadowDarkerIntensity'] 	= $this->shadowDarkerIntensity;
+			$params['plotAreaLeftMargin'] 		= $this->plotAreaLeftMargin;
+			$params['plotAreaRightMargin'] 		= $this->plotAreaRightMargin;
+			$params['stageWidth'] 				= $this->stageWidth;
+			$params['plotAreaWidth'] 			= $this->plotAreaWidth;
+			$params['plotAreaHeight'] 			= $this->plotAreaHeight;
+			$params['spacingArea'] 				= $this->spacingArea;
+		}
+		
+		return $params;
+	}
+}
+
+
+/**
+ * Bar Chart subclass for JoomlaLib
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphBar extends JLGraph
+{
+	
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 * @param array Optional Data array
+	 *
+	 */
+	function JLGraphBar($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_chartIdentifier = ''.$chartId;
+		$this->_appHandle = $appHandle;
+		
+		/* Show values */
+		$this->showValues = 1;
+	}
+	
+	/**
+	 * Stub function for child classes to generate the guts of the XML document
+	 *
+	 * @return string Guts of XML document on success. false on error (_errorStr will be set)
+	 *
+	 */
+	function getSetsXML()
+	{
+		$str = $this->_arrayToXml($this->_data, array('issliced' => 1));
+		return $str;
+	}
+	
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'bar';
+	}
+}
+
+/**
+ * Line graphing class for Fusion Charts
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphLine extends JLGraph
+{
+	
+	/* Paremeters */
+	var $shadowDarkIntensity = null;	/**  This attribute sets the intensity for the medium dark shadows. Its default value is 0.80. If you increase this value, the shadow will become lighter. */
+	var $shadowDarkerIntensity = null;	/**  This attribute sets the intensity for the darkest shadows. Its default value is 0.65. If you increase this value, the shadow will become lighter and vice-versa. */
+	var $plotAreaLeftMargin = null;		/**  This attribute indicates the left space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $plotAreaRightMargin = null;	/**  This attribute indicates the right space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $stageWidth = null;				/**  The width of the entire stage (default - 565). */
+	var $plotAreaWidth = null;			/**  The width of the plotting area i.e., the entire grid. */
+	var $plotAreaHeight = null;			/**	 The height of the plotting area i.e., the entire grid. */
+	var $spacingArea = null; 			/**  Total spacing area available on the canvas. If you increase this value, the columns will become thinner and vice versa. */
+	
+	/**
+	 * Standard constructor
+ 	 *
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 */
+	function JLGraphLine($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_appHandle = $appHandle;
+		$this->_chartIdentifier = $chartId;
+		
+		/* Turn off canvas by default. Doesn't look good */
+		$this->showCanvas = 0;
+		
+		/* Turn off values by default too. */
+		$this->showValues = 0;
+		
+		/* Set some default colors. The goggles.. they do nothing */
+		$this->pointColor = '000000';
+		$this->pointBgColor = '00FF00';
+		$this->pointSegmentColor = '000000';
+		$this->pointScale = 75;
+		$this->fontColor = '000000';
+		$this->fontSize = 12;
+		$this->canvasFontColor = '000000';
+		$this->canvasFontSize = 12;
+		
+	}
+
+	/**
+	 * Stub function for child classes to generate the guts of the XML document
+	 *
+	 * @return string Guts of XML document on success. false on error (_errorStr will be set)
+	 *
+	 */
+	function getSetsXML()
+	{
+		$str = '';
+		$pointWidth = (int)($this->chartWidth / count($this->_data)); 
+		$showNameInterval = (int)(50/$pointWidth); /* Ever how many points should we show the x-axis label */
+		foreach($this->_data as $i => $dataSet) {
+			$this->_data[$i]['showname'] = (($i % $showNameInterval) == 0) ? 1 : 0;
+		}
+		
+		$str = $this->_arrayToXml($this->_data, array('color'=> 1, 'issliced' => 1));
+
+		return $str;
+	}
+	
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'line';
+	}
+}
+
+
+/**
+ * Pie Chart subclass for JoomlaLib
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphPie extends JLGraph
+{
+	
+	/* Paremeters */
+	var $sliceSpacingDistance = null;
+	var $shadowDepth = null;
+	var $yRadiusScale = null;
+	var $xRadius = null;
+	var $pieOriginX = null;
+	var $pieOriginY = null;
+	var $nameTbDistance = null;
+	var $showLegend = null;
+	var $legendBoxX = null;
+	var $legendBoxY = null;
+	var $legendBoxHeight = null;
+	var $legendBoxWidth = null;
+	var $legendBoxItems = null;
+	var $legendItemHorSpacing = null;
+	var $legendItemVerSpacing = null;
+	var $navBtnSpacingX = null;
+	
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 *
+	 */
+	function JLGraphPie($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_chartIdentifier = ''.$chartId;
+		$this->_appHandle = $appHandle;
+		
+		/* Turn off canvas by default. Doesn't look good */
+		$this->showCanvas = 0;
+		
+		$this->showValues = 1;
+		
+		/* Set some default colors. */
+		$this->fontColor = '000000';
+		$this->fontSize = 12;
+		$this->canvasFontColor = '000000';
+		$this->canvasFontSize = 12;
+	}
+	
+	/**
+	 * Stub function for child classes to generate the guts of the XML document
+	 *
+	 * @return string Guts of XML document on success. false on error (_errorStr will be set)
+	 *
+	 */
+	function getSetsXML()
+	{
+		$str = $this->_arrayToXml($this->_data, array(null));
+		return $str;
+	}
+	
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'pie';
+	}
+}
+
+/**
+ * Area graphing class for Fusion Charts
+ * 
+ * @todo This class needs a little adjustment
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphArea extends JLGraphBar {
+	
+	/* Paremeters */
+	var $shadowDarkIntensity = null;	/**  This attribute sets the intensity for the medium dark shadows. Its default value is 0.80. If you increase this value, the shadow will become lighter. */
+	var $shadowDarkerIntensity = null;	/**  This attribute sets the intensity for the darkest shadows. Its default value is 0.65. If you increase this value, the shadow will become lighter and vice-versa. */
+	var $plotAreaLeftMargin = null;		/**  This attribute indicates the left space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $plotAreaRightMargin = null;	/**  This attribute indicates the right space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $stageWidth = null;				/**  The width of the entire stage (default - 565). */
+	var $plotAreaWidth = null;			/**  The width of the plotting area i.e., the entire grid. */
+	var $plotAreaHeight = null;			/**	 The height of the plotting area i.e., the entire grid. */
+	var $spacingArea = null; 			/**  Total spacing area available on the canvas. If you increase this value, the columns will become thinner and vice versa. */
+	
+	/* attributes todo */
+	var $areaBorderColor;
+	var $areaBorderThickness;
+	var $areaColor;
+	var $areaAlpha;
+	
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 * @param array Optional Data array
+	 *
+	 */
+	function JLGraphArea($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_chartIdentifier = ''.$chartId;
+		$this->_appHandle = $appHandle;
+		
+		/* Show values */
+		$this->showValues = 1;
+	}
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'area';
+	}
+}
+
+/**
+ * Area graphing class for Fusion Charts
+ * 
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphColumn extends JLGraphBar  {
+	
+	/* Paremeters */
+	var $shadowDarkIntensity = null;	/**  This attribute sets the intensity for the medium dark shadows. Its default value is 0.80. If you increase this value, the shadow will become lighter. */
+	var $shadowDarkerIntensity = null;	/**  This attribute sets the intensity for the darkest shadows. Its default value is 0.65. If you increase this value, the shadow will become lighter and vice-versa. */
+	var $plotAreaLeftMargin = null;		/**  This attribute indicates the left space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $plotAreaRightMargin = null;	/**  This attribute indicates the right space (in pixels) on the canvas to be left unfilled while plotting the chart. */
+	var $stageWidth = null;				/**  The width of the entire stage (default - 565). */
+	var $plotAreaWidth = null;			/**  The width of the plotting area i.e., the entire grid. */
+	var $plotAreaHeight = null;			/**	 The height of the plotting area i.e., the entire grid. */
+	var $spacingArea = null; 			/**  Total spacing area available on the canvas. If you increase this value, the columns will become thinner and vice versa. */
+	
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 * @param array Optional Data array
+	 *
+	 */
+	function JLGraphColumn($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_chartIdentifier = ''.$chartId;
+		$this->_appHandle = $appHandle;
+		
+		/* Show values */
+		$this->showValues = 1;
+	}
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'column';
+	}
+}
+
+/**
+ * Pipe graphing class for Fusion Charts
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphPipe extends JLGraphLine {
+	/* Parameters */
+	var $lineGradientLightColor = null;
+	var $shadowXShift = null;
+	var $shadowYShift = null;
+	var $shadowColor = null;
+	
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Application handle for your app
+	 * @param string Unique identifier for this chart within your app. Make sure this is unique!!!
+	 * @param JLLog Optional logging object to write errors to.
+	 * @param array Optional Data array
+	 *
+	 */
+	function JLGraphPipe($appHandle, $chartId, $jllog = null, $data = null)
+	{
+		if($data){
+			$this->_data = $data;
+		}
+		if(!$jllog) {
+			$jllog = new JLLog('jl');
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_chartIdentifier = ''.$chartId;
+		$this->_appHandle = $appHandle;
+		
+		/* Show values */
+		$this->showValues = 1;
+	}
+	/**
+	 * Get the chart type of a child class.
+	 *
+	 * @return string Chart type as a string. This corresponds with the name of the .swf file.
+	 *
+	 * @abstract
+	 */
+	function getChartType()
+	{
+		return 'pipe';
+	}
+}
+
+/**
+ * JLGraph Helper class, to calculate different values for a dataset, like average/median/etc
+ *
+ * @package JL
+ * @subpackage JLGraph
+ */
+class JLGraphHelper {
+	
+	/**
+	 * Confert a standard Key value pair array into array we can use.
+	 *
+	 * @param array $array
+	 * @return array
+	 * @static 
+	 */
+	function convertArray($array){
+		$ret = array();
+		foreach($array as $k=>$v){
+			$ret[] = array('name' => $k, 'value' => $v);
+		}
+		return $ret;
+	}
+	
+	/**
+	 * Calculates the average of the data set
+	 *
+	 * @param array $data
+	 * @return float
+	 * @static 
+	 */
+	function average($data){
+		$count = JLGraphHelper::count($data);
+		$total = JLGraphHelper::sum($data);
+		return $total/$count;
+	}
+	
+	/**
+	 * Counts data sets
+	 *
+	 * @param array $data
+	 * @return integer
+	 * @static 
+	 */
+	function count($data){
+		$data = JLGraphHelper::_stripDataSet($data);
+		return count($data);
+	}
+	
+	/**
+	 * Sums the data set
+	 *
+	 * @param array $data
+	 * @return integer or float
+	 * @static 
+	 */
+	function sum($data){
+		$data = JLGraphHelper::_stripDataSet($data);
+		return array_sum($data);
+	}
+	
+	/**
+	 * Gets the mimimum Value
+	 *
+	 * @param array $data
+	 * @return integer or float
+	 * @static 
+	 */
+	function min($data){
+		$data = JLGraphHelper::_stripDataSet($data);
+		return min($data);
+	}
+	
+	/**
+	 * Gets the maximum Value
+	 *
+	 * @param array $data
+	 * @return float
+	 * @static 
+	 */
+	function max($data){
+		$data = JLGraphHelper::_stripDataSet($data);
+		return max($data);
+	}
+	
+	/**
+	 * Calculates Standard Deviation 
+	 *
+	 * @param array $data
+	 * @return float
+	 * @static 
+	 */
+	function dev($data){
+		$var = JLGraphHelper::variance($data);
+		return sqrt($var);
+	}
+	
+	/**
+	 * Calculates Variance
+	 *
+	 * @param array $data
+	 * @return float
+	 * @static 
+	 */
+	function variance($data){
+		$N = JLGraphHelper::count($data);
+		$avrg = JLGraphHelper::average($data);
+		$data = JLGraphHelper::_stripDataSet($data);
+		$tmp=0;
+		foreach($data as $x){
+			$tmp += pow(($x - $avrg), 2);
+		}
+		return $tmp / $N;
+	}
+	
+	/**
+	 * Calculates Median
+	 * 
+	 * It is the middle value in a distribution, above and below which lie an equal number of values.
+	 *
+	 * @param array $data
+	 * @return float
+	 * @static 
+	 */
+	function median($data){
+		$N = JLGraphHelper::count($data);
+		$data = sort(JLGraphHelper::_stripDataSet($data));
+		$middle = $N / 2 ;
+		if($N % 2 == 0){
+			return ($data[$middle-1] + $data[$middle-1]) / 2;
+		} 
+		return $data[$middle];	
+	}
+	
+	/**
+	 * Calculates Mode
+	 * 
+	 * the mode of a list of data is the element that has the largest number of occurances in that list, namely the most frequent value within the list.
+	 *
+	 * @param unknown_type $data
+	 * @return unknown
+	 * @static 
+	 */
+	function mode($data){
+		$data = array_count_values(JLGraphHelper::_stripDataSet($data));
+		$max = max($data);
+		$data = array_flip($data);
+		return $data[$max];
+	}
+	
+	/**
+	 * Internal function to strip all none relevant data
+	 *
+	 * @param array $data
+	 * @return array
+	 * @access private
+	 */
+	function _stripDataSet($data){
+		static $cache;
+		$id = crc32(serialize($data));
+		if(isset($cache[$id])){
+			return $cache[$id];
+		}
+		$tmp = array();
+		foreach($data as $set){
+			$y = empty($set['value']) ? $set['y'] : $set['value'];
+			$x = empty($set['name'])  ? $set['x'] : $set['name'];
+			$tmp[$x] = $y;
+		}
+		$cache[$id] = $tmp;
+		return $tmp;
+	}
+	
+	/**
+	 *  Create a new data array from an existing data array but with more points.
+	 *	The new points are interpolated using a cubic spline algorithm
+	 *
+	 * @param array JLGraph data array
+	 * @param integer Number of pionts after spline is finished
+	 * @return array, JLGraph data array.
+	 */
+	function spline($data, $num = 50){
+		JLCoreApi::RelativeRequireOnce('/classes/helper/JLGraphHelperAdvance.inc');
+		$obj = new JLGraphHelperSpline($data);
+		return $obj->getNewData($num);
+	}
+	
+	/**
+	 * Create a new data array from an existing data array but with more points.
+	 * The new points are interpolated using bezier algorithm
+	 *
+	 * @param array JLGraph data array
+	 * @param integer number of points
+	 * @param integer attraction factor
+	 * @return array JLGraph data array
+	 * @since 1.1.0
+	 */
+	function bezier($data, $num = 50){
+		JLCoreApi::RelativeRequireOnce('/classes/helper/JLGraphHelperAdvance.inc');
+		$obj = new JLGRaphHelperBezier($data, 1);
+		return $obj->getNewData($num);
+	}
+}
+
+/**
+ * Color Rotator object for JLGraph
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColor {
+	/**
+	 * This holds the colors
+	 *
+	 * @var array
+	 */
+	var $_carrousel = array();
+	/**
+	 * Current position
+	 *
+	 * @var integer
+	 */
+	var $_current = 0;
+	
+	/**
+	 * Construct
+	 *
+	 * @return JLGraphColor
+	 */
+	function JLGraphColor() {
+		$this->_carrousel = $this->setCarrousel();
+	}
+	
+	/**
+	 * Gives the next color code inline
+	 *
+	 * @return string hex color code
+	 */
+	function next(){
+		$n = ($this->_current++) % $this->getColorCount();
+		return $this->_carrousel[$n];
+	}
+	
+	/**
+	 * Gives the next color code inline
+	 *
+	 * @return string hex color code
+	 */
+	function prev(){
+		$n = ($this->_current--) % $this->getColorCount();
+		return $this->_carrousel[$n];
+	}
+	
+	/**
+	 * Gives the current color code
+	 *
+	 * @return string hex color code
+	 */
+	function current(){
+		$n = $this->_current % $this->getColorCount();
+		return $this->_carrousel[$n];
+	}
+	
+	/**
+	 * Gets the color count of the carrousel
+	 *
+	 * @return integer
+	 */
+	function getColorCount(){
+		return count($this->_carrousel);
+	}
+	
+	/**
+	 * Adds a color to the beginning of the carrousel
+	 *
+	 * @param string hex color code
+	 */
+	function addColorStart($color){
+		array_unshift($this->_carrousel, $color);
+	}
+	
+	/**
+	 * Adds a Color to the end of the carrousel
+	 *
+	 * @param string hex color code
+	 */
+	function addColorEnd($color){
+		$this->_carrousel[] = $color;
+	}
+	
+	/**
+	 * This function creates a random starting point in our carrousel.
+	 *
+	 */
+	function shuffleColors(){
+		$this->_current = rand(0, $this->getColorCount()-1);
+	}
+	
+	/**
+	 * Stub function to be replaced by child class
+	 *
+	 */
+	function setCarrousel(){
+		die('stub function');
+	}
+	
+	/**
+	 * Function to create gradients
+	 *
+	 * @param string hex color code to start
+	 * @param string hex color code to end
+	 * @param integer number of colors you like returned
+	 * @return array
+	 */
+	function gradient($hexStart, $hexEnd, $steps) {
+		$start = array();
+	    $start['r'] = hexdec(substr($hexStart, 0, 2)); 
+	    $start['g'] = hexdec(substr($hexStart, 2, 2)); 
+	    $start['b'] = hexdec(substr($hexStart, 4, 2)); 
+		
+	    $step = array();
+	    $step['r'] = ($start['r'] - hexdec(substr($hexEnd, 0, 2))) / ($steps - 1); 
+	    $step['g'] = ($start['g'] - hexdec(substr($hexEnd, 2, 2))) / ($steps - 1); 
+	    $step['b'] = ($start['b'] - hexdec(substr($hexEnd, 4, 2))) / ($steps - 1); 
+	     
+	    $gradient = array(); 
+	    for($i = 0; $i <= $steps; $i++) {  
+	        $hex['r'] = sprintf('%02x',floor($start['r'] - ($step['r'] * $i))); 
+	        $hex['g'] = sprintf('%02x',floor($start['g'] - ($step['g'] * $i))); 
+	        $hex['b'] = sprintf('%02x',floor($start['b'] - ($step['b'] * $i))); 
+	         
+	        $gradient[] = implode(NULL, $hex);          
+	    } 
+	    
+	    return $gradient; 
+	}
+	
+	/**
+	 * Makes the carrousel web safe
+	 */
+	function makeWebSafe(){
+		$wheel = $this->_carrousel;
+		foreach($wheel as $i => $color){
+			$dec['r'] = hexdec( substr($color, 0, 2) );
+			$dec['g'] = hexdec( substr($color, 2, 2) );
+			$dec['b'] = hexdec( substr($color, 4, 2) );
+			$hex = '';
+			foreach( $dec as $v ){
+				$v = ( round($v/51) * 51 );
+				$hex .= str_pad(dechex($v), 2, '0', STR_PAD_LEFT);
+			}
+			$this->_carrousel[$i] = $hex;
+		}
+	}
+	
+	/**
+	 * Checks if it's hex color code
+	 *
+	 * @param string hex color code to validate
+	 * @return boolean
+	 */
+	function _hexCheck($hex){
+		$hex = strtolower(trim($hex));
+		$chk = dechex(hexdec($hex));
+		return (strlen($chk) == 6 && $chk === $hex);
+	}
+}
+
+/**
+ * Our default color set.
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorDefault extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"0099CC", "FF0000", "006F00", "FF66CC", "996600",
+	     		"FF9933", "9900FF", "999999", "CCCC00", "0372AB");
+		return $colors;
+	}
+}
+
+/**
+ * Color set of brown and red colors
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorRedBrown extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"660000", "CC0000", "FFC670", "990000", 
+				"8F5600", "603900", "FF9900", "400000");   
+		return $colors;
+	}
+}
+
+/**
+ * Color set of RYB but very bright
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorRYB_bright extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"CC0000", "CC5229", "FF6600", "FFAA00", "FFFF00", "99CC33", 
+				"009933", "006666", "0000CC", "6600FF", "660099", "CC0066");
+		return $colors;
+	}
+}
+
+/**
+ * Color set of RYB but very dark
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorRYB_dark extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"990000", "993E1F", "BF4D00", "BF8000", "BFBF00", "739926", 
+				"007326", "004D4D", "000099", "4D00BF", "4D0073", "99004D");
+		return $colors;
+	}
+}
+
+/**
+ * Color set of RYB but very dull
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorRYB_dull extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"CC6666", "CC8F7B", "FFB280", "FFD480", "FFFF80", "B2CC80", 
+				"4C9966", "336666", "6666CC", "B380FF", "804C99", "CC6699");
+		return $colors;
+	}
+}
+
+/**
+ * Color set of RYB but very light
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorRYB_light extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"E9BCBC", "E9CEC5", "FFE2CE", "FFE2CE", "FFEFCE", "DEE9C7", 
+				"AAD2B7", "98BCBC", "BCBCE9", "E2CEFF", "C5AAD2", "E9BCD2");
+		return $colors;
+	}
+}
+
+/**
+ * Color object of a set of exotic colors
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorExotic extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"336699", "E6E6E6", "CC6633", "CD0067", 
+				"346667", "669BCC", "666633");
+		return $colors;
+	}
+}
+
+/**
+ * Color object of a set of powerfull colors
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorPower extends JLGraphColor  {
+	function setCarrousel(){
+		$colors = array(
+				"FF0000", "990000", "000000", "333333", 
+				"656565", "9933CC", "6699CC", "339999");
+		return $colors;
+	}
+}
+
+/**
+ * Color object of a gradient
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorGradient extends JLGraphColor {
+	function JLGraphColorGradient($hexstart, $hexend, $steps){
+		$gradient = $this->gradient($hexstart, $hexend, $steps);
+		$this->_carrousel = $gradient;
+	}
+}
+/**
+ * Color object with now start colors
+ * 
+ * @package JL
+ * @subpackage JLGraph
+ * @since 1.1.0
+ */
+class JLGraphColorEmpty extends JLGraphColor {
+	/**
+	 * Construct
+	 *
+	 * @param array optional Array of colors
+	 * @return JLGraphColorEmpty
+	 */
+	function JLGraphColorEmpty($colorArray = null){
+		$this->_carrousel = is_null($colorArray) ? array() : $colorArray;
+	}
+}
+?>

@@ -1,0 +1,349 @@
+<?xml version="1.0"?>
+<mosinstall type="component" version="4.5.2">
+	<name>DBQuery</name>
+	<creationDate>October 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4.1 RC2</version>
+	<description>Database Query is a Joomla query manager.</description>
+	<files>
+		<filename>dbquery.php</filename>
+		<filename>dbquery.xml</filename>
+		<filename>dbquery.def.php</filename>
+		<filename>classes/index.html</filename>
+		<filename>classes/DBQ/index.html</filename>
+		<filename>classes/DBQ/common.class.php</filename>
+		<filename>classes/DBQ/config.class.php</filename>
+		<filename>classes/DBQ/database.class.php</filename>
+		<filename>classes/DBQ/driver.class.php</filename>
+		<filename>classes/DBQ/error.class.php</filename>
+		<filename>classes/DBQ/frontend.class.php</filename>
+		<filename>classes/DBQ/query.class.php</filename>
+		<!-- -->
+		<!-- -->
+		<filename>classes/DBQ/settings.class.php</filename>
+		<filename>classes/DBQ/stats.class.php</filename>
+		<filename>classes/DBQ/substitution.class.php</filename>
+		<filename>classes/DBQ/template.class.php</filename>
+		<filename>classes/DBQ/variable.class.php</filename>
+		<filename>classes/DBQ/drivers/index.html</filename>
+		<filename>classes/DBQ/drivers/adodb.class.php</filename>
+		<filename>classes/DBQ/drivers/joomla.class.php</filename>
+		<filename>classes/DBQ/drivers/mysql.class.php</filename>
+		<filename>classes/DBQ/drivers/pear.class.php</filename>
+		<filename>classes/DBQ/variables/index.html</filename>
+		<filename>classes/DBQ/variables/code.class.php</filename>
+		<filename>classes/DBQ/variables/custom.class.php</filename>
+		<filename>classes/DBQ/variables/field.class.php</filename>
+		<filename>classes/DBQ/variables/files.class.php</filename>
+		<filename>classes/DBQ/variables/keyword.class.php</filename>
+		<filename>classes/DBQ/variables/list.class.php</filename>
+		<filename>classes/DBQ/variables/results.class.php</filename>
+		<filename>classes/DBQ/variables/statement.class.php</filename>
+		<filename>classes/DBQ/variables/substitutions.class.php</filename>
+		<filename>classes/DBQ/variables/upload.class.php</filename>
+		<filename>classes/DBQ/variables/user.class.php</filename>
+		<filename>language/index.html</filename>
+		<filename>language/dutch.php</filename>
+		<filename>language/english.php</filename>
+		<filename>language/french.php</filename>
+		<filename>language/german.php</filename>
+		<filename>language/settings.dutch.php</filename>
+		<filename>language/settings.english.php</filename>
+		<filename>language/settings.german.php</filename>
+		<filename>lib/index.html</filename>
+		<filename>lib/copyr.php</filename>
+		<filename>templates/index.html</filename>
+		<filename>templates/default/index.html</filename>
+		<filename>templates/default/Custom.Code.php</filename>
+		<filename>templates/default/DisplayResults.SQL2XHTML.html.php</filename> 
+		<filename>templates/default/DisplayResults.SQL2XML.html.php</filename>
+		<filename>templates/default/Error.html.php</filename>
+		<filename>templates/default/Execute.html.php</filename>
+		<filename>templates/default/PageNavigation.html.php</filename>
+		<filename>templates/default/Prepare.html.php</filename>
+		<filename>templates/default/Print.Page.html.php</filename>  
+		<filename>templates/default/Return.html.php</filename>
+		<filename>templates/default/Select.html.php</filename>
+		<filename>templates/default/template.css</filename>
+		<filename>templates/default/templateDetails.xml</filename>
+		<filename>templates/default/inputs/index.html</filename>
+		<filename>templates/default/inputs/checkbox.1.tpl</filename>
+		<filename>templates/default/inputs/custom.1.tpl</filename>
+		<filename>templates/default/inputs/file.1.tpl</filename>
+		<filename>templates/default/inputs/hidden.1.tpl</filename>
+		<filename>templates/default/inputs/htmleditor.1.tpl</filename>
+		<filename>templates/default/inputs/onChangeKeys.1.tpl</filename>
+		<filename>templates/default/inputs/password.1.tpl</filename>
+		<filename>templates/default/inputs/radio.1.tpl</filename>
+		<filename>templates/default/inputs/select.1.tpl</filename>
+		<filename>templates/default/inputs/text.1.tpl</filename>
+		<filename>templates/default/inputs/textarea.1.tpl</filename>
+		<filename>templates/default/js/dbq.js</filename>
+		<filename>templates/default/js/sorttable.js</filename>
+		<filename>templates/default/js/wforms.js</filename>
+		<filename>templates/default/language/index.html</filename>
+		<filename>templates/default/language/dutch.1.php</filename>
+		<filename>templates/default/language/english.1.php</filename>
+		<filename>templates/default/language/french.1.php</filename>
+		<filename>templates/default/language/german.1.php</filename>
+		<filename>themes/default.css</filename>
+		<filename>xml/index.html</filename>
+		<filename>xml/descriptions.general.xml</filename>
+		<filename>xml/descriptions.query.xml</filename>
+		<filename>xml/descriptions.variable.input.xml</filename>
+		<filename>xml/params.code.xml</filename>
+		<filename>xml/params.custom.xml</filename>
+		<filename>xml/params.field.xml</filename>
+		<filename>xml/params.files.xml</filename>
+		<filename>xml/params.keyword.xml</filename>
+		<filename>xml/params.list.xml</filename>
+		<filename>xml/params.query.xml</filename>
+		<filename>xml/params.results.xml</filename>
+		<filename>xml/params.substitutions.xml</filename>
+		<filename>xml/params.upload.xml</filename>
+		<filename>xml/params.user.xml</filename>
+	</files>
+	<params>
+		<param name="qname" type="text" default="" label="DBQ Query Name" description="Run a specific query, used for preparing or executing a query"/>
+		<param name="qid" type="text" default="" label="DBQ Query ID" description="Run a specific query, used for preparing or executing a query"/>
+		<param name="category" type="text" default="" label="DBQ Category ID or Name" description="List the available queries in the specified category, used when selecting a query"/>
+		<param name="template" type="text" default="" label="DBQ Template Name" description="Load a specific query, used when selecting a query"/>
+	</params>
+	<install>
+		<queries>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery` (
+				`id` int(11) NOT NULL auto_increment,
+				`name` varchar(64) NOT NULL default '',
+				`display_name` varchar(64) NOT NULL default '',
+				`db_id` int(11) unsigned NOT NULL default '0',
+				`sql` text NOT NULL,
+				`catid` int(11) unsigned NOT NULL default '0',
+				`template` varchar(32) NOT NULL default 'default',
+				`expect_rows` tinyint(1) default '1',
+				`page_navigation` tinyint(1) default '0',
+				`rotate_results` tinyint(1) default '0',
+				`display_regex` varchar(32) NOT NULL default '',
+				`stats` tinyint(1) default '0',
+				`count_sql` varchar(32) NOT NULL default '0',
+				`access` int(11) unsigned NOT NULL default '0',
+				`published` tinyint(1) default '0',
+				`ordering` int(11) unsigned default '0',
+				`archived` tinyint(1) default '0',
+				`debug` tinyint(1) default '0',
+				`uses_vars` tinyint(1) default '0',
+				`hits` int(11) unsigned default '0',
+				`description` text NOT NULL,
+				`comment` varchar(250) default NULL,
+				`checked_out` int(11) unsigned default NULL,
+				`checked_out_time` datetime default NULL,
+				`parse` text,
+				`contacts_id` int(11) default NULL,
+				`params` text,
+				`use_confirmation` tinyint(1) default '0',
+				`use_notification` tinyint(1) default '0',
+				`notification_emails` text,
+				`notification_subject` varchar(250) default NULL,
+				`notification_message` text,
+				PRIMARY KEY  (`id`),
+				UNIQUE KEY `name` (`name`),
+				KEY `dbid` (`db_id`)
+				)
+			</query>
+			<query>DROP TABLE IF EXISTS #__dbquery_config</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_config` (
+				`id` int(11) unsigned NOT NULL auto_increment,
+				`name` varchar(64) NOT NULL default '',
+				`type` varchar(32) NOT NULL default '',
+				`key` varchar(32) NOT NULL default '',
+				`value` varchar(128) NOT NULL default '',
+				`ordering` int(11) unsigned default '0',
+				`description` text,
+				`comment` varchar(100) default '',
+				`checked_out` int(11) unsigned default NULL,
+				`checked_out_time` datetime default NULL,
+				`params` text,
+				PRIMARY KEY  (`id`)
+				)
+			</query>      
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_databases` (
+				`id` int(11) unsigned NOT NULL auto_increment,
+				`name` varchar(64) NOT NULL default '',
+				`type` varchar(32) NOT NULL default '',
+				`driver` varchar(32) NOT NULL default '',
+				`persistent` tinyint(1) default '1',
+				`debug` tinyint(1) default '0',
+				`hostname` varchar(64) NOT NULL default '',
+				`schemaname` varchar(48) NOT NULL default '',
+				`username` varchar(48) default '',
+				`password` varchar(48) default '',
+				`on_line` tinyint(1) default '0',
+				`ordering` int(11) unsigned default '0',
+				`archived` tinyint(1) default '0',
+				`description` text,
+				`comment` varchar(200) default NULL,
+				`checked_out` int(11) unsigned default '0',
+				`checked_out_time` datetime default NULL,
+				`params` text,
+				PRIMARY KEY  (`id`)
+				)
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_drivers` (
+				`tobeimplemented` int(11) NOT NULL default '0'
+				)
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_errors` (
+				`source` varchar(64) default NULL,
+				`oid` int(11) default NULL,
+				`oname` varchar(255) default NULL,
+				`uid` int(11) default '0',
+				`priority` int(2) default NULL,
+				`date_reported` timestamp NOT NULL,
+				`message` text,
+				KEY `source_idx` (`source`),
+				KEY `oname_idx` (`oname`)
+				)
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_stats` (
+				`query_id` int(11) NOT NULL default '0',
+				`variable_id` int(11) NOT NULL default '0',
+				`value` text NOT NULL,
+				`date_queried` timestamp NOT NULL,
+				KEY `qid` (`query_id`),
+				KEY `vid` (`variable_id`)
+				) 
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_substitutions` (
+				`id` int(11) NOT NULL auto_increment,
+				`variable_id` int(11) default NULL,
+				`value` varchar(64) NOT NULL default '',
+				`label` varchar(64) NOT NULL default '',
+				`ordering` int(11) unsigned default '0',
+				`checked_out` int(11) unsigned default '0',
+				`checked_out_time` datetime default NULL,
+				`default` tinyint(1) default NULL,
+				`params` text,
+				PRIMARY KEY  (`id`),
+				KEY `vid` (`variable_id`)
+				)
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_templates` (
+				`tobeimplemented` int(11) NOT NULL default '0'
+				) 
+			</query>
+			<query>CREATE TABLE IF NOT EXISTS `#__dbquery_variables` (
+				`id` int(11) NOT NULL auto_increment,
+				`query_id` int(11) default '0',
+				`display_name` varchar(64) NOT NULL default '',
+				`name` varchar(64) NOT NULL default '',
+				`type` varchar(16) NOT NULL default '',
+				`input` varchar(16) default NULL,
+				`regex` varchar(16) default NULL,
+				`size` int(6) default '16',
+				`required` varchar(16) default NULL,
+				`active` tinyint(1) default '0',
+				`uses_custom_query` tinyint(1) default '0',
+				`ordering` int(11) unsigned default '0',
+				`debug` tinyint(1) unsigned default '0',
+				`description` text NOT NULL,
+				`checked_out` int(11) unsigned default '0',
+				`checked_out_time` datetime default '0000-00-00 00:00:00',
+				`stats` tinyint(1) default '1',
+				`default_value` text,
+				`page` int(3) default NULL,
+				`code` text,
+				`params` text,
+				PRIMARY KEY  (`id`),
+				KEY `qid` (`query_id`)
+				) 
+			</query>
+			<!-- Config Values -->
+			<query>
+			  INSERT INTO `#__dbquery_config` (`id`, `name`, `type`, `key`, `value`, `ordering`, `description`, `comment`, `checked_out`, `checked_out_time`, `params`) VALUES (1,'Default Template','CONFIG','DEFAULT_TEMPLATE','default',12,'GENERAL_DESCRIPTION=The default template for a query if the type is not provided.','',0,'0000-00-00 00:00:00',NULL),(2,'DBQ Version','CONFIG','VERSION','1.4.1 RC2',14,'GENERAL_DESCRIPTION=The version of DBQ','',0,'0000-00-00 00:00:00',NULL),(3,'Debug','CONFIG','DEBUG','0',13,'GENERAL_DESCRIPTION=Enables or disables general debuging in DBQ','',0,'0000-00-00 00:00:00',NULL),(4,'Default Limit','CONFIG','DEFAULT_LIMIT','20',15,'GENERAL_DESCRIPTION=Default number of rows to display for any results','',0,'0000-00-00 00:00:00',NULL),(5,'Cookie Domain','CONFIG','COOKIE_DOMAIN','/',16,'GENERAL_DESCRIPTION=Domain for which cookies are set and thus received','',0,'0000-00-00 00:00:00',NULL),(6,'Cookie Expiration','CONFIG','COOKIE_EXPIRATION','86400',17,'GENERAL_DESCRIPTION=Number of seconds that a cookie will live','',0,'0000-00-00 00:00:00',NULL),(7,'Template Directory','CONFIG','TEMPLATE_DIR','templates/',21,'GENERAL_DESCRIPTION=Location of template directories','',0,'0000-00-00 00:00:00',NULL),(8,'Error Log File','CONFIG','ERROR_LOG_FILE','./administrator/components/com_dbquery/dbq_errors.txt',22,'GENERAL_DESCRIPTION=File where errors are logged','',0,'0000-00-00 00:00:00',NULL),(9,'Default Directory for File Lists','CONFIG','DEFAULT_FILE_DIRECTORY','/images/stories',23,'GENERAL_DESCRIPTION=Default directory from which File List variables will read','',0,'0000-00-00 00:00:00',NULL),(10,'Load Default Values','CONFIG','LOAD_DEFAULT_VALUE','1',24,'GENERAL_DESCRIPTION=Load or select a default value for keyword or list variables, respectfully','',0,'0000-00-00 00:00:00',NULL),(11,'Show Print Page','CONFIG','SHOW_PRINT_PAGE','1',25,'GENERAL_DESCRIPTION=Toggle the displaying of the print page','',0,'0000-00-00 00:00:00',NULL),(12,'Append Include Path','CONFIG','APPEND_INCLUDE_PATH','',26,'GENERAL_DESCRIPTION=Paths to append to PHP\'s include_path, separated by colans','',0,'0000-00-00 00:00:00',NULL),(13,'Default Upload Directory','CONFIG','DEFAULT_UPLOAD_DIRECTORY','/images/',27,'GENERAL_DESCRIPTION=The default location where variables of type File Upload will upload files','Used by variables of type File Upload',0,'0000-00-00 00:00:00',NULL),(14,'Default Select Size','CONFIG','DEFAULT_SELECT_SIZE','6',28,'GENERAL_DESCRIPTION=Default size for select input types that determines the maximum number of option','Used by variables of type Multiselect',0,'0000-00-00 00:00:00',NULL),(15,'Maximum File Size','CONFIG','MAXIMUM_FILE_SIZE','100000',29,'GENERAL_DESCRIPTION=Maximum file size for uploaded files','Used by variables of type File Upload',0,'0000-00-00 00:00:00',NULL),(16,'Multi Select Joiner','CONFIG','MULTI_SELECT_JOINER',',',30,'GENERAL_DESCRIPTION=Syntax to join input in a SQL statement for list variables','Used by variables of type Multiselect',0,'0000-00-00 00:00:00',NULL),(17,'Show Statement On Error','CONFIG','SHOW_ERROR_STATEMENTS','0',31,'GENERAL_DESCRIPTION=Show the statement on the form when the statement contains input errors','',0,'0000-00-00 00:00:00',NULL),(18,'Backup File Before Writing','CONFIG','BACKUP_FILE_BEFORE_WRITING','1',32,'GENERAL_DESCRIPTION=Indicates whether or not a file should be copied to a backup file before the new','',0,'0000-00-00 00:00:00',NULL),(19,'Text Area Width','CONFIG','TEXT_AREA_WIDTH','50',33,'GENERAL_DESCRIPTION=The default width of textarea form inputs.','',0,'0000-00-00 00:00:00',NULL),(20,'Text Area Height','CONFIG','TEXT_AREA_HEIGHT','4',34,'GENERAL_DESCRIPTION=The default width of textarea form inputs.','',0,'0000-00-00 00:00:00',NULL),(21,'Mysql 1','DBTYPE','mysql','mysql',1,'GENERAL_DESCRIPTION=Driver for the mysql database.','blah',0,'0000-00-00 00:00:00',NULL),(22,'Mysql 2','DBTYPE','mysqli','mysqli',2,'GENERAL_DESCRIPTION=MySQL (for MySQL >= 4.1)','',0,'0000-00-00 00:00:00',NULL),(23,'ODBC','DBTYPE','odbc','odbc',3,'GENERAL_DESCRIPTION=Open Database Connectivity','',0,'0000-00-00 00:00:00',NULL),(24,'Postgresql','DBTYPE','pgsql','pgsql',6,'GENERAL_DESCRIPTION=PostgreSQL','',0,'0000-00-00 00:00:00',NULL),(25,'DBase','DBTYPE','dbase','dbase',5,'GENERAL_DESCRIPTION=Dbase','',0,'0000-00-00 00:00:00',NULL),(26,'FrontBase','DBTYPE','fbsql','fbsql',7,'GENERAL_DESCRIPTION=FrontBase','',0,'0000-00-00 00:00:00',NULL),(27,'InterBase','DBTYPE','ibase','ibase',8,'GENERAL_DESCRIPTION=InterBase','',0,'0000-00-00 00:00:00',NULL),(28,'Informix','DBTYPE','ifx','ifx',9,'GENERAL_DESCRIPTION=Informix','',0,'0000-00-00 00:00:00',NULL),(29,'MiniSQL','DBTYPE','msql','msql',10,'GENERAL_DESCRIPTION=MiniSQL','',0,'0000-00-00 00:00:00',NULL),(30,'SQLite','DBTYPE','sqlite','sqlite',11,'GENERAL_DESCRIPTION=SQLite','',0,'0000-00-00 00:00:00',NULL),(31,'Sybase','DBTYPE','sybase','sybase',4,'GENERAL_DESCRIPTION=Sybase','',0,'0000-00-00 00:00:00',NULL),(32,'Custom','EREG','CUSTOM','[+\\-]?[0-9]+',1,'GENERAL_DESCRIPTION=A Custom Regular Expression','',0,'0000-00-00 00:00:00',NULL),(33,'Custom','INPUT','CUSTOM','custom',1,'GENERAL_DESCRIPTION=Custom Input Type','',0,'0000-00-00 00:00:00',NULL),(34,'Show Return Link','CONFIG','SHOW_RETURN_LINK','1',1,'GENERAL_DESCRIPTION=Toggle the display of the link that will return a user to the previous form.','',0,'0000-00-00 00:00:00',NULL),(35,'Show Form On No Results','CONFIG','SHOW_FORM_ON_NO_RESULTS','1',2,'GENERAL_DESCRIPTION=Toggle the display of the Prepare Query screen when a query expecting results re','',0,'0000-00-00 00:00:00',NULL),(36,'Enable Advanced Fields','PROFESSIONAL','ADVANCED_FIELDS','1',1,'GENERAL_DESCRIPTION=Enable Field Variables on the Display of Results','',0,'0000-00-00 00:00:00',''),(37,'Enable Advanced Headers','PROFESSIONAL','ADVANCED_HEADERS','1',2,'GENERAL_DESCRIPTION=Enable Field Variables on the Display of Results','',0,'0000-00-00 00:00:00',NULL),(38,'Enable Advanced Headers','PROFESSIONAL','NEXT_QUERY_ENABLE','1',3,'GENERAL_DESCRIPTION=Enable a link to the next query, if enabled on the query.','',0,'0000-00-00 00:00:00',NULL),(39,'Joomla','DBDRIVER','JOOMLA','JOOMLA',1,'GENERAL_DESCRIPTION=Mambo Database Interface','More information at http://www.mamboserver.com',0,'0000-00-00 00:00:00',NULL),(40,'MySQL','DBDRIVER','MYSQL','MYSQL',2,'GENERAL_DESCRIPTION=Generic MySQL Interface','More information at http://www.mysql.com',0,'0000-00-00 00:00:00',NULL),(41,'ADODB','DBDRIVER','ADODB','ADODB',3,'GENERAL_DESCRIPTION=Generic ADODB Interface','More information at http://adodb.sourceforge.net/',0,'0000-00-00 00:00:00',NULL),(42,'PEAR','DBDRIVER','PEAR','PEAR',4,'GENERAL_DESCRIPTION=Generic PEAR Interface','More information at http://pear.php.net',0,'0000-00-00 00:00:00',NULL),(43,'Default Count SQL','COUNTSQL','COUNT_SQL1','SELECT count(*) AS COUNT FROM ',1,'GENERAL_DESCRIPTION=Default SQL for counting rows','Used by queryCountTotal',0,'0000-00-00 00:00:00',NULL),(44,'Custom Count SQL','COUNTSQL','COUNT_SQL2','SELECT count(*) AS COUNT FROM ',2,'GENERAL_DESCRIPTION=Alternative SQL for counting rows','Used by queryCountTotal',0,'0000-00-00 00:00:00',NULL),(45,'Custom Code Enabled','CONFIG','CUSTOM_CODE_ENABLED','0',3,'GENERAL_DESCRIPTION=Enable the loading of custom code files.','',0,'0000-00-00 00:00:00',NULL),(46,'Variable Template ID','CONFIG','VARIABLE_TEMPLATE_ID','1',4,'GENERAL_DESCRIPTION=A numberic identifier for an input template.','',0,'0000-00-00 00:00:00',NULL),(47,'Show Field Descriptions','PROFESSIONAL','SHOW_FIELD_DESCRIPTION','1',4,'GENERAL_DESCRIPTION=Show Field Descriptions When Display Results','',0,'0000-00-00 00:00:00',NULL),(48,'User Configuration','USER_CONFIG','Test','Test Configuration',1,'GENERAL_DESCRIPTION=An example user configuration.','Do not delete this element.',0,'0000-00-00 00:00:00',NULL),(49,'Hide Empty Fields','PROFESSIONAL','HIDE_EMPTY_FIELDS','0',5,'GENERAL_DESCRIPTION=Hide empty fields for display results if the results do not contain any data for','',0,'0000-00-00 00:00:00',NULL),(50,'Show Category Descriptions','CONFIG','SHOW_CATEGORY_DESCRIPTIONS','1',5,'GENERAL_DESCRIPTION=Enable the display of category descriptions on the frontend','',0,'0000-00-00 00:00:00',NULL),(51,'CSS Class','CONFIG','CSS_CLASS','DBQResults',6,'GENERAL_DESCRIPTION=Default class name used to apply CSS styling on result fields','',0,'0000-00-00 00:00:00',NULL),(52,'Input Template Directory','CONFIG','INPUTS_DIR','inputs/',18,'GENERAL_DESCRIPTION=Location of input templates used in display template','',0,'0000-00-00 00:00:00',NULL),(53,'Template Language File ID','CONFIG','TEMPLATE_LANGUAGE_FILE_ID','1',7,'GENERAL_DESCRIPTION=The ID number of the language file used to translate a template.','',0,'0000-00-00 00:00:00',NULL),(54,'Log To Error File','CONFIG','LOGTOERRORFILE','1',19,'GENERAL_DESCRIPTION=If true, errors will be logged to the error file','',0,'0000-00-00 00:00:00',NULL),(55,' Log To Error Table','CONFIG','LOGTOERRORTABLE','1',20,'GENERAL_DESCRIPTION=If true, errors will be logged to the database','',0,'0000-00-00 00:00:00',NULL),(56,'Show Bottom','CONFIG','SHOW_BOTTOM_DESCRIPTION','0',0,'GENERAL_DESCRIPTION=Show the description on the bottom of the various user pages.','',0,'0000-00-00 00:00:00',NULL),(57,'Default Language','CONFIG','DEFAULT_LANGUAGE','english',0,'GENERAL_DESCRIPTION=The default language of DBQ objects.','',0,'0000-00-00 00:00:00',NULL),(58,'Default Query Theme','CONFIG','DEFAULT_QUERY_THEME','default.css',0,'GENERAL_DESCRIPTION=The theme that will be applied to pages.','',0,'0000-00-00 00:00:00',NULL),(59,'Order Variables As Found in Query','CONFIG','ORDER_AS_FOUND_IN_QUERY','1',0,'GENERAL_DESCRIPTION=Determines if variables are displayed as the appear in the query, or if the variable\'s ordering attibute is used.','',0,'0000-00-00 00:00:00',NULL),(60,'Result Table is Sortable','CONFIG','RESULT_TABLE_SORTABLE','0',0,'GENERAL_DESCRIPTION=Toggles the sortable feature of a table.','',0,'0000-00-00 00:00:00',NULL),(61,'From Address','MAIL','FROM_ADDRESS','',1,'','',0,'0000-00-00 00:00:00',''),(62,'From Name','MAIL','FROM_NAME','',9,'GENERAL_DESCRIPTION=The name that appears in the from field.','',0,'0000-00-00 00:00:00',NULL),(63,'CC Address','MAIL','CC_ADDRESS','',8,'GENERAL_DESCRIPTION=Who should be cc\'ed when sending mail.','',0,'0000-00-00 00:00:00',NULL),(64,'BCC Address','MAIL','BCC_ADDRESS','',10,'GENERAL_DESCRIPTION=Who will be BCC\'ed when sending mail.','',0,'0000-00-00 00:00:00',NULL),(65,'Reply To Address','MAIL','REPLY_TO_ADDRESS','',6,'GENERAL_DESCRIPTION=The address to which replies are directed.','',0,'0000-00-00 00:00:00',NULL),(66,'Reply To Name','MAIL','REPLY_TO_NAME','',7,'GENERAL_DESCRIPTION=The name to which replies are directed.','',0,'0000-00-00 00:00:00',NULL),(67,'HTML Message','MAIL','HTML_MESSAGE','1',5,'GENERAL_DESCRIPTION=If true, the message will be sent as HTML.','',0,'0000-00-00 00:00:00',NULL),(68,'Substitute User Input Into Address','MAIL','SUBSTITUTE_USER_INPUT_ADDRESS','1',2,'GENERAL_DESCRIPTION=If true, user input will be substituted into the e-mail address field.','',0,'0000-00-00 00:00:00',NULL),(69,'Substitute User Input Into Subject','MAIL','SUBSTITUTE_USER_INPUT_SUBJECT','1',3,'GENERAL_DESCRIPTION=If true, user input will be substituted into the e-mail subject field.','',0,'0000-00-00 00:00:00',NULL),(70,'Substitute User Input Into Body','MAIL','SUBSTITUTE_USER_INPUT_BODY','1',4,'GENERAL_DESCRIPTION=If true, user input will be substituted into the e-mail body.','',0,'0000-00-00 00:00:00',NULL)
+			</query>
+
+			<!-- Queries -->
+
+			<!-- Variables -->
+
+			<!-- Substitution Values -->
+
+		</queries>
+	</install>
+	<uninstall>
+	<queries>
+
+	</queries>
+	</uninstall>
+	<installfile>install.dbquery.php</installfile>
+	<uninstallfile>uninstall.dbquery.php</uninstallfile>
+	<administration>
+		<menu>DBQ Manager</menu>
+		<submenu>
+			<menu link="option=com_dbquery&amp;act=database&amp;task=show&amp;clean=1">Databases</menu>
+			<menu link="option=com_dbquery&amp;act=query&amp;task=show&amp;clean=1">Queries</menu>
+			<menu link="option=com_dbquery&amp;act=variable&amp;task=show&amp;clean=1">Variables</menu>
+			<menu link="option=com_dbquery&amp;act=substitution&amp;task=show&amp;clean=1">Substiutions</menu>
+			<menu link="option=com_dbquery&amp;act=template&amp;task=show&amp;clean=1">Templates</menu>
+			<menu link="option=com_dbquery&amp;act=stats&amp;task=show&amp;clean=1">Stats</menu>
+			<menu link="option=categories&amp;section=com_dbquery">Categories</menu>
+			<menu link="option=com_dbquery&amp;act=config&amp;task=show&amp;clean=1">Configuration</menu>
+			<menu link="option=com_dbquery&amp;act=errors&amp;task=show&amp;clean=1">Errors</menu>
+			<menu act="preview">Preview</menu>
+			<menu act="consulting">Consulting</menu>
+			<menu act="help">Help</menu>
+			<menu act="license">License</menu>
+			<menu act="web">On the Web</menu>
+		</submenu>
+		<files>
+			<filename>index.html</filename>
+			<filename>admin.dbquery.php</filename>
+			<filename>toolbar.dbquery.php</filename>
+			<filename>toolbar.dbquery.html.php</filename>
+			<filename>install.dbquery.php</filename>
+			<filename>uninstall.dbquery.php</filename>
+			<filename>classes/index.html</filename>
+			<filename>classes/DBQ/index.html</filename>
+			<filename>classes/DBQ/admin/index.html</filename>
+			<filename>classes/DBQ/admin/common.class.php</filename>
+			<filename>classes/DBQ/admin/config.class.php</filename>
+			<filename>classes/DBQ/admin/database.class.php</filename>
+			<filename>classes/DBQ/admin/error.class.php</filename>
+			<filename>classes/DBQ/admin/query.class.php</filename>
+			<filename>classes/DBQ/admin/stats.class.php</filename>
+			<filename>classes/DBQ/admin/substitution.class.php</filename>
+			<filename>classes/DBQ/admin/template.class.php</filename>
+			<filename>classes/DBQ/admin/variable.class.php</filename>
+			<filename>language/index.html</filename>
+			<filename>language/admin.dutch.php</filename>
+			<filename>language/admin.english.php</filename>
+			<filename>language/admin.french.php</filename>
+			<filename>language/admin.german.php</filename>
+			<filename>xhtml/index.html</filename>
+			<filename>xhtml/admin.menu.html.php</filename>
+			<filename>xhtml/consulting.html</filename>
+			<filename>xhtml/debug.html.php</filename>
+			<filename>xhtml/details.html.php</filename>
+			<filename>xhtml/edit.html.php</filename>
+			<filename>xhtml/gpl.html</filename>
+			<filename>xhtml/invalidInput.html.php</filename>
+			<filename>xhtml/parse.html.php</filename>      
+			<filename>xhtml/preview.html.php</filename>
+			<filename>xhtml/summary.html.php</filename>
+			<filename>xhtml/support.html.php</filename>
+			<filename>xhtml/web.html.php</filename>
+			<filename>xhtml/writeToDiv.js</filename>
+		</files>
+		<images>
+			<filename>images/dbq_mini.jpg</filename>
+			<filename>images/dbq_small.jpg</filename>
+			<filename>images/dbq_medium.jpg</filename>
+			<filename>images/dbq_large.jpg</filename>
+			<filename>images/parse.gif</filename>
+			<filename>images/parse_f2.gif</filename>
+			<filename>images/pp.gif</filename>      
+		</images>
+	</administration>
+</mosinstall>

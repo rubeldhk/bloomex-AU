@@ -1,0 +1,57 @@
+<html style="height: 100%">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Texteditor Hilfe zu Mozilla/Netscape</title>
+<script type="text/javascript" src="popup.js"></script>
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+table .label { text-align: right; width: 8em; }
+
+.title { background: none; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+
+#buttons {
+      margin-top: 1em; border-top: 1px solid black;
+      padding: 2px; text-align: center;
+}
+</style>
+</HEAD>
+
+<BODY scroll="yes" onLoad="self.focus();" onUnLoad="opener.focus();">
+
+<div class="title">Hilfe zu Einfügeoperationen unter Mozilla und Netscape</div>
+
+<P>
+Beenden Sie zuerst Mozilla oder Netscape!<br /><br />
+Finden Sie auf Ihrem Rechner die Datei "prefs.js". Öffnen Sie diese in einem Texteditor und ergänzen Sie den Inhalt mit folgenden Zeilen:
+<pre>
+user_pref("capability.policy.allowclipboard.Clipboard.cutcopy", "allAccess");
+user_pref("capability.policy.allowclipboard.Clipboard.paste", "allAccess");
+user_pref("capability.policy.policynames", "allowclipboard");
+user_pref("capability.policy.allowclipboard.sites", "http://www.Hier den Server eingeben.de");
+</pre>
+<b>"http://www.Hier den Server eingeben.de"</b> muss die Internet-Adresse des Servers enthalten, dem Sie erlauben wollen per Skript Einfügeoperationen vorzunehmen.
+<br /><br />Starten Sie nun Ihren Browser erneut.
+</P>
+<form>
+<div id="buttons">
+  <button type="button" name="cancel" onclick="self.close();">OK</button>
+</div>
+</form>
+
+</BODY>
+
+</HTML>

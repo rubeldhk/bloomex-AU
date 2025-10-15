@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+				<orders version="1.0.0"><order>
+							<partner_order_id>tester12312312</partner_order_id> 
+							<partner_name>tester</partner_name>
+							<order_id>507374</order_id> 
+							<delivery_date>10-06-2010 00:00:00</delivery_date>							
+							<order_status>UPDATED</order_status> 	
+						</order><order>
+							<partner_order_id>3454353523</partner_order_id> 
+							<partner_name>tester</partner_name>
+							<order_id>507373</order_id> 
+							<delivery_date>10-26-2010 00:00:00</delivery_date>							
+							<order_status>Pending</order_status> 	
+						</order></orders>

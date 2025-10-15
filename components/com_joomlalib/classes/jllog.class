@@ -1,0 +1,817 @@
+<?php
+/**
+ * Class for logging debug and error messages
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::import('JLApp');
+JLCoreApi::import('JLTime');
+
+/** */
+defined('_JL_COL_APPLICATION') or define('_JL_COL_APPLICATION', 'Application');
+defined('_JL_COL_LEVEL') or define('_JL_COL_LEVEL', 'Level');
+defined('_JL_COL_WHEN') or define('_JL_COL_WHEN', 'When');
+defined('_JL_COL_MESSAGE') or define('_JL_COL_MESSAGE', 'Message');
+defined('_JL_NORECORDSTODISPLAY') or define('_JL_NORECORDSTODISPLAY', 'No Records to Display');
+
+/**
+ * JLLog - 	A lightweight class for logging events to a database from a Joomla extension
+ *
+ * This is meant to be both a production and debugging tool where you can call the logger
+ * with minimal overhead, allowing debug-level logging functions to exist within production
+ * code.
+ *
+ * The basic premise is that every time you call the $jllog->l() function to log, you pass 
+ * in a level at which you want this message to be shown at or above. For instance, if you 
+ * pass in 4 to l, the message will be logged if your current level is set to 4 or above.
+ * The exception to this rule is level 0. Level 0 messages are always logged, so use these
+ * sparingly. For instance, if you want to know every time a cron job is executed, you would
+ * pass 0 as the level to $jllog->l() from your cron job handler.
+ *
+ * Logging Levels
+ * --------------------------------------------------------------
+ * 0 	 : Informational Messages (always logged no matter what)
+ * 1-9	 : Development levels.
+ * 10-20 : Production Levels
+ *
+ * The default level is 10 if none is provided, since this is the start of the production
+ * values.
+ * 
+ * @package JL
+ * @subpackage JLLog
+ * @todo michiel has to update cleaning and helper functions to work with the database change.
+ */
+class JLLog
+{
+	/** @var integer Current logging level */
+	var $_level;
+	/** @var string Application handle for grouping events from the same app together */
+	var $_appHandle;
+	/** @var integer Application ID, obtained by looking up the appHandle */
+	var $_appId;
+	/** @var boolean Do we add a backtrace*/
+	var $_backTrace = true;
+	/** @var array holder for stacktrace */
+	var $_stackTrace;
+	/** $var log to database or not */
+	var $_dbLogging;
+	/** @var integer Id of the current logging instance */
+	var $_logId;
+	/** @var integer Time To life for database cleaning */
+	var $_ttl;
+	
+	/**
+     * Return the major and minor version of the JLLog API.
+     *
+     * @return array major number, minor number
+     */
+	function getApiVersion() {
+		return array(1, 0);
+	}
+
+	/**
+	 * Constructor for the JLLog class
+	 *
+	 * @param string Handle for this application. This should be the same as the namespace 
+	 *        you use for JLConf and will be used to group messages together.
+	 * @param integer Starting logging level for this object. You can always change this later.
+	 *        under most conditions, you will use 10 for this value. You should consider putting
+	 *        this value in a configuration value so you can debug customer sites in production.
+	 * 		  If nothing is set Joomlalib default value is used.
+	 * @param integer The time in seconds log entries should be stored in the database.
+	 * 		  If nothing is set it will revert to Joomlalib default value.
+	 *
+	 */
+	function JLLog($appHandle, $level = false, $ttl=21600)
+	{
+		global $JL;
+		
+		if(!$level || !is_int($level)) {
+			$level = (int) $JL->logLevel;
+		}
+		$this->setLevel($level);
+		$this->_appHandle = $appHandle;
+		$this->_logId = 0;
+		
+		$this->_dbLogging = (empty($JL->dbLogging)) ? false : true;
+		
+		$this->_ttl = (!$ttl || !is_int($ttl)) ? (int) $JL->logttl : $ttl;
+	}
+
+	/**
+	 * Get the log id for this instance of JLLog. This function is called on
+	 * demand as to do minimal database calls. As a side-effect of this function
+	 * the _jl_app table will be queried as well.
+	 *
+	 * @return integer Log id that was allocated. 0=wasn't able to allocate
+	 */
+	function getLogId()
+	{
+		global $database;
+		
+		if($this->_logId) {
+			return $this->_logId;
+		}
+		
+		if(!$this->_dbLogging) {
+			return 0;
+		}
+		
+		$when = JLTime::sTime();
+		$this->_appId = JLApp::getId($this->_appHandle);
+		
+		/* clean database */
+		JLLogHelperClean::cleanLog($this->_appId, $this->_ttl);
+		
+		$query = "INSERT INTO #__jl_log VALUES('', '$this->_appId', '$when')";
+		$database->setQuery($query);
+		$database->query();
+		
+		$this->_logId = $database->insertid();
+		return $this->_logId;
+	}
+	
+	/**
+	 * Change the logging level of this JLLog object
+	 *
+	 * @param integer A number between 1 and 20 to set the level for this object to.
+	 * 
+	 */
+	function setLevel($level)
+	{
+		if(!$level || $level < 1) {
+			$this->_level = 1;
+		}
+		else if($level > 20) {
+			$this->_level = 20;
+		}
+		else {
+			$this->_level = $level;
+		}
+
+	}
+
+	/**
+	 * Function getLevel()
+	 *
+	 * @return integer Current logging level
+	 */
+	function getLevel()
+	{
+		return $this->_level;
+	}
+
+	/**
+	 * Log an event at a certain logging level with sprintf() syntax.
+	 *
+	 * @param integer Level to log at.
+	 * @param string  Format string
+	 * @param string  Arguments for format string as parameters 2-n
+	 *
+	 * @return mixed Error message if it worked. null on failure or ignored
+	 *
+	 */
+	function l()
+	{
+		global $database;
+
+		if(func_num_args() < 2) {
+			return null;
+		}
+		$args = func_get_args();
+		$level = array_shift($args);
+		if(!is_int($level)) {
+			return null; /* Bad parameter */
+		}
+		else if($level > 0 && $level < $this->_level) {
+			return null; /* Outside of our range */
+		}
+
+		$str = call_user_func_array('sprintf', $args);
+		/* add stacktrace if it can be done  */
+		if (function_exists('debug_backtrace') && $this->_backTrace && $level >= 15) {
+			$this->_stackTrace = debug_backtrace();
+			$str = $this->backtraceAsHtml($str);
+		}
+		
+		if(!$this->_logId) {
+			$this->getLogId();
+		}
+		
+		if($this->_dbLogging) {
+			$safeStr = $database->getEscaped($str);
+			$query = "INSERT INTO #__jl_log_entry VALUES ('','$this->_logId','$level','$safeStr')";
+			$database->setQuery($query);
+			$database->query();
+		}
+		return $str;
+	}
+	
+	
+		/**
+     * Returns stacktrace as Html
+     *
+     * @param boolean (optional) false to omit errorMessage
+     * @return string
+     * @todo intercept first as this is the log call!
+     */
+	function backtraceAsHtml($str) {
+		$trace = $this->_backtraceAsArray();
+
+		$buf = $str;
+		$buf .= '<ul> ';
+		foreach ($trace as $traceEntry) {
+			$buf .= sprintf("<li><b>in</b> %s <b>at line</b> %d",
+			$traceEntry['file'], $traceEntry['line']);
+			
+			if (isset($traceEntry['class']) && isset($traceEntry['function'])) {
+				$buf .= ' [ '.$traceEntry['class'].$traceEntry['type'].$traceEntry['function'];
+				
+				if(isset($traceEntry['args'])) {
+					$buf .= '('.$traceEntry['args'];
+				}
+				$buf .= ') ] ';
+			} else if (isset($traceEntry['function'])) {
+				$buf .= ' [ '.$traceEntry['function'];
+				
+				if(isset($traceEntry['args'])) {
+					$buf .= '('.$traceEntry['args'];
+				}
+				$buf .= ') ] ';
+			}
+		}
+		$buf .= '</ul>';
+
+		return $buf;
+	}
+
+	
+    /**
+     * Return the error as a plain text string delimited by newlines
+     *
+     * @param boolean (optional) false to omit errorMessage
+     * @return string
+     */
+    function backtraceAsText($str) {
+		$trace = $this->_backtraceAsArray();
+
+		$buf = $str;
+		foreach ($trace as $traceEntry) {
+		    $buf .= sprintf("<b>in</b> %s <b>at line</b> %d",
+				    $traceEntry['file'], $traceEntry['line']);
+			if (isset($traceEntry['class']) && isset($traceEntry['function'])) {
+				$buf .= ' [ '.$traceEntry['class'].$traceEntry['type'].$traceEntry['function'];
+				
+				if(isset($traceEntry['args'])) { 
+					$buf .= '('.$traceEntry['args'];
+				}
+				$buf .= ') ] ';
+			} else if (isset($traceEntry['function'])) {
+				$buf .= ' [ '.$traceEntry['function'];
+				
+				if(isset($traceEntry['args'])) { 
+					$buf .= '('.$traceEntry['args'];
+				}
+				$buf .= ') ] ';
+			}
+		    $buf .= "\n";
+		}
+		return $buf;
+    }
+	
+	/**
+     * Internal function turn error code and stack trace into text
+     *
+     * @return string
+     * @access private
+     */
+	function _backtraceAsArray() {
+		$trace = array();
+		$base = '';
+		foreach ($this->_stackTrace as $traceEntry) {
+			if (empty($traceEntry['file'])) {
+				$traceEntry['file'] = '???';
+			}
+			if (empty($traceEntry['line'])) {
+				$traceEntry['line'] = '???';
+			}
+			$trace[] =
+				array('file' => str_replace($base, '', $traceEntry['file']),
+				'line' => $traceEntry['line'],
+				'class' => empty($traceEntry['class']) ? null : $traceEntry['class'],
+				'function' => empty($traceEntry['function']) ? null : $traceEntry['function'],
+				'type' => empty($traceEntry['type']) ? null : $traceEntry['type'],
+				'args' => empty($traceEntry['args']) ? null : implode(', ',$traceEntry['args']));
+		}
+		return $trace;
+	}
+	
+	/**
+	 * Install the JLLog database tables
+	 *
+	 *
+	 * @static
+	 */
+	function install()
+	{
+		global $database;
+
+		$query = 	"CREATE TABLE IF NOT EXISTS `#__jl_log` (
+  						`jllogid` int(10) unsigned NOT NULL auto_increment,
+  						`jlappid` int(10) unsigned NOT NULL default '0',
+  						`whentime` int(10) unsigned NOT NULL default '0',
+  						PRIMARY KEY  (`jllogid`),
+  						INDEX `whentime` (`whentime`),
+  						INDEX `appid_whentime` (`jlappid`,`whentime`)
+					) TYPE=MyISAM AUTO_INCREMENT=1;";
+
+		$database->setQuery($query);
+		$database->query();
+		
+		$query =	"CREATE TABLE IF NOT EXISTS `#__jl_log_entry` (  `jllogentryid` int(10) unsigned NOT  NULL  AUTO_INCREMENT ,
+ 						`jllogid` int(10) unsigned NOT NULL default  '0',
+ 						`level` int(2) unsigned NOT NULL default  '10',
+ 						`logtext` text NOT NULL ,
+ 					PRIMARY  KEY (  `jllogentryid`  ),
+ 					INDEX `logid_level` (`jllogid`,`level`),
+  					INDEX `level` (`level`)  
+ 					) TYPE  =  MYISAM  AUTO_INCREMENT  =1;";
+		$database->setQuery($query);
+		$database->query();
+		
+		/* NOTE: JLLog depends on JLApp */
+		JLApp::install();
+	}
+}
+
+/**
+ * Jllog helper class
+ * 
+ * @package JL
+ * @subpackage JLLog
+ */
+class JLLogHelper {
+	/* VIEWING FUNCTIONS */
+	/**
+	 * 
+	 *
+	 * @param unknown_type $option
+	 */
+	function viewList($option){
+		global $database, $mainframe, $mosConfig_list_limit;
+		
+		$limit 			= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+		$limitstart 	= intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
+		$filter_level	= intval( $mainframe->getUserStateFromRequest( "filter_level{$option}", 'filter_level', 0 ));
+		$filter_app		= intval( $mainframe->getUserStateFromRequest( "filter_app{$option}", 'filter_app', 0 ));
+		$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+		$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+		$where = array();
+		
+		if (isset( $search ) && $search!= "") {
+			$where[] = "logtext LIKE '%$search%'";
+		}
+		if($filter_level){
+			$where[] = "(level = $filter_level OR level = 0)";
+		}
+		if($filter_app){
+			$where[] = "jlappid = $filter_app";
+		}
+		
+		$query = "SELECT COUNT(`jllogid`) FROM `#__jl_log`";
+		$query .= ( count( $where ) ? " WHERE " . implode( ' AND ', $where ) : '' );
+		$database->setQuery( $query );
+		$total = $database->loadResult();
+		
+		require_once( $GLOBALS['mosConfig_absolute_path'] . '/administrator/includes/pageNavigation.php' );
+		$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	
+		$query = "SELECT * FROM `#__jl_log`";
+		$query .= (count( $where ) ? " WHERE " . implode( ' AND ', $where ) : "");
+		$query .= " ORDER BY whentime";
+		$query .= " LIMIT $pageNav->limitstart, $pageNav->limit";
+		$database->setQuery( $query );
+		$objList = $database->loadObjectList();
+		
+		/* log filter list */
+		$level[] = mosHTML::makeOption( 0, '- Select Log Level - ');
+		for ($i=1; $i < 21; $i++){
+			$level[] = mosHTML::makeOption( $i, 'Log Level '.$i);
+		}
+		$lists['level'] = mosHTML::selectList( $level, 'filter_level', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_level" );
+		
+		/* apps list */
+		$lists['apps'] = JLApp::getAppsComboBox('filter_app', 'apphandle', 'jlappid', $filter_app, $onChange='onchange="document.adminForm.submit( );"');
+		
+		$applicationList = JLApp::getApps();
+		JoomlaLibHTML::viewJJLog($objList, $pageNav, $lists, $search, $applicationList);
+	}
+	
+	/* LOGDUMP FUNCTIONS */
+	
+	/**
+	 * Create a file string to be written or downloaded
+	 *
+	 * @param integer application id
+	 * @param array jllog entry id's to include
+	 * @return string;
+	 */
+	function createLogdumpFile($appId, $logIds = null){
+		
+		$appHandle = JLApp::getAppHandle($appId);
+		$appHandle = is_bool($appHandle) ? 'Unkown Application Id' : $appHandle;
+		
+		$query = 	"SELECT * FROM #__jl_log WHERE `jlappid`='$appId'";
+		if($logIds){
+			$query .= " AND `jllogid` IN (".implode(',', $logIds).")";
+		}
+		$query .= 	" ORDER BY `whentime`";
+		$database->setQuery($query);
+		$result = $database->query();
+		
+		if($result){
+			/* create arrayn and add a header first */
+			$log = array();
+			$log[] = '# Log dump for '.$appHandle.' ['.$appId.'] created on '.date('j-m-Y H:i:s');
+			while ($row = mysql_fetch_object( $result )) {
+				$date = date('j-m-Y H:i:s'. $row->whentime);
+				/* clean up message, strip newlines, and replace html newlines with \n */
+				$clean = array('\n','<br />', '<br>', '\r\n');
+				$msg = str_replace($clean, "\t\t\n", trim($row->logtext));
+				$log[] = $date.' : '.$msg;
+			}
+			/* add a newline between each entry */
+			$log = implode("\n", $log);
+			return $log;
+		}
+		return false;
+	}
+	
+	/**
+	 * Create a download off file through header
+	 *
+	 * @param string Containing the log dump data.
+	 * @param string filename to be downloaded.
+	 */
+	function createDownload($log, $logname){
+		/* create the download */
+		header("Content-Type: text/plain");
+	    header("Content-Length: " . strlen($log));
+	    header("Content-Description: Download $logname to your computer.");
+	    header("Content-Disposition: attachment; filename=$logname");
+	    print $log;
+	}
+	
+	/* INFO FUNCTIONS */
+	/**
+	 * Gets count and memory use for JLlog
+	 *
+	 * @return array totalcount, totalsize, array containing info split per appId
+	 */
+	function getStats(){
+		global $mosConfig_db, $database, $mosConfig_dbprefix;
+		/* count per jlapp */
+		$query = "SELECT 'bogus', jlappid, COUNT(jllogentryid) FROM #__jl_log NATURAL JOIN #__jl_log_entry GROUP BY jlappid";
+		$database->setQuery($query);
+		$list = $database->loadRowList(1);
+
+		foreach ($list as $id => $v){		
+			$list[$id] = intval($v[2]);
+		}
+		
+		/* memory use */
+		$query = "SHOW TABLE STATUS FROM `$mosConfig_db` LIKE '".$mosConfig_dbprefix."jl_log%'";
+		$database->setQuery($query);
+		list($row, $row2) = $database->loadAssocList();
+		
+		$totalSize 	= round(($row['Data_length']+$row['Index_length']+$row2['Data_length']+$row2['Index_length']) / 1024);
+		$totalCount = array_sum($list);
+		$avrg = (empty($totalCount)) ? 0 : $totalSize / $totalCount;
+		
+		$ret = array();
+		foreach($list as $id => $count){
+			$size = $avrg * $count;
+			$ret[$id] = array('count' => $count, 'size' => $size);
+		}
+		
+		return array($totalCount, $totalSize, $ret);	
+	}
+}
+/**
+ * Jllog view class
+ * 
+ * contains the static viewing functions.
+ * 
+ * @package JL
+ * @subpackage JLLog
+ */
+class JLLogHelperView {
+		function browser($option){
+		global $database, $mainframe, $mosConfig_list_limit, $mosConfig_absolute_path;
+		
+		$limit 			= intval( $mainframe->getUserStateFromRequest( "viewlistlimit", 'limit', $mosConfig_list_limit ) );
+		$limitstart 	= intval( $mainframe->getUserStateFromRequest( "view{$option}limitstart", 'limitstart', 0 ) );
+		$filter_level	= intval( $mainframe->getUserStateFromRequest( "filter_level{$option}", 'filter_level', 0 ));
+		$filter_app		= intval( $mainframe->getUserStateFromRequest( "filter_app{$option}", 'filter_app', 0 ));
+		$search 		= $mainframe->getUserStateFromRequest( "search{$option}", 'search', '' );
+		$search 		= $database->getEscaped( trim( strtolower( $search ) ) );
+		$where = array();
+		$where[] = "j.jllogid=je.jllogid"; 
+		
+		if (isset( $search ) && $search!= "") {
+			$where[] = "logtext LIKE '%$search%'";
+		}
+		if($filter_level){
+			$where[] = "(level = $filter_level OR level = 0)";
+		}
+		if($filter_app){
+			$where[] = "jlappid = $filter_app";
+		}
+		
+		$query = "SELECT COUNT(*) FROM #__jl_log j, #__jl_log_entry je";
+		$query .= ( count( $where ) ? " WHERE " . implode( ' AND ', $where ) : '' );
+		$database->setQuery( $query );
+		$total = $database->loadResult();
+		
+		require_once( $mosConfig_absolute_path.'/administrator/includes/pageNavigation.php' );
+		$pageNav = new mosPageNav( $total, $limitstart, $limit  );
+	
+		$query = "SELECT j.jllogid as jlogid, jlappid, whentime, level, logtext FROM #__jl_log j, #__jl_log_entry je";
+		$query .= (count( $where ) ? " WHERE " . implode( ' AND ', $where ) : "");
+		$query .= " ORDER BY j.jllogid";
+		$query .= " LIMIT $pageNav->limitstart, $pageNav->limit";
+		$database->setQuery( $query );
+		$objList = $database->loadObjectList();
+		
+		/* log filter list */
+		$level[] = mosHTML::makeOption( 0, '- Select Log Level - ');
+		for ($i=1; $i < 21; $i++){
+			$level[] = mosHTML::makeOption( $i, 'Log Level '.$i);
+		}
+		$lists['level'] = mosHTML::selectList( $level, 'filter_level', 'class="inputbox" size="1" onchange="document.adminForm.submit( );"', 'value', 'text', "$filter_level" );
+		
+		/* apps list */
+		$lists['apps'] = JLApp::getAppsComboBox('filter_app', 'apphandle', 'jlappid', $filter_app, $onChange='onchange="document.adminForm.submit( );"');
+		
+		$applicationList = JLApp::getApps();
+		JoomlaLibHTML::viewJJLog($objList, $pageNav, $lists, $search, $applicationList);
+	}
+}
+
+
+/**
+ * Jllog Clean class
+ * 
+ * contains the static cleaning functions.
+ * 
+ * @package JL
+ * @subpackage JLLog
+ */
+class JLLogHelperClean {	
+	/**
+	 * Cleans the log entries from specified application until seconds ago.
+	 *
+	 * @param integer Application Id
+	 * @param integer Time To Life of the log entries in seconds
+	 * @static 
+	 */
+	function cleanLog($appId, $ttl){
+		global $database;
+		
+		$timeLimit =(int) time() - $ttl;
+		$sql = "DELETE j, je FROM jos_jl_log j, jos_jl_log_entry je "
+			  ."WHERE j.jllogid=je.jllogid AND j.jlappid = %d AND j.whentime < %d";
+		$query = sprintf($sql, $appId, $timeLimit);
+		$database->setQuery($query);
+		$database->query();
+	}
+	
+	/**
+	 * Will perform a Global Cleaning of JLLog database, keeping A percentage of the logs.
+	 *
+	 * @param integer percentage to keep
+	 * @static
+	 */
+	function cleanLogGlobal($percentageToKeep=5){
+		global $database;
+		
+		/* sanity check */
+		if($percentageToKeep < 1){
+			JLLogHelper::removeLogGlobal();
+			return;
+		} else if ($percentageToKeep > 99){
+			return;
+		}
+		
+		$query = "SELECT AVG(whentime) as 'avg', MAX(whentime) as 'max' FROM #__jl_log";
+		$database->setQuery($query);
+		$database->loadObject($stats);
+		
+		$timeLimit = (int) $stats->max - ((($stats->max - $stats->avg) / 50) * $percentageToKeep);
+		
+		$sql = "DELETE j, je FROM jos_jl_log j, jos_jl_log_entry je "
+			  ."WHERE j.jllogid=je.jllogid AND j.whentime < %d";
+		$query = sprintf($sql, $appId, $timeLimit);
+		$database->setQuery($query);
+		$database->query();
+		
+		/* optimize, only entry table as primary won't be so large so don't reclaim space */
+		$query = "OPTIMIZE TABLE #__jl_log_entry";
+		$database->setQuery($query);
+		$database->query();
+	}
+	
+	/**
+	 * Will remove all log entries associated with a Application id
+	 *
+	 * @param integer application id
+	 * @static
+	 */
+	function removeLog($appId){
+		global $database;
+		
+		$sql = "DELETE j, je FROM jos_jl_log j, jos_jl_log_entry je WHERE j.jllogid=je.jllogid AND j.jlappid = %d";
+		$query = sprintf($sql, $appId);
+		$database->setQuery($query);
+		$database->query();
+		
+		/* optimize, only entry table as primary won't be so large so don't reclaim space */
+		$query = "OPTIMIZE TABLE #__jl_log_entry";
+		$database->setQuery($query);
+		$database->query();
+		
+	}
+	
+	/**
+	 * Will completely Empty log database
+	 *
+	 * @static
+	 */
+	function removeLogGlobal(){
+		global $database;
+		
+		$query = "TRUNCATE TABLE #__jl_log";
+		$database->setQuery($query);
+		$database->query();
+		
+		$query = "TRUNCATE TABLE #__jl_log_entry";
+		$database->setQuery($query);
+		$database->query();
+	}
+	
+	/**
+	 * Will remove Orphans from Database
+	 *
+	 * @return unknown
+	 */
+	function removeOrpans(){
+		global $database;
+		/* orphans, no application handle or no id in base log */
+		$query = "SELECT jlappid FROM #__jl_app";
+		$database->setQuery($query);
+		$list = implode(',', $database->loadResultArray());
+		
+		/* delete all entries from prime table */
+		$query = "DELETE j,je FROM #__jl_log j NATURAL JOIN #__jl_log_entry je WHERE j.jlappid NOT IN ($list)";
+		$database->setQuery($query);
+		$database->query();
+		
+		/** @todo also check if there are orphan entries in jl_log_entry table */
+		
+		return true;
+	}
+}
+
+/**
+ * Jllog query error logging class
+ * 
+ * Executes common database tasks and automatically logs their results to JLLog. Each of these functions will return the same result as their equivalent functions in Joomla's database class; however, any detected database errors will be logged.
+ * 
+ * @package JL
+ * @subpackage JLLog
+ */
+class JLLogQuery
+{
+	/** @var JLLog JLLog object to log to */
+	var $_jllog = null;
+	/** @var integer Level at which to log query errors */
+	var $_level = 0;
+	
+	/**
+	 * Standard constructor
+	 *
+	 * @param JLLog $jllog
+	 * @param integer Level at which to log database query errors
+	 * 
+	 * @return JLLogQuery
+	 */
+	function JLLogQuery($jllog, $level)
+	{
+		$this->_jllog = $jllog;
+		$this->_level = $level;
+	}
+	
+	/**
+	 * Trigger a query error
+	 * 
+	 * @return boolean true on success.
+	 */
+	function trigger()
+	{
+		global $database;
+		
+		$dbError = $database->getErrorMsg();
+		$msg = $this->_jllog->l($this->_level, $dbError);
+		return true;
+	}
+	
+	/**
+	 * Wrapper for $database->query()
+	 *
+	 * @return mixed Same value as $database->query()
+	 */
+	function query()
+	{
+		global $database;
+		
+		$result = $database->query();
+		if($query === false) {
+			$this->trigger();
+		}
+		return $result;
+	}
+	
+	/**
+	 * Wrapper for $database->loadObjectList()
+	 *
+	 * @param mixed $key
+	 * 
+	 * @return mixed Same value as $database->loadObjectList()
+	 */
+	function loadObjectList($key='')
+	{
+		global $database;
+		
+		$result = $database->loadObjectList($key);
+		if($result === null) {
+			$this->trigger();
+		}
+		return $result;
+	}
+	
+	/**
+	 * Wrapper for $database->loadRowList()
+	 * 
+	 * @param mixed $key
+	 * 
+	 * @return mixed Same value as $database->loadRowList()
+	 */
+	function loadRowList($key='')
+	{
+		global $database;
+		
+		$result = $database->loadRowList($key);
+		if($result === null) {
+			$this->trigger();
+		}
+		return $result;
+	}
+	
+	/**
+	 * Wrapper for $database->loadResult()
+	 * 
+	 * @return mixed Same value as $database->loadResult()
+	 */
+	function loadResult()
+	{
+		global $database;
+		
+		$result = $database->loadResult();
+		/* Joomla's database object returns the same error if the column value is null
+		   as if there is really an error. */
+		if($result === null && $database->_errorMsg) {
+			$this->trigger();
+		}
+		return $result;
+	}
+	
+	/**
+	 * Wrapper for $database->loadResultArray()
+	 * 
+	 * @param mixed 
+	 * 
+	 * @return mixed Same value as $database->loadResultArray()
+	 */
+	function loadResultArray($numinarray = 0)
+	{
+		global $database;
+		
+		$result = $database->loadResultArray($numinarray);
+		if($result === null) {
+			$this->trigger();
+		}
+		return $result;
+	}
+}
+?>

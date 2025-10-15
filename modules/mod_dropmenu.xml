@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module" version="1.0.0">
+    <name>Drop Menu</name>
+    <author>123clicksite.com</author>
+    <creationDate>Jan 2014</creationDate>
+    <copyright>(C)Bloomex</copyright>
+    <license></license>
+    <authorEmail>kzrajevskiy@bloomex.ca</authorEmail>
+    <authorUrl>bloomex.ca</authorUrl>
+    <version>1.0.0</version>
+    <description>Displays a dropdown menu.</description>
+    <files>
+        <filename module="mod_123clickmenu">mod_dropmenu.php</filename>
+    </files>
+    <params>
+        <param name="top_ul_id_sfx" type="text" default="" label="Main Container Id Suffix" description="Suffix id of main menu container" />
+        <param name="top_li_class_sfx" type="text" default="" label="First Level Item Class Suffix" description="" />
+        <param name="second_li_class_sfx" type="text" default="" label="Second Level Item Class Suffix" description="" />
+        <param name="third_li_class_sfx" type="text" default="" label="Third Level Item Class Suffix" description="" />
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="menutype" type="mos_menu" default="" label="Menu Name" description="The name of the menu (default is `mainmenu`)" />
+    </params>
+</mosinstall>

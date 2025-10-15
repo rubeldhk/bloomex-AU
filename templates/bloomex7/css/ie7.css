@@ -1,0 +1,107 @@
+
+div.content-header div.header-navi {
+	width: 1000px;
+	height: 102px;
+	text-align: left;
+	overflow: hidden;
+}
+div.content-header div.header-navi img.logo {
+	border: none;
+	margin: 0px 0px 0px 237px;
+}
+div.back-walmart {
+	float:left;
+	border: none;	
+	width: 150px;
+	text-align:left;
+	margin: 23px 0px 0px 40px;
+}
+div.content-header div.header-navi div.box-menu-header {
+	float:right;
+	width: 395px;
+	margin: -30px 3px 0px 0px;
+}
+table tr td div.item-products div.box-txt-ct, div.item-products div.box-txt-ct {
+	width: 170px;
+	text-align: left;
+	margin:0px 0px 0px 6px;
+}
+
+div.module-check-out {
+	width: 665px;
+	overflow: auto;
+	margin: 0px;
+}
+
+
+div.btn-add-shipping-address div.btn-normal-1 div.btn-normal-2 a:link,
+div.btn-add-shipping-address div.btn-normal-1 div.btn-normal-2 a:visited {
+	width:140px;
+}
+
+div.product-img {	
+	margin:0px 0px 0px -15px;
+	width:29%;
+	float:left;
+}
+
+div.product-info {
+	font-size:12px;
+	width:68%;
+	float:left;
+}
+
+div.add-to-cart-form {
+	text-align:center;
+	width:230px;
+	display:block;
+	float:left;
+}
+
+table.cart tr td {
+	text-align:left;
+}
+
+div.btn-normal div.btn-normal-1 div.btn-normal-2 a:link,
+div.btn-normal div.btn-normal-1 div.btn-normal-2 a:visited {
+	padding:0px 10px 0px 10px;
+}
+
+div.btn-item-products div.btn-item-products-1 div.btn-item-products-2 a:link,
+div.btn-item-products div.btn-item-products-1 div.btn-item-products-2 a:visited {
+	line-height: 17px;
+}
+
+div.btn-item-products-hover div.btn-item-products-hover-1 div.btn-item-products-hover-2 a:link,
+div.btn-item-products-hover div.btn-item-products-hover-1 div.btn-item-products-hover-2 a:visited {
+	line-height: 17px;
+}
+
+div.customer-acc {
+	width: 635px;
+	overflow: hidden;
+	font-size:11px;
+	margin:0px 10px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+div.bill-to-information {
+	margin: 10px 0px 0px 10px;
+}
+
+div.btn-check-out {
+	margin: 10px 10px 0px 10px;
+}
+
+div.bill-to-information div.bill-to div.txt-ct-bill select,
+div.checkout-form div.txt-ct-bill select {
+	margin: 0px 0px 0px 10px;
+}
+
+h4.checkout-register {
+	font-size:13px;
+}
+
+
+
+

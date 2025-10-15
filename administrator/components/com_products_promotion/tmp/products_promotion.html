@@ -1,0 +1,260 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+    .btn-group, .btn-group-vertical{position: static !important;}
+    .bootstrap-select.btn-group,
+    .bootstrap-select.btn-group .dropdown-menu,
+    .bootstrap-select.btn-group .dropdown-toggle
+    {
+        position: absolute;
+        top: 43px;
+        left: 1%;
+        width: 98%;
+    }
+
+    table th,table,td {text-align: center}
+    .product_or_category_list,.datepicker_option,input[type=button][name=cancel]{
+        margin-top: 5px;
+    }
+    .start_promotion,.end_promotion{
+        width: 49%;
+    }
+    .start_promotion{
+        float: left;
+    }
+    .end_promotion{
+        float: right;
+    }
+</style>
+
+</form>
+<p class="request_result"></p>
+
+    <table class="adminlist">
+        <tr>
+            <th>
+                Product / Category
+            </th>
+            <th>
+                Week Day / Date Range
+            </th>
+            <th>
+                Discount (Percent)
+            </th>
+
+            <th>
+                Public
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+        <tr class='add_or_update'>
+            <td width="40%" style="position: relative">
+                <select name="product_or_category" class="product_or_category inputbox form-control selectpicker'  data-live-search='true'">
+                    <option value="product">Product</option>
+                    <option value="category">Category</option>
+                </select>
+                {PRODUCTS}
+                {CATEGORIES}
+            </td>
+            <td width="30%">
+                <select name="date_range_or_week_day" class="date_range_or_week_day inputbox form-control selectpicker'  data-live-search='true'">
+                    <option value="week_day"> Week Day</option>
+                    <option value="date_range">Date Range</option>
+                </select>
+                <input type="text" name="start_promotion" readonly placeholder="start date" class="form-control start_promotion d-none datepicker_option date_range"/>
+                <input type="text" name="end_promotion" readonly placeholder="end date" class="form-control end_promotion d-none datepicker_option date_range"/>
+
+                <select name="week_day" class="week_day datepicker_option d-block inputbox form-control selectpicker' data-live-search='true'">
+                    <option value="0">Monday</option>
+                    <option value="1">Tuesdays</option>
+                    <option value="2">Wednesdays</option>
+                    <option value="3">Thursdays</option>
+                    <option value="4">Fridays</option>
+                    <option value="5">Saturdays</option>
+                    <option value="6">Sundays</option>
+                </select>
+            </td>
+
+            <td>
+                <input type="number" min="1" step="1" max="100" class="form-control discount" name="discount" value="10" placeholder="percent"/>
+            </td>
+            <td>
+                <input type="checkbox" name="public" class="public" value="1">
+            </td>
+            <td>
+                <input type="button" class='btn btn-success' name="save" value="Add">
+                <input type="button" class='d-none btn btn-link' name="cancel" value="cancel">
+            </td>
+        </tr>
+    </table>
+<div id="ajaxloader"></div>
+<h1 class="text-center">Promotion List</h1>
+
+<div class="promotionList">
+
+{VIEW}
+</div>
+    <script>
+
+        $(function () {
+            $(".start_promotion").datepicker({dateFormat: "yy-mm-dd"});
+            $(".end_promotion").datepicker({dateFormat: "yy-mm-dd"});
+        });
+
+        jQuery("body").on("change", ".product_or_category", function() {
+
+            jQuery('.product_or_category_list').removeClass('d-block').addClass('d-none');
+
+            let value = jQuery(this).val();
+
+            jQuery('.'+value+'_list').addClass('d-block')
+
+
+        });
+        jQuery("body").on("change", ".date_range_or_week_day", function() {
+
+            jQuery('.datepicker_option').removeClass('d-block').addClass('d-none');
+
+            let value = jQuery(this).val();
+
+            jQuery('.'+value).addClass('d-block')
+
+
+        });
+        jQuery("body").on("click", "input[type=button][name=delete]", function() {
+
+            let res = confirm("Are you sure?");
+
+            if (res == true) {
+                let prom_id = jQuery(this).attr('prom_id')
+                startLoader()
+                jQuery.ajax({
+                type: "POST",
+                url: "index2.php",
+                data: {
+                    option: 'com_products_promotion',
+                    func: 'delete',
+                    prom_id: prom_id
+                },
+                dataType: "json",
+                success: function(e) {
+                    if(e.result){
+                        jQuery('.request_result').removeClass('text-danger').addClass('text-success').html(e.msg)
+                        jQuery("tr[prom_id="+prom_id+"]").remove()
+                    } else {
+                        jQuery('.request_result').removeClass('text-success').addClass('text-danger').html(e.error)
+                    }
+                    stopLoader()
+                }
+            })
+            }
+
+        })
+
+
+        jQuery("body").on("click", "input[type=button][name=save]", function() {
+
+            if(parseInt(jQuery('.discount').val()) < 1 || parseInt(jQuery('.discount').val()) > 100){
+                jQuery('.request_result').removeClass('text-success').addClass('text-danger').html('The discount can between 0 to 100')
+                stopLoader()
+                return false;
+            }
+
+                let prom_id = jQuery(this).attr('prom_id')
+                startLoader()
+                jQuery.ajax({
+                    type: "POST",
+                    url: "index2.php",
+                    data: {
+                        option: 'com_products_promotion',
+                        func: (prom_id)?'update':'add',
+                        prom_id: prom_id,
+                        product_or_category: jQuery('.product_or_category').val(),
+                        product_id: jQuery('#product_id').val(),
+                        category_id: jQuery('#category_id').val(),
+                        publish: jQuery('.public').prop("checked"),
+                        date_range_or_week_day: jQuery('.date_range_or_week_day').val(),
+                        start_promotion: jQuery('.start_promotion').val(),
+                        end_promotion: jQuery('.end_promotion').val(),
+                        week_day: jQuery('.week_day').val(),
+                        discount: jQuery('.discount').val()
+                    },
+                    dataType: "json",
+                    success: function(e) {
+                        if(e.result){
+                            jQuery('.request_result').removeClass('text-danger').addClass('text-success').html(e.msg)
+                            updatePromotionList();
+                        } else {
+                            jQuery('.request_result').removeClass('text-success').addClass('text-danger').html(e.error)
+                        }
+                        stopLoader()
+                    }
+                })
+
+
+        })
+
+        jQuery("body").on("click", "input[type=button][name=edit]", function() {
+
+            let prom_id = jQuery(this).attr('prom_id')
+            startLoader()
+            jQuery("input[type=button][name=save]").val('Update').attr('prom_id',prom_id).removeClass('btn-success').addClass('btn-warning')
+            jQuery("input[type=button][name=cancel]").removeClass('d-none').addClass('btn-block')
+
+            if(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_week_day").val() != ''){
+                jQuery(".date_range_or_week_day").val('week_day').change()
+            }else{
+                jQuery(".date_range_or_week_day").val('date_range').change()
+            }
+
+            if(parseInt(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_product_id").val()) > 0){
+                jQuery(".product_or_category").val('product').change()
+            }else{
+                jQuery(".product_or_category").val('category').change()
+            }
+
+            jQuery('#product_id').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_product_id").val())
+            jQuery('#category_id').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_category_id").val())
+            jQuery('.week_day').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_week_day").val())
+            jQuery('.start_promotion').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_start_promotion").val())
+            jQuery('.end_promotion').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_end_promotion").val())
+            jQuery('.discount').val(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_discount").val())
+            jQuery('.public').prop("checked",parseInt(jQuery("tr[prom_id="+prom_id+"]").find(".hidden_public").val())?true:false)
+            $('.selectpicker').selectpicker('refresh')
+            stopLoader()
+
+        })
+        jQuery("body").on("click", "input[type=button][name=cancel]", function() {
+            startLoader()
+            jQuery("input[type=button][name=save]").val('Add').removeAttr('prom_id').removeClass('btn-warning').addClass('btn-success')
+            jQuery("input[type=button][name=cancel]").removeClass('btn-block').addClass('d-none')
+            stopLoader()
+
+        })
+
+        function updatePromotionList() {
+            startLoader()
+            jQuery('.promotionList').html('')
+            jQuery.ajax({
+                type: "POST",
+                url: "index2.php",
+                data: {
+                    option: 'com_products_promotion',
+                    func: 'update_promotion_list'
+                },
+                success: function(e) {
+                    jQuery('.promotionList').html(e);
+                    stopLoader()
+                }
+            })
+        }
+
+    </script>

@@ -1,0 +1,6 @@
+AuthType Basic   
+AuthName admin 
+AuthBasicProvider file
+AuthUserFile /etc/httpd/conf/.htpasswd
+require user brendan
+

@@ -1,0 +1,61 @@
+
+
+div.delivery-calendar-left {
+	margin:10px 10px 0px 8px;
+}
+
+div.special-deliver {
+	width:100%;
+}
+
+div.day-number	{ 
+	margin:-4px 0px 0px -2px;
+}
+
+div.txt-1 {
+	padding:0px 0px 0px 0px;
+	margin:0px 0px 0px 0px;
+}
+
+div.txt-1 label{
+	padding:3px 0px 0px 0px;
+}
+
+div.select-day-note {
+	height:260px;
+}
+
+div#yourAddressDelivery {
+	margin:100px 0px 0px 0px;
+}
+
+div#yourAddressDelivery span.express_image {
+	background:url(../images/car_delivery.png) top left no-repeat;
+	margin:0px 5px 0px 0px;
+	width:56px;
+	height:24px;
+	display:block;
+	float:left; 
+}
+
+div#yourAddressDelivery div.txt-1{
+	margin:0px 0px 5px 0px;
+	display:block;
+	width:100%;
+	float:left;
+}
+
+div#yourAddressDelivery div.txt-1 input {
+	float:left;
+	width:25px;
+}
+
+div#yourAddressDelivery div.txt-1 label {
+	float:left;
+	width:220px;
+}
+
+div.delivery-calendar-right {
+	height:495px;
+}
+

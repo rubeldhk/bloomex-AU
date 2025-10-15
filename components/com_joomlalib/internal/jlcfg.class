@@ -1,0 +1,242 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die('Direct access not allowed');
+JLCoreApi::import('jlconf');
+JLCoreApi::import('jllog');
+JLCoreApi::import('jlplatform');
+
+/* Sections */
+defined('_JL_CFG_JLLOG') or define('_JL_CFG_JLLOG', 'JLLog');
+defined('_JL_CFG_JLGRAPH') or define('_JL_CFG_JLGRAPH', 'JLGraph');
+defined('_JL_CFG_JLTIME') or define('_JL_CFG_JLTIME', 'JLTime');
+defined('_JL_CFG_JLFILETRANSFER') or define('_JL_CFG_JLFILETRANSFER', 'JLFileTransfer');
+
+defined('_JL_CFG_DEFLOGLEVEL') or define('_JL_CFG_DEFLOGLEVEL', 'Log Level');
+defined('_JL_CFG_DEFLOGLEVELDESC') or define('_JL_CFG_DEFLOGLEVELDESC', 'Default logging level for JL. 1=verbose, 5=debug, 10=production, 15=critical only');
+defined('_JL_CFG_LOGTODB') or define('_JL_CFG_LOGTODB', 'Log to Database');
+defined('_JL_CFG_LOGTODBDESC') or define('_JL_CFG_LOGTODBDESC', 'Log messages to database');
+defined('_JL_CFG_KEEPALL') or define('_JL_CFG_KEEPALL', 'Don\'t prune.');
+defined('_JL_CFG_HOUR') or define('_JL_CFG_HOUR', 'Hour');
+defined('_JL_CFG_HOURS') or define('_JL_CFG_HOURS', 'Hours');
+defined('_JL_CFG_DAY') or define('_JL_CFG_DAY', 'Day');
+defined('_JL_CFG_DAYS') or define('_JL_CFG_DAYS', 'Days');
+defined('_JL_CFG_WEEK') or define('_JL_CFG_WEEK', 'Week');
+defined('_JL_CFG_LOGTTL') or define('_JL_CFG_LOGTTL', 'Keep logs for');
+defined('_JL_CFG_LOGTTLDESC') or define('_JL_CFG_LOGTTLDESC', 'Time to keep the log entries into the database before pruning them.');
+defined('_JL_CFG_CACHECHARTSFOR') or define('_JL_CFG_CACHECHARTSFOR', 'Cache charts for');
+defined('_JL_CFG_CACHECHARTSFORDESC') or define('_JL_CFG_CACHECHARTSFORDESC', 'How many seconds to cache charts for. Charts will not be regenerated before this time expires.');
+defined('_JL_CFG_CHARTWIDTH') or define('_JL_CFG_CHARTWIDTH', 'Chart Width');
+defined('_JL_CFG_CHARTWIDTHDESC') or define('_JL_CFG_CHARTWIDTHDESC', 'Default width of the chart to be generated.');
+defined('_JL_CFG_CHARTHEIGHT') or define('_JL_CFG_CHARTHEIGHT', 'Chart Height');
+defined('_JL_CFG_CHARTHEIGHTDESC') or define('_JL_CFG_CHARTHEIGHTDESC', 'Default height of the chart to be generated.');
+defined('_JL_CFG_TIMEFORMAT') or define('_JL_CFG_TIMEFORMAT', 'Time Format');
+defined('_JL_CFG_TIMEFORMATDESC') or define('_JL_CFG_TIMEFORMATDESC', 'Default Time Format for JoomlaLib. A date() compatible string.');
+defined('_JL_CFG_DATEFORMAT') or define('_JL_CFG_DATEFORMAT', 'Time Format');
+defined('_JL_CFG_DATEFORMATDESC') or define('_JL_CFG_DATEFORMATDESC', 'Default Date Format for JoomlaLib. A date() compatible string.');
+defined('_JL_CFG_TIMEOFFSETJOOMLA') or define('_JL_CFG_TIMEOFFSETJOOMLA', 'Joomla Time Offset');
+defined('_JL_CFG_TIMEOFFSETJOOMLADESC') or define('_JL_CFG_TIMEOFFSETJOOMLADESC', 'How many hours away from server time is the Joomla user base.');
+defined('_JL_CFG_TIMEOFFSETREPORT') or define('_JL_CFG_TIMEOFFSETREPORT', 'Reporting Time Offset');
+defined('_JL_CFG_TIMEOFFSETREPORTDESC') or define('_JL_CFG_TIMEOFFSETREPORTDESC', 'How many hours away from server time are the system administrators.');
+defined('_JL_CFG_USECURL') or define('_JL_CFG_USECURL', 'Use Curl');
+defined('_JL_CFG_USECURLDESC') or define('_JL_CFG_USECURLDESC', 'Use the Curl libraries to fetch files remotely.');
+defined('_JL_CFG_USEWGET') or define('_JL_CFG_USEWGET', 'Use Wget');
+defined('_JL_CFG_USEWGETDESC') or define('_JL_CFG_USEWGETDESC', 'Use the wget console command to fetch files remotely.');
+defined('_JL_CFG_USERAWSOCKET') or define('_JL_CFG_USERAWSOCKET', 'Use Raw Socket');
+defined('_JL_CFG_USERAWSOCKETDESC') or define('_JL_CFG_USERAWSOCKETDESC', 'Use raw sockets to fetch files remotely.');
+defined('_JL_CFG_USEFOPEN') or define('_JL_CFG_USEFOPEN', 'Use Fopen');
+defined('_JL_CFG_USEFOPENDESC') or define('_JL_CFG_USEFOPENDESC', 'Use the fopen URL wrappers to fetch files remotely.');
+
+/**
+ * Internal configuration management class for JoomlaLib. If you are looking for
+ * for an example of how to use JLConf, this is it.
+ *
+ * @package JL
+ */
+class JLCfg
+{
+	/* Private variables */
+	var $_jlConf = 			null; /** @var JLConf */
+	var $_dbSerializer 	= 	null; /** @var JLConfSerializerDatabase */
+	var $_formSerializer = 	null; /** @var JLConfSerializerHTMLAdminForm */
+	var $_appHandle = 		null;
+	var $_jllog = 			null; /** @var JLLog */
+	var $_setValuesToDefaultOnFail = false; /* Should we set a value to its default if loading it fails? */
+	var $_option;
+	var $_act;
+	var $_task;
+	var $_variableName =	null;
+	
+	/**
+	 * Constructor. Parameters are standard Joomla variables
+	 *
+	 * @param string Joomla <b>option</b>
+	 * @param string Joomla <b>act</b>
+	 * @param string Joomla <b>task</b>
+	 *
+	 */
+	function JLCfg($jllog=null, $option, $act, $task)
+	{	
+		$this->_appHandle = 'jl';
+		$this->_variableName = 'JL'; /* Capital letters on purpose ;) */
+		$this->_option = $option;
+		$this->_act = $act;
+		$this->_task = $task;
+		
+		if(!$jllog) {
+			$jllog = new JLLog($this->_appHandle);
+		}
+		$this->_jllog = $jllog;
+		
+		$this->_jllog->l(5, 'New JLCfg with option=%s, act=%s, task=%s', $option, $act, $task);
+		
+		/* Create the config parameters first */
+		$this->createStructure();
+		
+		$this->_dbSerializer = new JLConfSerializerDatabase();
+		$this->_formSerializer = new JLConfSerializerHTMLAdminForm($this->_appHandle, $this->_option, $this->_act, $this->_task);
+	}
+	
+	/**
+	 * Create the configuration structure for JoomlaLib. Define config parameters here
+	 *
+	 *
+	 * @return boolean true if OK. False if failed for some reason
+	 */
+	function createStructure()
+	{
+		$this->_jlConf = new JLConf($this->_appHandle);
+		
+		$sectionHandle = 'logging';
+		$this->_jlConf->addSection($sectionHandle, _JL_CFG_JLLOG);
+		$this->_jlConf->addParam('logLevel', $sectionHandle, new JLConfInteger(10, 10, 1, 20), _JL_CFG_DEFLOGLEVEL, _JL_CFG_DEFLOGLEVELDESC);
+		$this->_jlConf->addParam('dbLogging', $sectionHandle, new JLConfYesNo(1,1), _JL_CFG_LOGTODB, _JL_CFG_LOGTODBDESC);
+		
+		$hoursOpt = array();
+		$hoursOpt[0] = _JL_CFG_KEEPALL;
+	    $hoursOpt[1] ='1 '.  _JL_CFG_HOUR;
+    	$hoursOpt[6] = '6 '.  _JL_CFG_HOURS;
+    	$hoursOpt[12] = '12 '.  _JL_CFG_HOURS;
+    	$hoursOpt[24] = '1 '.  _JL_CFG_DAY;
+	    $hoursOpt[48] = '2 '.  _JL_CFG_DAYS;
+	    $hoursOpt[72] = '3 '.  _JL_CFG_DAYS;
+	    $hoursOpt[168] = '1 '.  _JL_CFG_WEEK;
+    	$this->_jlConf->addParam('logttl', $sectionHandle, new JLConfEnumInteger(0, 0, $hoursOpt), _JL_CFG_LOGTTL, _JL_CFG_LOGTTLDESC);
+		
+    	$sectionHandle = 'graphing';
+    	$this->_jlConf->addSection($sectionHandle, _JL_CFG_JLGRAPH);
+    	$this->_jlConf->addParam('graphExpireSecs', $sectionHandle, new JLConfInteger(30, 30, 0, false), _JL_CFG_CACHECHARTSFOR, _JL_CFG_CACHECHARTSFORDESC);
+    	$this->_jlConf->addParam('graphWidth', $sectionHandle, new JLConfInteger(500, 500, 100, false), _JL_CFG_CHARTWIDTH, _JL_CFG_CHARTWIDTHDESC);
+    	$this->_jlConf->addParam('graphHeight', $sectionHandle, new JLConfInteger(500, 500, 100, false), _JL_CFG_CHARTHEIGHT, _JL_CFG_CHARTHEIGHTDESC);
+		
+    	$sectionHandle = 'timedate';
+    	$this->_jlConf->addSection($sectionHandle, _JL_CFG_JLTIME);
+    	$this->_jlConf->addParam('timeFormat', $sectionHandle, new JLConfString('G:i', 'G:i', 1), _JL_CFG_TIMEFORMAT, _JL_CFG_TIMEFORMATDESC);
+    	$this->_jlConf->addParam('dateFormat', $sectionHandle, new JLConfString('n/j', 'n/j', 1), _JL_CFG_DATEFORMAT, _JL_CFG_DATEFORMATDESC);
+    	
+    	/* Make an array of time offsets that are seconds=>string */
+    	$timeOffsets = array();
+    	for($i = -23; $i < 24; $i++) {
+    		$secs = $i * 3600;
+    		$hourStr = ($i == 1 || $i == -1) ? _JL_CFG_HOUR : _JL_CFG_HOURS;
+    		$timeOffsets[$secs] = "$i $hourStr";
+    	}
+    	
+    	$this->_jlConf->addParam('timeOffsetJoomla', $sectionHandle, new JLConfEnumInteger(0, 0, $timeOffsets), _JL_CFG_TIMEOFFSETJOOMLA, _JL_CFG_TIMEOFFSETJOOMLADESC); 
+		$this->_jlConf->addParam('timeOffsetReporting', $sectionHandle, new JLConfEnumInteger(0, 0, $timeOffsets), _JL_CFG_TIMEOFFSETREPORT, _JL_CFG_TIMEOFFSETREPORTDESC);
+		
+		$sectionHandle = 'filetransfer';
+		$this->_jlConf->addSection($sectionHandle, _JL_CFG_JLFILETRANSFER);
+		$this->_jlConf->addParam('ftUseCurl', $sectionHandle, new JLConfYesNo(1, 1), _JL_CFG_USECURL, _JL_CFG_USECURLDESC);
+		$this->_jlConf->addParam('ftUseWget', $sectionHandle, new JLConfYesNo(1, 1), _JL_CFG_USEWGET, _JL_CFG_USEWGETDESC);
+		$this->_jlConf->addParam('ftUseRawSocket', $sectionHandle, new JLConfYesNo(1, 1), _JL_CFG_USERAWSOCKET, _JL_CFG_USERAWSOCKETDESC);
+		$this->_jlConf->addParam('ftUseFopen', $sectionHandle, new JLConfYesNo(1, 1), _JL_CFG_USEFOPEN, _JL_CFG_USEFOPENDESC);
+    	return true;
+	}
+	
+	/**
+	 * Loads the the configuration values from the database. 
+	 *
+	 * @return boolean True if loading from the database went ok. False if it failed.
+	 */
+	function loadFromDB() 
+	{
+		$result = $this->_dbSerializer->load($this->_appHandle, $this->_jlConf, $this->_setValuesToDefaultOnFail);
+		if (!is_array($result)) {
+			return true;
+		}
+		
+		foreach ($result as $errStr) {
+			echo "<font color=\"red\">$errStr</font><br />\n";
+			$this->_jllog->l(10, "jlCfg->loadFromDb(): %s", $errStr);
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Loads the configuration values from posted form values
+	 *
+	 * @return boolean True if loading from the from went ok. False if it failed.
+	 */
+	function loadFromForm()
+	{
+		$result = $this->_formSerializer->load($this->_appHandle, $this->_jlConf, $this->_setValuesToDefaultOnFail);
+		
+		if (!is_array($result)) {
+			return true;
+		}
+		
+		foreach ($result as $errStr) {
+			echo "<font color=\"red\">$errStr</font><br />\n";
+			$this->_jllog->l(10, "jlCfg->loadFromForm(): %s", $errStr);
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Display the administration form used for saving values 
+	 *
+	 * @return boolean True if showing the form went ok. False if not
+	 */
+	function showAdminForm()
+	{
+		return $this->_jlConf->write($this->_formSerializer);
+	}
+	
+	/**
+	 * Save the configuration to the database and the PHP inclusion file
+	 *
+	 * @param string Optional URL to redirect to if saving the configuration fails.
+	 *
+	 * @return boolean true if OK. False if failed
+	 */
+	function saveConfiguration($errorRedirectUrl='') 
+	{	
+		/* Save the configuration to the database so it's persistent */
+		$this->_jlConf->write($this->_dbSerializer);
+		
+		$configFile = dirname(__FILE__) . '/../cfg/config.joomlalib.php';
+		@chmod($configFile, 0766);
+		$isWriteable = JLPlatform::isDirectoryWritable($configFile);
+		if(!$isWriteable) {
+			$errorMsg = "Unable to write configuration to '$configFile'. Is not writeable.";
+			$this->_jllog->l(10, $errorMsg);
+			
+			if($errorRedirectUrl) {
+				mosRedirect($errorRedirectUrl, $errorMsg);
+			}
+		}
+		
+		/* Save the configuration out to the PHP inclusion file */
+		$phpStdClassSerializer = new JLConfSerializerPHPStdClass($configFile, $this->_variableName);
+		$this->_jlConf->write($phpStdClassSerializer);
+		return true;
+	}
+}
+
+?>

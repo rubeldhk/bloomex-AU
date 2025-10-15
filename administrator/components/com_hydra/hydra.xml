@@ -1,0 +1,496 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+<name>hydra</name>
+<version>0.6.7</version>
+<creationDate>21/07/2007</creationDate>
+<author>Tobias Kuhn</author>
+<authorEmail>tobias@projectfork.net</authorEmail>
+<authorUrl>http://www.projectfork.net</authorUrl>
+<copyright>This component is released under the GPL ;)</copyright>
+<description><![CDATA[
+    <strong>Thank you for downloading Project Fork!</strong><br/>
+     
+    Please click <a href="index2.php?option=com_hydra">here</a> to start the Installation!<br />
+    ]]></description>
+<files>
+    <filename>hydra.php</filename>
+    <filename>index.html</filename>
+</files>
+<install>
+    <queries>
+      <query>DROP TABLE IF EXISTS `#__hydra_comments`</query>
+      <query>
+      CREATE TABLE `#__hydra_comments` (
+                   `comment_id` int(11) NOT NULL auto_increment,
+                   `area` varchar(56) NOT NULL default '',
+                   `text` text NOT NULL,
+                   `creator` int(11) NOT NULL default '0',
+                   `task` int(11) NOT NULL default '0',
+                   `doc` int(11) NOT NULL default '0',
+                   `data` int(11) NOT NULL default '0',
+                   `cdate` int(11) NOT NULL default '0',
+                   `mdate` int(11) NOT NULL default '0',
+                   PRIMARY KEY  (`comment_id`),
+                   KEY `task` (`task`,`doc`,`data`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_documents`</query>
+      <query>
+      CREATE TABLE `#__hydra_documents` (
+                   `doc_id` int(11) NOT NULL auto_increment,
+                   `doc_title` varchar(124) NOT NULL default '',
+                   `doc_text` text NOT NULL,
+                   `doc_type` int(11) NOT NULL default '0',
+                   `project` int(11) NOT NULL default '0',
+                   `uid` int(11) NOT NULL default '0',
+                   `creator` int(11) NOT NULL default '0',
+                   `folder` int(11) NOT NULL default '0',
+                   `cdate` int(11) NOT NULL default '0',
+                   `mdate` int(11) NOT NULL default '0',
+                   `doc_active` int(1) NOT NULL default '1',
+                   `doc_access` int(1) NOT NULL default '0',
+                   PRIMARY KEY  (`doc_id`),
+                   KEY `doc_uptodate` (`doc_active`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_events`</query>
+      <query>
+      CREATE TABLE `#__hydra_events` (
+                   `event_id` int(11) NOT NULL auto_increment,
+                   `title` varchar(56) NOT NULL default '',
+                   `details` text NOT NULL,
+                   `start_date` int(11) NOT NULL default '0',
+                   `end_date` int(11) NOT NULL default '0',
+                   `creator` int(11) NOT NULL default '0',
+                   `shared` int(1) NOT NULL default '0',
+                   `color` varchar(6) NOT NULL default '',
+                   PRIMARY KEY  (`event_id`),
+                   KEY `start_date` (`start_date`,`end_date`),
+                   KEY `creator` (`creator`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_files`</query>
+      <query>
+      CREATE TABLE `#__hydra_files` (
+                   `file_id` int(11) NOT NULL auto_increment,
+                   `file_name` varchar(255) NOT NULL default '',
+                   `file_realname` varchar(255) NOT NULL default '',
+                   `file_location` text NOT NULL,
+                   `mime_type` varchar(255) NOT NULL default '',
+                   `file_size` int(11) NOT NULL default '0',
+                   `file_type` int(11) NOT NULL default '0',
+                   `project` int(11) NOT NULL default '0',
+                   `uid` int(11) NOT NULL default '0',
+                   `cdate` int(11) NOT NULL default '0',
+                   `mdate` int(11) NOT NULL default '0',
+                   `creator` int(11) NOT NULL default '0',
+                   `folder` int(11) NOT NULL default '0',
+                   `file_active` int(1) NOT NULL default '1',
+                   `file_access` int(1) NOT NULL default '0',
+                   PRIMARY KEY  (`file_id`),
+                   KEY `folder` (`folder`),
+                   KEY `file_uptodate` (`file_active`)
+                   ) TYPE=MyISAM ; 
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_folder_map`</query>
+      <query>
+      CREATE TABLE `#__hydra_folder_map` (
+                   `folder` int(11) NOT NULL default '0',
+                   `parent_folder` int(11) NOT NULL default '0',
+                   KEY `folder` (`folder`,`parent_folder`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_folders`</query>
+      <query>
+      CREATE TABLE `#__hydra_folders` (
+                   `folder_id` int(11) NOT NULL auto_increment,
+                   `folder_name` varchar(255) NOT NULL default '',
+                   `folder_type` int(11) NOT NULL default '0',
+                   `project` int(11) NOT NULL default '0',
+                   `uid` int(11) NOT NULL default '0',
+                   `creator` int(11) NOT NULL default '0',
+                   `cdate` int(11) NOT NULL default '0',
+                   `mdate` int(11) NOT NULL default '0',
+                   `folder_active` int(1) NOT NULL default '1',
+                   `folder_access` int(1) NOT NULL default '0',
+                   PRIMARY KEY  (`folder_id`),
+                   KEY `folder_uptodate` (`folder_active`)
+                   ) TYPE=MyISAM 
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_group_members`</query>
+      <query>
+      CREATE TABLE `#__hydra_group_members` (
+                   `gid` int(11) NOT NULL default '0',
+                   `uid` int(11) NOT NULL default '0',
+                   KEY `gid` (`gid`,`uid`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_groups`</query>
+      <query>
+      CREATE TABLE `#__hydra_groups` (
+                   `group_id` int(11) NOT NULL auto_increment,
+                   `group_name` varchar(124) NOT NULL default '',
+                   `group_description` text NOT NULL,
+                   PRIMARY KEY  (`group_id`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_language`</query>
+      <query>
+      CREATE TABLE `#__hydra_language` (
+                   `id` int(11) NOT NULL auto_increment,
+                   `name` varchar(56) NOT NULL default '',
+                   `label` varchar(124) NOT NULL default '',
+                   PRIMARY KEY  (`id`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_perms`</query>
+      <query>
+      CREATE TABLE `#__hydra_perms` (
+                   `gid` int(11) NOT NULL default '0',
+                   `area` varchar(56) NOT NULL default '',
+                   `command` varchar(56) NOT NULL default '',
+                   KEY `group` (`gid`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_profile`</query>
+      <query>
+      CREATE TABLE `#__hydra_profile` (
+                   `id` int(11) NOT NULL auto_increment,
+                   `user_id` int(11) NOT NULL default '0',
+                   `parameter` varchar(56) NOT NULL default '',
+                   `value` text NOT NULL,
+                   KEY `id` (`id`,`user_id`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_project`</query>
+      <query>
+      CREATE TABLE `#__hydra_project` (
+                   `project_id` int(11) NOT NULL auto_increment,
+                   `project_name` varchar(124) NOT NULL default '',
+                   `project_description` text NOT NULL,
+                   `start_date` int(11) NOT NULL default '0',
+                   `end_date` int(11) NOT NULL default '0',
+                   `mdate` int(11) NOT NULL default '0',
+                   PRIMARY KEY  (`project_id`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_project_groups`</query>
+      <query>
+      CREATE TABLE `#__hydra_project_groups` (
+                   `pid` int(11) NOT NULL default '0',
+                   `gid` int(11) NOT NULL default '0',
+                   KEY `pid` (`pid`,`gid`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_registry`</query>
+      <query>
+      CREATE TABLE `#__hydra_registry` (
+                   `id` int(11) NOT NULL auto_increment,
+                   `area` varchar(56) NOT NULL default '',
+                   `command` varchar(56) NOT NULL default '',
+                   `user_type` int(1) NOT NULL default '0',
+                   `area_label` varchar(124) NOT NULL default '',
+                   `command_label` varchar(124) NOT NULL default '',
+                   `inherit` varchar(56) NOT NULL default '',
+                   PRIMARY KEY  (`id`),
+                   KEY `area` (`area`,`command`),
+                   KEY `inherit` (`inherit`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_settings`</query>
+      <query>
+      CREATE TABLE `#__hydra_settings` (
+                   `version` varchar(255) NOT NULL default '0',
+                   `upload_path` text NOT NULL,
+                   `debugger` int(1) NOT NULL default '0',
+                   `raw_output` int(1) NOT NULL default '0'
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_task`</query>
+      <query>
+      CREATE TABLE `#__hydra_task` (
+                   `task_id` int(11) NOT NULL auto_increment,
+                   `project` int(11) NOT NULL default '0',
+                   `uid` int(11) NOT NULL default '0',
+                   `task_name` varchar(124) NOT NULL default '',
+                   `task_description` text NOT NULL,
+                   `start_date` int(11) NOT NULL default '0',
+                   `end_date` int(11) NOT NULL default '0',
+                   `task_status` int(11) NOT NULL default '0',
+                   `task_cstatus` varchar(24) NOT NULL,
+                   `creator` int(11) NOT NULL default '0',
+                   `last_changed` int(11) NOT NULL default '0',
+                   `priority` int(1) NOT NULL default '0',
+                   PRIMARY KEY  (`task_id`),
+                   KEY `project` (`project`,`uid`)
+                   ) TYPE=MyISAM ;
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_theme`</query>
+      <query>
+      CREATE TABLE `#__hydra_theme` (
+                   `theme_id` int(11) NOT NULL auto_increment,
+                   `name` varchar(56) NOT NULL default '',
+                   `label` varchar(124) NOT NULL default '',
+                   PRIMARY KEY  (`theme_id`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_users`</query>
+      <query>
+      CREATE TABLE `#__hydra_users` (
+                   `id` int(11) NOT NULL auto_increment,
+                   `jid` int(11) NOT NULL default '0',
+                   `user_type` int(1) NOT NULL default '0',
+                   KEY `id` (`id`,`jid`)
+                   ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_task_map`</query>
+      <query>
+      CREATE TABLE `#__hydra_task_map` (
+                   `task` INT( 11 ) NOT NULL ,
+                   `parent_task` INT( 11 ) NOT NULL ,
+                   INDEX ( `parent_task` )
+                   ) TYPE = MYISAM ;
+      </query>
+      <query>DROP TABLE IF EXISTS `#__hydra_task_notify`</query>
+      <query>
+      CREATE TABLE `#__hydra_task_notify` (
+                   `task` INT( 11 ) NOT NULL ,
+                   `uid` INT( 11 ) NOT NULL ,
+                   INDEX ( `task` )
+                   ) TYPE = MYISAM ;
+      </query>
+      <query>INSERT INTO `#__hydra_language` VALUES (1, 'english', 'English')</query>
+      <query>INSERT INTO `#__hydra_language` VALUES (2, 'german', 'Deutsch')</query>
+      <query>INSERT INTO `#__hydra_theme` VALUES (1, 'default', 'Joomla')</query>
+    </queries>
+</install>
+<installfile></installfile>
+<uninstallfile></uninstallfile>
+<uninstall>
+    <queries>
+      <query>DELETE FROM `#__hydra_comments`</query>
+      <query>DROP TABLE `#__hydra_comments`</query>
+      <query>DELETE FROM `#__hydra_documents`</query>
+      <query>DROP TABLE `#__hydra_documents`</query>
+      <query>DELETE FROM `#__hydra_events`</query>
+      <query>DROP TABLE `#__hydra_events`</query>
+      <query>DELETE FROM `#__hydra_files`</query>
+      <query>DROP TABLE `#__hydra_files`</query>
+      <query>DELETE FROM `#__hydra_folder_map`</query>
+      <query>DROP TABLE `#__hydra_folder_map`</query>
+      <query>DELETE FROM `#__hydra_folders`</query>
+      <query>DROP TABLE `#__hydra_folders`</query>
+      <query>DELETE FROM `#__hydra_group_members`</query>
+      <query>DROP TABLE `#__hydra_group_members`</query>
+      <query>DELETE FROM `#__hydra_groups`</query>
+      <query>DROP TABLE `#__hydra_groups`</query>
+      <query>DELETE FROM `#__hydra_language`</query>
+      <query>DROP TABLE `#__hydra_language`</query>
+      <query>DELETE FROM `#__hydra_perms`</query>
+      <query>DROP TABLE `#__hydra_perms`</query>
+      <query>DELETE FROM `#__hydra_profile`</query>
+      <query>DROP TABLE `#__hydra_profile`</query>
+      <query>DELETE FROM `#__hydra_project`</query>
+      <query>DROP TABLE `#__hydra_project`</query>
+      <query>DELETE FROM `#__hydra_project_groups`</query>
+      <query>DROP TABLE `#__hydra_project_groups`</query>
+      <query>DELETE FROM `#__hydra_registry`</query>
+      <query>DROP TABLE `#__hydra_registry`</query>
+      <query>DELETE FROM `#__hydra_settings`</query>
+      <query>DROP TABLE `#__hydra_settings`</query>
+      <query>DELETE FROM `#__hydra_task`</query>
+      <query>DROP TABLE `#__hydra_task`</query>
+      <query>DELETE FROM `#__hydra_theme`</query>
+      <query>DROP TABLE `#__hydra_theme`</query>
+      <query>DELETE FROM `#__hydra_users`</query>
+      <query>DROP TABLE `#__hydra_users`</query>
+      <query>DELETE FROM `#__hydra_task_map`</query>
+      <query>DROP TABLE `#__hydra_task_map`</query>
+      <query>DELETE FROM `#__hydra_task_notify`</query>
+      <query>DROP TABLE `#__hydra_task_notify`</query>
+    </queries>
+</uninstall>
+<installfile>setup.php</installfile>
+<uninstallfile></uninstallfile>
+<administration>
+   <menu>Project Fork</menu>
+     <files>
+      <filename>admin.hydra.php</filename>
+      <filename>index.html</filename>
+      <filename>LICENSE.php</filename>
+      <filename>setup.php</filename>
+      <filename>hydra.xml</filename>
+      <filename>update.php</filename>
+      <filename>classes/calendar.class.php</filename>
+      <filename>classes/configuration.class.php</filename>
+      <filename>classes/controlpanel.class.php</filename>
+      <filename>classes/filebrowser.class.php</filename>
+      <filename>classes/index.html</filename>
+      <filename>classes/mime_type.class.php</filename>
+      <filename>classes/projects.class.php</filename>
+      <filename>classes/protector.class.php</filename>
+      <filename>classes/session.class.php</filename>
+      <filename>classes/system.class.php</filename>
+      <filename>classes/template.class.php</filename>
+      <filename>classes/debug.class.php</filename>
+      <filename>classes/installer.class.php</filename>
+      <filename>html/calendar_day.html.php</filename>
+      <filename>html/calendar_index.html.php</filename>
+      <filename>html/calendar_left.html.php</filename>
+      <filename>html/calendar_month.html.php</filename>
+      <filename>html/calendar_newentry.html.php</filename>
+      <filename>html/calendar_right.html.php</filename>
+      <filename>html/calendar_week.html.php</filename>
+      <filename>html/controlpanel_groups.html.php</filename>
+      <filename>html/controlpanel_importsetup.html.php</filename>
+      <filename>html/controlpanel_index.html.php</filename>
+      <filename>html/controlpanel_joomlausers.html.php</filename>
+      <filename>html/controlpanel_left.html.php</filename>
+      <filename>html/controlpanel_new_group.html.php</filename>
+      <filename>html/controlpanel_overview.html.php</filename>
+      <filename>html/controlpanel_profile.html.php</filename>
+      <filename>html/controlpanel_registry.html.php</filename>
+      <filename>html/controlpanel_right.html.php</filename>
+      <filename>html/controlpanel_settings.html.php</filename>
+      <filename>html/controlpanel_users.html.php</filename>
+      <filename>html/files_browser.html.php</filename>
+      <filename>html/files_commentlist.html.php</filename>
+      <filename>html/files_index.html.php</filename>
+      <filename>html/files_left.html.php</filename>
+      <filename>html/files_newcomment.html.php</filename>
+      <filename>html/files_newdoc.html.php</filename>
+      <filename>html/files_newfolder.html.php</filename>
+      <filename>html/files_read.html.php</filename>
+      <filename>html/files_right.html.php</filename>
+      <filename>html/files_upload.html.php</filename>
+      <filename>html/index.html</filename>
+      <filename>html/projects_index.html.php</filename>
+      <filename>html/projects_left.html.php</filename>
+      <filename>html/projects_new_project.html.php</filename>
+      <filename>html/projects_new_task.html.php</filename>
+      <filename>html/projects_projectlist.html.php</filename>
+      <filename>html/projects_projectsheet.html.php</filename>
+      <filename>html/projects_right.html.php</filename>
+      <filename>html/projects_show_tasks.html.php</filename>
+      <filename>html/projects_tasksheet.html.php</filename>
+      <filename>html/setup_warning.html.php</filename>
+      <filename>html/system_console.html.php</filename>
+      <filename>html/projects_newcomment.html.php</filename>
+      <filename>html/projects_commentlist.html.php</filename>
+      <filename>js/calendar.js</filename>
+      <filename>js/filebrowser.js</filename>
+      <filename>js/index.html</filename>
+      <filename>js/system.js</filename>
+      <filename>language/english.php</filename>
+      <filename>language/german.php</filename>
+      <filename>language/index.html</filename>
+      <filename>themes/index.html</filename>
+      <filename>themes/default/index.html</filename>
+      <filename>themes/default/index.php</filename>
+      <filename>themes/default/css/custom.css</filename>
+      <filename>themes/default/css/hydra.css</filename>
+      <filename>themes/default/css/index.html</filename>
+      <filename>themes/default/images/12_downarrow.gif</filename>
+      <filename>themes/default/images/12_downarrow_2.gif</filename>
+      <filename>themes/default/images/12_uparrow.gif</filename>
+      <filename>themes/default/images/12_uparrow_2.gif</filename>
+      <filename>themes/default/images/16_back.gif</filename>
+      <filename>themes/default/images/16_back_2.gif</filename>
+      <filename>themes/default/images/16_calendar.gif</filename>
+      <filename>themes/default/images/16_calendar_browse.gif</filename>
+      <filename>themes/default/images/16_comment.gif</filename>
+      <filename>themes/default/images/16_comment_2.gif</filename>
+      <filename>themes/default/images/16_controlpanel.gif</filename>
+      <filename>themes/default/images/16_delete.gif</filename>
+      <filename>themes/default/images/16_delete_2.gif</filename>
+      <filename>themes/default/images/16_details.gif</filename>
+      <filename>themes/default/images/16_details_2.gif</filename>
+      <filename>themes/default/images/16_edit.gif</filename>
+      <filename>themes/default/images/16_edit_2.gif</filename>
+      <filename>themes/default/images/16_filemanager.gif</filename>
+      <filename>themes/default/images/16_files_browse.gif</filename>
+      <filename>themes/default/images/16_files_doc.gif</filename>
+      <filename>themes/default/images/16_files_file.gif</filename>
+      <filename>themes/default/images/16_files_folder.gif</filename>
+      <filename>themes/default/images/16_files_move.gif</filename>
+      <filename>themes/default/images/16_files_move_2.gif</filename>
+      <filename>themes/default/images/16_group.gif</filename>
+      <filename>themes/default/images/16_group_2.gif</filename>
+      <filename>themes/default/images/16_menu.gif</filename>
+      <filename>themes/default/images/16_profile.gif</filename>
+      <filename>themes/default/images/16_projects.gif</filename>
+      <filename>themes/default/images/16_tasks.gif</filename>
+      <filename>themes/default/images/16_tick.gif</filename>
+      <filename>themes/default/images/16_upload.gif</filename>
+      <filename>themes/default/images/16_user.gif</filename>
+      <filename>themes/default/images/16_user_2.gif</filename>
+      <filename>themes/default/images/16_hydra.gif</filename>
+      <filename>themes/default/images/16_priority_0.gif</filename>
+      <filename>themes/default/images/16_priority_1.gif</filename>
+      <filename>themes/default/images/16_priority_2.gif</filename>
+      <filename>themes/default/images/16_notification_2.gif</filename>
+      <filename>themes/default/images/16_notification.gif</filename>
+      <filename>themes/default/images/16_home.gif</filename>
+      <filename>themes/default/images/32_print.gif</filename>
+      <filename>themes/default/images/32_abort.gif</filename>
+      <filename>themes/default/images/32_back.gif</filename>
+      <filename>themes/default/images/32_calendar_newentry.gif</filename>
+      <filename>themes/default/images/32_comment.gif</filename>
+      <filename>themes/default/images/32_controlpanel_delgroup.gif</filename>
+      <filename>themes/default/images/32_controlpanel_deluser.gif</filename>
+      <filename>themes/default/images/32_controlpanel_import.gif</filename>
+      <filename>themes/default/images/32_controlpanel_newgroup.gif</filename>
+      <filename>themes/default/images/32_controlpanel_profile.gif</filename>
+      <filename>themes/default/images/32_controlpanel_settings.gif</filename>
+      <filename>themes/default/images/32_delete.gif</filename>
+      <filename>themes/default/images/32_files_newdocument.gif</filename>
+      <filename>themes/default/images/32_files_newfolder.gif</filename>
+      <filename>themes/default/images/32_files_upload.gif</filename>
+      <filename>themes/default/images/32_groups.gif</filename>
+      <filename>themes/default/images/32_projects_delproject.gif</filename>
+      <filename>themes/default/images/32_projects_deltask.gif</filename>
+      <filename>themes/default/images/32_projects_newproject.gif</filename>
+      <filename>themes/default/images/32_projects_newtask.gif</filename>
+      <filename>themes/default/images/32_projects_task.gif</filename>
+      <filename>themes/default/images/32_registry.gif</filename>
+      <filename>themes/default/images/32_submit.gif</filename>
+      <filename>themes/default/images/32_user.gif</filename>
+      <filename>themes/default/images/hydra_logo.gif</filename>
+      <filename>themes/default/images/index.html</filename>
+      <filename>themes/default/images/main_container_heading.gif</filename>
+      <filename>themes/default/images/move_data_big.gif</filename>
+      <filename>themes/default/images/pagelinks.gif</filename>
+      <filename>themes/default/images/progress_0.gif</filename>
+      <filename>themes/default/images/progress_5.gif</filename>
+      <filename>themes/default/images/progress_10.gif</filename>
+      <filename>themes/default/images/progress_15.gif</filename>
+      <filename>themes/default/images/progress_20.gif</filename>
+      <filename>themes/default/images/progress_25.gif</filename>
+      <filename>themes/default/images/progress_30.gif</filename>
+      <filename>themes/default/images/progress_35.gif</filename>
+      <filename>themes/default/images/progress_40.gif</filename>
+      <filename>themes/default/images/progress_45.gif</filename>
+      <filename>themes/default/images/progress_50.gif</filename>
+      <filename>themes/default/images/progress_55.gif</filename>
+      <filename>themes/default/images/progress_60.gif</filename>
+      <filename>themes/default/images/progress_65.gif</filename>
+      <filename>themes/default/images/progress_70.gif</filename>
+      <filename>themes/default/images/progress_75.gif</filename>
+      <filename>themes/default/images/progress_80.gif</filename>
+      <filename>themes/default/images/progress_85.gif</filename>
+      <filename>themes/default/images/progress_90.gif</filename>
+      <filename>themes/default/images/progress_95.gif</filename>
+      <filename>themes/default/images/progress_100.gif</filename>
+      <filename>themes/default/images/sheet_bc.gif</filename>
+      <filename>themes/default/images/sheet_bl.gif</filename>
+      <filename>themes/default/images/sheet_br.gif</filename>
+      <filename>themes/default/images/sheet_cl.gif</filename>
+      <filename>themes/default/images/sheet_cr.gif</filename>
+      <filename>themes/default/images/sheet_tc.gif</filename>
+      <filename>themes/default/images/sheet_tl.gif</filename>
+      <filename>themes/default/images/sheet_tr.gif</filename>
+      <filename>themes/default/images/table_heading.gif</filename>
+      <filename>themes/default/js/theme.js</filename>
+    </files>
+</administration>
+</mosinstall>

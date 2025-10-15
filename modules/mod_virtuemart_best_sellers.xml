@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<mosinstall type="module">
+    <name>VirtueMart Best Sellers Module</name>
+    <creationDate>11.07.2006</creationDate>
+    <author>Marty Tennison</author>
+    <copyright>VirtueMart is released under GNU/GPLicense</copyright>
+    <authorEmail>marty@freeison.com</authorEmail>
+    <authorUrl>http://www.virtuemart.net</authorUrl>
+    <version>0.1</version>
+    <description>Before you use this module you will have to manually create a table. See the "SPECIAL NOTES" section of mod_virtuemart_best_sellers-help.txt file or visit the virtuemart forums for more help.  This module builds a list of best selling items for each category of your store and also a best selling items list for your entire store.
+     </description>
+     <files>
+         <filename module="mod_virtuemart_best_sellers">mod_virtuemart_best_sellers.php</filename>
+         <filename module="mod_virtuemart_best_sellers">mod_virtuemart_best_sellers-help.txt</filename>
+     </files>
+     <install>
+         <queries>
+            <query>DROP TABLE IF EXISTS `#__{vm}_best_sellers`;</query>
+            <query>CREATE TABLE `#__{vm}_best_sellers` ( `category_id` int(11) NOT NULL default '0', `product_id_array` text collate utf8_unicode_ci, `last_build_time` int(12) NOT NULL default '1'  PRIMARY KEY  (`category_id`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores best selling product data';</query>
+         </queries>
+     </install>
+     <uninstall>
+       <queries>
+           <query>DROP TABLE IF EXISTS `#__{vm}_best_sellers`;</query>
+       </queries>
+     </uninstall>
+     <params>
+        <param name="build_interval" type="text" default="86400" label="Seconds between builds" description="This defines how often (in seconds) that the list will be built.  86400 = build once every 24 hours. 0 = build always." />
+        <param name="order_history_limit" type="text" default="100" label="Number of orders to read" description="This determines how many orders should be scanned when building the list.  The orders are scanned in reverse chronological order.  The higher the number, the further back in time the results will reflect. Default = 100." />
+		<param name="no_cat_text" type="text" default="" label="No Category Text" description="When no category name is found this text will be used" />
+
+		<param name="num_prod_remember" type="text" default="25" label="Number of items to save" description="This setting determines how many items (rows) should be saved in the database.  You can set this higher than displayed products if you want." />
+		
+		<param name="num_prod_display" type="text" default="5" label="Number of items to display" description="This setting determines how many items (rows) should be displayed." />
+		
+		
+		<param name="len_product_name" type="text" default="0" label="Length of Product Name" description="If you need to shorten the product name, put a value in here." />
+		<param name="len_product_s_desc" type="text" default="0" label="Length of Product s_desc" description="If you need to shorten the product short description, put a value in here." />
+		
+		
+		<param name="image_path" type="textarea" default="/components/com_virtuemart/shop_image/product" rows="2" cols="50" label="Relative Image Path" description="The path to your images directory.  This is relative to http root." />
+		<param name="pre_content_template" type="textarea" default="" label="Pre Content Template" rows="10" cols="50" description="This text is appended just BEFORE the items are displayed. Common uses would be HTML marked for display formating. ie. div, ol, ul etc." />
+		<param name="content_template" type="textarea" default="&lt;img style=&quot;float: left;&quot; src=&quot;{image_path}/{thumb_image}&quot; />&lt;a href=&quot;{link_url}&quot;>{name}&lt;/a> &lt;br style=&quot;clear: both;&quot; />" label="Content Template" rows="10" cols="50" description="This is where the formating of the output occurs. Use any HTML code you wish.  The following variables are replaced with actual values during runtime. {link_url}, {image_path}, {full_image}, {thumb_image}, {name}, {s_desc}.  If you loose the default value or mess it up just delete all contents of this field to get it back. "/>
+		<param name="post_content_template" type="textarea" default="" label="Post Content Template" rows="10" cols="50" description="This text is appended just AFTER the items are displayed. Common uses would be HTML marked for display formating.  ie. /div, /ol, /ul etc." />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+    </params>
+</mosinstall>
+

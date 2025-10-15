@@ -1,0 +1,22 @@
+<graph caption='Language Frequencies' subcaption='Graphs by JoomlaLib' showValues='1' animation='0' showCanvas='1' formatNumber='0' formatNumberScale='0' decimalSeparator='.' thousandSeparator=','>
+	<set name="English/United States" value="2006538" color="0099CC" />
+	<set name="English/Canada" value="546641" color="FF0000" />
+	<set name="French/Canada" value="303216" color="006F00" />
+	<set name="English" value="121804" color="FF66CC" />
+	<set name="French" value="111475" color="996600" />
+	<set name="English/United Kingdom" value="93368" color="FF9933" />
+	<set name="Russian" value="11297" color="9900FF" />
+	<set name="English/Australian" value="8277" color="999999" />
+	<set name="Chinese/China" value="3684" color="CCCC00" />
+	<set name="French/Switzerland" value="3529" color="0372AB" />
+	<set name="French/Belgium" value="3468" color="0099CC" />
+	<set name="French/France" value="3177" color="FF0000" />
+	<set name="Korean" value="2864" color="006F00" />
+	<set name="Spanish" value="1790" color="FF66CC" />
+	<set name="Spanish/Mexico" value="1684" color="996600" />
+	<set name="Chinese/Taiwan" value="1651" color="FF9933" />
+	<set name="German" value="1631" color="9900FF" />
+	<set name="en-se" value="1267" color="999999" />
+	<set name="Portuguese/Brazil" value="1195" color="CCCC00" />
+	<set name="Japanese" value="1036" color="0372AB" />
+</graph>

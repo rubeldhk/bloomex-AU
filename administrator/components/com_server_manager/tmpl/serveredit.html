@@ -1,0 +1,50 @@
+</form>
+<form method="post" action="index2.php?option=com_citymanager&task={TASK}&id={ID}" enctype="multipart/form-data">
+    <table class="adminheading" width="100%">
+        <tbody><tr>
+                <th>{HEADER}</th>
+            </tr>
+        </tbody></table>
+    <input type="hidden" name="id" value="{ID}"/>
+    <input type="hidden" name="option" value="com_citymanager"/>
+    <input type="hidden" name="task" value="{TASK}"/>  
+    <table  class="adminlist" id="big_tabe">
+        <tr>
+            <td>Domain:</td><td><input name ="url" type="text" size="100" maxlength="255" value="{URL}"/></td>
+        </tr>
+        <tr>
+            <td>Street adress:</td><td><input name ="street" type="text" size="100" maxlength="255" value="{STREET}"/></td>
+        </tr>
+        <tr>
+            <td>City:</td><td><input name ="city" type="text" size="100" maxlength="255" value="{CITY}"/></td>
+        </tr>
+        <tr>
+            <td>Province:</td><td><input name ="province" type="text" size="100"  maxlength="255" value="{PROVINCE}"/></td>
+        </tr>
+        <tr>
+            <td>Postal:</td><td><input name ="postal" type="text" size="100" maxlength="255" value="{POSTAL}"/></td>
+        </tr>
+        <tr>
+            <td>Phone#:</td><td><input name ="phone" type="text" size="100" maxlength="255" value="{PHONE}"/></td>
+        </tr>
+        <tr>
+            <td>Production:</td><td><input name ="production" size="100" type="text" maxlength="255" value="{PRODUCTION}"/></td>
+        </tr>
+        <tr>
+            <td>Google map code:</td><td><textarea name ="googlemap" cols="200" rows="10" >{GOOGLEMAP}</textarea></td>
+        </tr>
+        <tr><td>Delete images: </td><td><input type="checkbox" name="delete_images"> (Select to delete all the pictures)</td></tr>
+    </table>
+    <input type="submit" value="submit"/>
+    <input type="button" value="cancel" onclick="window.location.href='/administrator/index2.php?option=com_citymanager'"/>
+</form>
+<script>
+    var arr = new Array('{HREFS0}','{HREFS1}','{HREFS2}','{HREFS3}');
+    for( var i = 0; i < 4; i++ )
+    {
+        var elem = document.getElementById( 'big_tabe' );
+        elem.innerHTML += '<tr><td>Footer banner '+( i + 1 )+':</td><td><input type="file" name="filename_'+i+'"> href=<input size="100" type="text" maxlength="255" name="href_'+i+'" value="'+arr[i]+'">';
+        elem.innerHTML += '</td></tr>';
+    }
+</script>
+<form>

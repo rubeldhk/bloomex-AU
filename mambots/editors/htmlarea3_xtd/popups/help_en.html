@@ -1,0 +1,460 @@
+<html style="height: 100%">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>WYSIWYG Editor Help</title>
+<script type="text/javascript" src="popup.js"></script>
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+table .label { text-align: right; width: 8em; }
+
+.title { background: none; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+
+#buttons {
+      margin-top: 1em; border-top: 1px solid black;
+      padding: 2px; text-align: center;
+}
+</style>
+</HEAD>
+
+<BODY scroll="yes" onLoad="self.focus();" onUnLoad="opener.focus();">
+
+<div class="title">WYSIWYG Editor Help</div>
+
+<P>
+Note: For a simple linebreak please use &lt;Shift + Enter&gt; instead of just &lt;Enter&gt;.<br />
+For a paragraph use &lt;Enter&gt;.
+</P>
+
+<P>
+If you are using either Mozilla, Firefox or Netscape, there might be problems when switching
+to HTML mode and back to WYSIWYG or when switching between the tabs &quot;Content&quot;, &quot;Images&quot;, &quot;Publishing&quot; and &quot;Metadata&quot;.
+If after that you can't edit the content of the editor, try switching from WYSIWYG to HTML and back. This is a known bug in all Mozilla based browsers.
+</P>
+
+<b>Short description:</b>
+
+<P>
+<table width="100%" border="1" cellspacing="0" cellpadding="5" bordercolor="#333333">
+<TR>
+<TH>Icon</TH>
+<TH>Description</Th>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Create link" src="../images/ed_mos_internallink.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Create or edit hyperlinks.</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="{mospagebreak}" src="../images/ed_mos_pagebreak.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert {mospagebreak} tag. This will paginate your article.
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="{mosimage}" src="../images/ed_mos_image.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert {mosimage} tag. Make sure, you've selected images over the tab "Images" before.
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="HTML Mode" src="../images/ed_html.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Switches between WYSIWYG and HTML mode
+</TD>
+</TR>
+<TR>
+<TD ALIGN="left">
+<select><option>Heading 1</option><option>Heading 2</option><option>Heading 3</option></select></TD>
+<TD VALIGN="TOP">
+Choose a formatting (e. g. Heading 1 or Paragraph)
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="left">
+<select><option>Arial</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet</option></select></TD>
+<TD VALIGN="TOP">
+Choose font type
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="left">
+<select><option>1 (8pt)</option><option>2 (10pt)</option><option>3 (12pt)</option></select></TD>
+<TD VALIGN="TOP">
+Choose font size
+</TD>
+</TR>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Textfarbe" src="../images/ed_color_fg.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Choose font color
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Hintergrundfarbe" src="../images/ed_color_bg.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Choose the background color of your text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Remove format" src="../images/ed_remove_format.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Removes the formatting of the selected text (works in Mozilla/Netscape only if you have deactivated the option &quot;Use CSS&quot; in the &quot;Composer&quot; preferences of your browser)
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Bold" src="../images/ed_format_bold.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Bold text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Italic" src="../images/ed_format_italic.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Italic text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Underline" src="../images/ed_format_underline.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Underline text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Striketrough" src="../images/ed_format_strike.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Striketrough text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Superscript" src="../images/ed_format_sup.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Superscript text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Subscript" src="../images/ed_format_sub.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Subscript text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Linksb&uuml;ndig" src="../images/ed_align_left.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Align left
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zentriert" src="../images/ed_align_center.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Align center
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Align right" src="../images/ed_align_right.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Align right
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Justify text" src="../images/ed_align_justify.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Justify text
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Unordered list" src="../images/ed_list_bullet.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Unordered list
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Ordered list" src="../images/ed_list_num.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Ordered list
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Decrease indent" src="../images/ed_indent_less.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Decrease indent
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Increase indent" src="../images/ed_indent_more.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Increase indent
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert horizontal rule" src="../images/ed_hr.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert horizontal rule
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert special character" src="../images/ed_charmap.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert special character
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert image" src="../images/ed_insert_image.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Opens up the image browser.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Cut" src="../images/ed_cut.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Cut selected
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Copy" src="../images/ed_copy.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Copy selected
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Paste" src="../images/ed_paste.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Paste content of clipboard
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert table" src="../images/insert_table.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert Table
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Show/hide table borders" src="../images/ed_show_0_border.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Show/hide table borders when 0<br><br>
+This function is helpful when editing tables with a border of 0 pixels width
+
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Clean up Word tags" src="../images/ed_clean_word.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Cleans up Microsoft Word tags when pasted into the editor.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Popup Editor" src="../images/fullscreen_maximize.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Opens the editor in a new popup window
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Popup Editor" src="../images/fullscreen_minimize.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Closes the popup editor and passes the content to the main editor
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Table properties" src="../plugins/TableOperations/img/table-prop.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Table properties
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert row" src="../plugins/TableOperations/img/row-insert-under.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert row
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Delete row" src="../plugins/TableOperations/img/row-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Delete row
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert column" src="../plugins/TableOperations/img/col-insert-after.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert column
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Delete column" src="../plugins/TableOperations/img/col-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Delete column
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Insert cell" src="../plugins/TableOperations/img/cell-insert-after.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Insert cell
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Delete cell" src="../plugins/TableOperations/img/cell-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Delete cell
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Merge cells" src="../plugins/TableOperations/img/cell-merge.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Merge cells
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Split cells" src="../plugins/TableOperations/img/cell-split.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Split cells
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Help" src="../images/ed_help.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Opens this help window
+</TD>
+</TR>
+
+
+</TABLE>
+</P>
+<form>
+<div id="buttons">
+  <button type="button" name="cancel" onclick="self.close();">OK</button><br />
+  &copy 2004 Bernhard Pfeifer
+</div>
+</form>
+
+</BODY>
+
+</HTML>

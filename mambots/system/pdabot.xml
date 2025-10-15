@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="1.0.0" type="mambot" group="system">
+	<name>PDA mambot</name>
+	<version>2.1.2</version>
+	<author>Denis Ryabov</author>
+	<creationDate>05 September 2007</creationDate>
+	<copyright>Denis Ryabov</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>dryabov@yandex.ru</authorEmail>
+	<authorUrl>http://physicist.phpnet.us/</authorUrl>
+	<description><![CDATA[<div style="font-weight:400;"><h3>PDA-mambot</h3><p>This mambot changes template to PDA-version.</p><p>Do not forget <b><a href="/administrator/index2.php?option=com_mambots">to publish</a></b> a mambot &#8220;PDA-mambot&#8221;.</p><p>Note: for using subdomain you need to <a href="/mambots/system/pda/installpatch.php" onclick="window.open('/mambots/system/pda/installpatch.php','popupwindow',config='toolbar=0,menubar=0,personalbar=0,width=300,height=100,scrollbars=1,resizable=1,modal=1,dependable=1');return false;"><b>apply patch for joomla cache</b></a> [<a href="/mambots/system/pda/uninstallpatch.php" onclick="window.open('/mambots/system/pda/uninstallpatch.php','popupwindow',config='toolbar=0,menubar=0,personalbar=0,width=300,height=100,scrollbars=1,resizable=1,modal=1,dependable=1');return false;">restore original</a>]</p><p>Development of a mambot: &copy;&nbsp;2007 <a href="mailto:dryabov@yandex.ru">Denis Ryabov</a>, <a href="http://physicist.phpnet.us/">Interesting about Joomla! CMS</a>.</p><p><b>Always check for last version at <a href="http://physicist.phpnet.us/">http://physicist.phpnet.us/</a></b></p><p>&nbsp;</p><p><b>If you find this plugin useful, consider making a <a href="http://physicist.phpnet.us/donate/">donation</a> to show your support.</b></p></div>]]></description>
+	<files>
+		<filename mambot="pdabot">pdabot.php</filename>
+		<filename>pda/index.html</filename>
+		<filename>pda/installpatch.php</filename>
+		<filename>pda/uninstallpatch.php</filename>
+		<filename>pda/joomla.cache.php</filename>
+	</files>
+	<params>
+		<param name="@spacer" type="spacer" default="&lt;hr&gt;&lt;b&gt;Mambot settings&lt;/bgt;" label=" " description="" />
+		<param name="useragent" type="radio" default="1" label="PDA for PDA-user-agents" description="Show PDA version for PDA-user-agents&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="subdomain" type="radio" default="1" label="PDA for subdomain" description="Show PDA version for subdomain&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="subdomainname" type="text" default="pda" label="Subdomain name" description="Subdomain name, e.g. &amp;lt;b&amp;gt;pda&amp;lt;/b&amp;gt; for pda.yourdomain.com&amp;lt;br /&amp;gt;[default: pda]" />
+		<param name="@spacer" type="spacer" default="&lt;hr&gt;&lt;b&gt;Page General Settings&lt;/bgt;" label=" " description="" />
+		<param name="header1" type="text" default="header" label="1st module position above pathway" description="Name of the 1st module position above pathway&amp;lt;br /&amp;gt;[default: header]" />
+		<param name="header2" type="text" default="" label="2nd module position above pathway" description="Name of the 2nd module position above pathway&amp;lt;br /&amp;gt;[default: ]" />
+		<param name="pathway" type="radio" default="1" label="Show pathway" description="Show pathway on the pages&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="middle1" type="text" default="" label="1st module position between pathway and component" description="Name of the 1st module position between pathway and component&amp;lt;br /&amp;gt;[default: ]" />
+		<param name="middle2" type="text" default="" label="2nd module position between pathway and component" description="Name of the 2nd module position between pathway and component&amp;lt;br /&amp;gt;[default: ]" />
+		<param name="footer1" type="text" default="footer" label="1st module position below component" description="Name of the 1st module position below component&amp;lt;br /&amp;gt;[default: footer]" />
+		<param name="footer2" type="text" default="" label="2nd module position below component" description="Name of the 2nd module position below component&amp;lt;br /&amp;gt;[default: ]" />
+		<param name="jfooter" type="radio" default="1" label="Show Joomla! footer" description="Show Joomla! version in footer&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;hr&gt;&lt;b&gt;Extended Settings&lt;/bgt;" label=" " description="" />
+		<param name="homepage" type="text" default="" label="PDA Homepage" description="Set this page as a homepage (e.g. index.php?option=com_content&amp;task=view&amp;id=12&amp;itemid=1)&amp;lt;br /&amp;gt;[default: ]" />
+		<param name="pathwayhome" type="radio" default="1" label="Pathway on home page" description="Show pathway on home (main) page&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="componentonhome" type="radio" default="1" label="Component on home page" description="Show component on home (main) page&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="head" type="list" default="0" label="Use head" description="Use standard or simplified &amp;amp;lt;head&amp;amp;gt; block&amp;lt;br /&amp;gt;[default: standard Joomla]">
+			<option value="0">standard Joomla</option>
+			<option value="1">simplified (title only)</option>
+		</param>
+		<param name="allowextedit" type="radio" default="0" label="Allow extended editors" description="Allow to load extended editors (TinyMCE, etc.)&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;hr&gt;&lt;b&gt;Postprocessing (not recommended)&lt;/bgt;" label=" " description="" />
+		<param name="removeimg" type="radio" default="0" label="Remove IMG" description="Remove &amp;amp;lt;img&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="removeiframe" type="radio" default="0" label="Remove IFRAME" description="Remove &amp;amp;lt;iframe&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="removeobject" type="radio" default="0" label="Remove OBJECT" description="Remove &amp;amp;lt;object&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="removeapplet" type="radio" default="0" label="Remove APPLET" description="Remove &amp;amp;lt;applet&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="removeembed" type="radio" default="0" label="Remove EMBED" description="Remove &amp;amp;lt;embed&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="removescript" type="radio" default="0" label="Remove SCRIPT" description="Remove &amp;amp;lt;script&amp;amp;gt; tags&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="utf" type="radio" default="0" label="Convert to UTF-8" description="Convert output to UTF-8 (using iconv library)&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="&lt;hr&gt;&lt;b&gt;Professional Settings (Tuning)&lt;/bgt;" label=" " description="" />
+		<param name="pdatemplate" type="text" default="pda" label="PDA template" description="PDA template name&amp;lt;br /&amp;gt;[default: pda]" />
+		<param name="embedcss" type="radio" default="0" label="Embed CSS" description="Embed css-style into page&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="content" type="list" default="0" label="Content-type" description="Output Content-type header&amp;lt;br /&amp;gt;[default: text/html]">
+			<option value="0">text/html</option>
+			<option value="1">application/vnd.wap.xhtml+xml</option>
+			<option value="2">application/xhtml+xml</option>
+			<option value="3">text/xhtml</option>
+		</param>
+		<param name="xmlhead" type="radio" default="1" label="Use xml-head" description="Start html with &amp;amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;...&amp;quot;?&amp;amp;gt;&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="doctype" type="list" default="1" label="DOCTYPE-head" description="DOCTYPE-head&amp;lt;br /&amp;gt;[default: WAPFORUM/XHTML Mobile 1.0]">
+			<option value="0">No</option>
+			<option value="1">WAPFORUM/XHTML Mobile 1.0</option>
+			<option value="2">W3C/XHTML 1.0 Transitional</option>
+			<option value="3">W3C/XHTML 1.0 Strict</option>
+		</param>
+		<param name="xmlhtml" type="radio" default="1" label="xmlns in html-head" description="Use &amp;amp;lt;html xmlns=&amp;quot;http://www.w3.org/1999/xhtml&amp;quot;&amp;amp;gt; instead of &amp;amp;lt;html&amp;amp;gt;&amp;lt;br /&amp;gt;[default: Yes]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="gzip" type="radio" default="0" label="Gzip compress" description="Gzip compression&amp;lt;br /&amp;gt;[default: No]">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosinstall>

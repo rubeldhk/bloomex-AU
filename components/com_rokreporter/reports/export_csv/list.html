@@ -1,0 +1,38 @@
+<mos:comment>@version $Id: list.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:link src="reportCSS" />
+<mos:link src="reportHeading" />
+
+<script language="javascript" type="text/javascript">
+	function submitbutton( task, param ) {
+		frm = document.adminForm;
+		frm.task.value = task;
+		frm.submit();
+	}
+</script>
+<div id="datacell">
+	<h3>{SITENAME}</h3>
+	<fieldset>
+		<legend>
+			<mos:var name="META_NAME" modifier="Translate" /> &bull; <mos:time format="d-M-Y H:i:s"/>
+		</legend>
+
+		<div class="clr"></div>
+
+		<h3><mos:Translate>Select Table to Export</mos:Translate></h3>
+		<ul>
+			<mos:tmpl name="list-items" type="simplecondition" requiredvars="item_name" varscope="body" addsystemvars="integer">
+			<li>
+				<input type="radio" name="table" value="{ITEM_NAME}" checked="true" /> {ITEM_NAME}
+			</li>
+			</mos:tmpl>
+		</ul>
+		<input type="button" onclick="submitbutton('download');" value="Download" class="button" />
+
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="run" />
+<input type="hidden" name="report" value="{REPORT_ID}" />
+<input type="hidden" name="boxchecked" value="0" />

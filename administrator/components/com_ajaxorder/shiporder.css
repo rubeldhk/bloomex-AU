@@ -1,0 +1,61 @@
+ 
+div.msg {
+    font: bold 11px Tahoma,Verdana;
+    padding:10px 0px 10px 0px;
+    text-align:center;
+    color:#DF0000;
+}
+
+div.msg2 {
+    font: bold 11px Tahoma,Verdana;
+    float:left;
+    padding:10px 0px 10px 30px;
+    text-align:center;
+    color:#DF0000;
+}
+
+table.order-header{
+    margin:5px 0px 5px 0px;
+}
+
+table.order-header td {
+    background-color:#BE4C34;
+    font:bold 12px Tahoma, Verdana;
+    text-transform:uppercase;
+    text-align:center;
+    line-height:160%;
+    color:#FFF;
+}
+
+table.adminform th{
+    font:bold 12px Tahoma, Verdana;
+    text-align:center;
+}
+
+table.adminform {
+    margin:0px 0px 10px 0px;
+}
+
+table.adminform td{
+    font:normal 11px Tahoma, Verdana;
+    border-right:1px solid #D5D5D5;
+    border-bottom:1px solid #D5D5D5;
+    line-height:140%;
+    padding:5px;
+}
+
+table.adminform td.title{
+    font:bold 11px Tahoma, Verdana;
+    line-height:140%;
+}
+
+table.adminform td.title2{
+    font:bold 11px Tahoma, Verdana;
+    text-align:right;
+    padding-right:8px;
+    line-height:140%;
+}
+
+input.button {
+    cursor:pointer;
+}

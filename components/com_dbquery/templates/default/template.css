@@ -1,0 +1,43 @@
+/* Choose the desired style for this template. */
+
+.DBQResultsMouseOver {
+	text-align: center;
+	background: #EEEEEE;
+}
+
+.DBQResults, .DBQResultsMouseOut {
+	text-align: center;
+	background: #FFFFFF;
+}
+
+.DBQResultsHorizontalHeader {
+	text-align: center;
+}
+
+.DBQResultsVerticalHeader {
+	text-align: left;
+}
+
+.DBQInput { 
+}
+
+.DBQInputBlock { 
+
+}
+
+div #DBQResultsReturnLink {
+	text-align: center;
+}
+
+div #DBQPrintPageLeft { 
+                        
+}
+
+div #DBQPrintPageRight { 
+                        
+}
+
+div #DBQPrintPageCloseWindow { 
+                        
+}
+

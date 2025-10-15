@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+  <name>Bright Reporter</name>
+	<author>Theo van der Sluijs</author>
+	<creationDate>October 2007</creationDate>
+  <copyright>(C) 2007 Brightcode.eu</copyright>
+  <license>Commercial License http://www.brightcode.eu</license>
+	<authorEmail>info@brightcode.eu</authorEmail>
+  <authorUrl>http://www.brightcode.eu</authorUrl>
+  <version>2.5</version>
+  <description></description>
+
+  <files>
+    <filename>brightreporter.php</filename>
+    <filename>brightreporter.html.php</filename>
+    <filename>index.html</filename>
+  </files>
+  <images>
+    <filename>images/jexcel.gif</filename>
+    <filename>images/jfile.gif</filename>
+  </images>
+  
+  <installfile>install.brightreporter.php</installfile>  
+
+  <params>
+    <param name="cid" type="text" default="" label="Open report id" description="This param is especially if you want the user to open only one report. Leave empty for all reports" />
+  </params>
+
+  <administration>
+    <menu>Bright Reporter</menu>
+    <submenu>
+      <menu act="reports">Reports</menu>
+      <menu act="config">Settings</menu>
+      <menu act="about">About</menu>
+    </submenu>
+
+    <files>
+      <filename>admin.brightreporter.php</filename>
+      <filename>admin.brightreporter.html.php</filename>
+      <filename>install.brightreporter.php</filename>
+      <filename>help/help.brightreporter.html</filename>
+      <filename>config.brightreporter.php</filename>
+      <filename>toolbar.brightreporter.php</filename>
+      <filename>toolbar.brightreporter.html.php</filename>
+      <filename>about.brightreporter.php</filename>
+      <filename>images/box_brighthpgallery_sml.jpg</filename>     
+    </files>
+  </administration>
+
+</mosinstall>

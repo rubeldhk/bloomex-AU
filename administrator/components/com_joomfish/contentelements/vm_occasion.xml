@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>VM Order Occasion</name>
+  <author>Maryna Bilenko</author>
+  <version>1.0</version>
+  <description>Definition for VM component (Order Occasion)</description>
+  <reference>
+  	<table name="vm_order_occasion ">
+  		<field type="referenceid" name="order_occasion_id" translate="0">ID</field>
+  		<field type="titletext" name="order_occasion_name" translate="1">Name</field>
+  		<field type="htmltext" name="order_occasion_desc" translate="1">Description</field>
+  	</table>
+  </reference>
+</joomfish>

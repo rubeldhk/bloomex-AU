@@ -1,0 +1,122 @@
+div.row.header {
+    text-transform: uppercase;
+    background-color: #e66464;
+    padding: 10px 0px;
+}
+div.row.header > div.title {
+    color: #fff;
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+}
+    @media (max-width: 414px) {
+        div.row.header > div.title {
+            text-align: center;
+        }
+    }
+div.row.header .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.row.footer {
+    background-color: #963232;
+    padding: 10px 0px;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+}
+div.row.footer > div.title {
+    text-transform: uppercase;
+    text-align: right;
+}
+.any {
+    background-color: #f5f0f0;
+    padding: 10px 0px;
+}
+.login-form {
+    margin: 50px 0px;
+}
+.container.panel {
+    background-color: #f5f0f0;
+}
+.any.info {
+    display: none;
+}
+.loader {
+    display: none;
+}
+.loader .text-info {
+    color: #e66464!important;
+}
+#btn_email {
+    text-transform: uppercase;
+}
+.extension {
+    color: #fff;
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+div.row.header > div.info > a.logout {
+    display: inline-block;
+    background-image: url(../images/logout.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+div.row.header > div.info > a:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+div.row.header > div.info > a.logout {
+    display: block;
+    background-image: url(../images/logout.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+div.row.header > div.info > a:hover {
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.5s ease-out;
+}
+div.row.header > div.info > a.pause {
+    display: block;
+    background-image: url(../images/pause.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+div.row.header > div.info > a.play {
+    display: none;
+    background-image: url(../images/play.png);
+    background-size: cover;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.buttons.first > button {
+    width: 31%;
+    height: 50px;
+    line-height: 20px;
+}
+.buttons.second > button {
+    width: 48.25%;
+    height: 50px;
+    line-height: 20px;
+}
+.gj-datepicker.gj-datepicker-bootstrap.gj-unselectable.input-group {
+    display: none;
+}
+#company {
+    margin-top: 20px;
+}
+.modal .modal-body {
+    font-size: 25px;
+}

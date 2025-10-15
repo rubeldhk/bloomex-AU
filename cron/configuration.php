@@ -1,0 +1,102 @@
+<?php
+$_SERVER['DOCUMENT_ROOT'] = dirname(__DIR__) . '/';
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/configuration.php';
+
+$twoYearsOccasion = [
+    'BIRTH',
+    'ANNIV',
+    'VAL',
+    'MD',
+    // 'CHR',
+    'CONGR',
+    'JB',
+    'think',
+    'LOVER',
+    'GET',
+    'baby',
+    'THANK',
+    'WED',
+    'APOL',
+    'HOL',
+    'REM',
+    'GRAD',
+    'PASS',
+    'EAST',
+    'FD',
+    'THNG',
+    'NYD',
+    'CD',
+    'HAL',
+    'CE',
+    'PE',
+    'HANN',
+];
+
+$fourYearsOccasion = [
+    'VAL',
+    // 'CHR',
+    'JB',
+    'think',
+    'LOVER',
+    'BIRTH',
+    'ANNIV',
+    'CONGR',
+    'GET',
+    'baby',
+    'THANK',
+    'WED',
+    'APOL',
+    'HOL',
+    'REM',
+    'GRAD',
+    'PASS',
+    'EAST',
+    'FD',
+    'MD',
+    'THNG',
+    'NYD',
+    'CD',
+    'HAL',
+    'CE',
+    'PE',
+    'HANN',
+];
+
+$occasion_not = [
+    'SYMP',
+    'Funer',
+    'APOL',
+    'AUDAY',
+    'Chris',
+    'CHR',
+];
+
+$timeZone = [
+    'AT' => 'Australia/Sydney',
+    'NW' => 'Australia/Sydney',
+    'NT' => 'Australia/Darwin',
+    'QL' => 'Pacific/Guam',
+    'SA' => 'Australia/Adelaide',
+    'TA' => 'Australia/Hobart',
+    'VI' => 'Australia/Melbourne',
+    'WA' => 'Australia/Perth',
+    'AU' => 'Pacific/Auckland',
+    'BP' => 'Pacific/Auckland',
+    'CA' => 'Pacific/Auckland',
+    'GS' => 'Pacific/Auckland',
+    'HB' => 'Pacific/Auckland',
+    'MW' => 'Pacific/Auckland',
+    'MB' => 'Pacific/Auckland',
+    'NS' => 'Pacific/Auckland',
+    'NL' => 'Pacific/Auckland',
+    'OT' => 'Pacific/Auckland',
+    'SL' => 'Pacific/Auckland',
+    'TK' => 'Pacific/Auckland',
+    'WK' => 'Pacific/Auckland',
+    'WG' => 'Pacific/Auckland',
+    'WC' => 'Pacific/Auckland',
+];
+
+$selectLimitOccasion = 50;
+$selectLimitAbandonment = 30;

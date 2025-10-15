@@ -1,0 +1,2868 @@
+<?php
+/**
+ * Class for managing/storing persistent configuration values in Joomla
+ *
+ * @package JL
+ */
+
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+
+/** String constants that may be missing from the parent app. Set these in your language.php file */
+defined('_JL_YES') or define('_JL_YES', 'Yes');
+defined('_JL_NO') or define('_JL_NO', 'No');
+defined('_JL_UNABLETOSETPARAM') or define('_JL_UNABLETOSETPARAM', "Unable to set parameter '%s' from section '%s'");
+defined('_JL_MUSTBEANINTEGER') or define('_JL_MUSTBEANINTEGER', "%s is not an integer");
+defined('_JL_INTEGERLESSTHANMININUM') or define('_JL_INTEGERLESSTHANMININUM', "%d is less than the minimum of %d");
+defined('_JL_INTEGERGREATERTHANMAXIMUM') or define('_JL_INTEGERGREATERTHANMAXIMUM', "%d is less than the minimum of %d");	
+defined('_JL_MUSTBEADOUBLE') or define('_JL_MUSTBEADOUBLE', "%s is not a double");
+defined('_JL_DOUBLELESSTHANMININUM') or define('_JL_DOUBLELESSTHANMININUM', "%f is less than the minimum of %f");
+defined('_JL_DOUBLEGREATERTHANMAXIMUM') or define('_JL_DOUBLEGREATERTHANMAXIMUM', "%f is less than the minimum of %f");
+defined('_JL_VALUEISNOTASTRING') or define('_JL_VALUEISNOTASTRING', 'Value is not a string');
+defined('_JL_STRINGTOOLONG') or define('_JL_STRINGTOOLONG', '\'%s\' exceeds the maximum length of %d');
+defined('_JL_STRINGTOOSHORT') or define('_JL_STRINGTOOSHORT', '\'%s\' is less than the minimum length of %d');
+defined('_JL_KEYISBADFORENUM') or define('_JL_KEYISBADFORENUM', "Key '%s' is invalid for this enumeration");
+defined('_JL_REMOVEDMISSINGPARAMETER') or define('_JL_REMOVEDMISSINGPARAMETER', "Removed missing parameter '%s' from section '%s'.");
+defined('_JL_STRNOTEMAIL') or define('_JL_STRNOTEMAIL', "Not a valid E-mail according to rfc2822 and rfc1035, %s");
+
+/**
+ * Class for managing/storing persistent configuration values in Joomla
+ *
+ * Extend this class for your configuration manager.
+ * 
+ * @package JL
+ * @subpackage JLConf 
+ */
+class JLConf
+{
+	/* Public variables */
+	var $errorStr = '';
+	
+	/* Private Variables */
+	var $_appName; /* Application name */
+	var $_confArray; /* Array of configuration parameter sections */
+	
+	/**
+     * Return the major and minor version of the JLConf API.
+     *
+     * @return array major number, minor number
+     */
+    function getApiVersion() {
+		return array(1, 3);
+    }
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param string Application name (used for grouping parameters)
+	 *
+	 */
+	function JLConf($appName)
+	{
+		$this->errorStr = '';
+		$this->_confArray = array();
+		$this->_appName = $appName;
+		
+		JLCoreApi::import('JLApp');
+	}
+	
+	/**
+	 * Install the JLConf configuration manager. Call this from your install script
+	 *
+	 * @return boolean True if installation went OK. False if not.
+	 *
+	 * @static
+	 */
+	function install()
+	{
+		global $database;
+		
+		$query = "CREATE TABLE IF NOT EXISTS `#__jl_conf` (
+  				  `appid` int(11) NOT NULL default '0',
+  				  `section` varchar(64) NOT NULL default '',
+  				  `param` varchar(64) NOT NULL default '',
+  				  `conftype` varchar(64) NOT NULL default '',
+  				  `value` text NOT NULL,
+  				   PRIMARY KEY  (`appid`,`section`,`param`)
+				  ) TYPE=MyISAM;";
+		$database->setQuery($query);
+		$database->query();
+		
+		return true;
+	}
+	
+	/**
+	 * Add a section to this configuration. Sections must be added before configuration values can be added to them.
+	 *  
+	 * @param string A handle for this configuration section. This should be a database-safe string.
+	 * @param string A title for this section as it will be displayed on the configuration GUI
+	 *
+	 * @return boolean true if adding the section goes OK. False if it fails. 
+	 */
+	function addSection($handle, $title)
+	{
+		if (!$handle) {
+			return false;
+		}
+		
+		if (isset($this->_confArray[$handle])) {
+			
+			$this->errorStr = "Section '$handle' already exists";
+			return false;
+		}
+		
+		/* Create the section in the configuration array */
+		$this->_confArray[$handle] = array('handle'=>$handle, 'title'=>$title, 'params'=>array());
+		
+		return true;
+	}
+	
+	/**
+	 * Get a section if it exists.
+	 *
+	 * @param string Handle of section to look for
+	 *
+	 * @return array Section corresponding to <var>handle</var> if it exists. 
+	 */
+	function &getSection($handle)
+	{
+		if (!$handle || !isset($this->_confArray[$handle])) {
+			return false;
+		}
+		
+		return $this->_confArray[$handle];
+	}
+	
+	
+	/**
+	 * Add a parameter to a section. The section MUST exist before calling this or this function will fail
+	 *
+	 * @param string Handle for this parameter as you will refer to it in your component/module/plugin
+	 * @param string Section to add this parameter to
+	 * @param JLConfDataType Instantiated class for this value.
+	 * @param string Short description for this parameter.
+	 * @param string Long description for this parameter.
+	 *
+	 * @return boolean True if the parameter was added. False if it wasn't. this->errorStr will contain the error text if it failed.
+	 */
+	function addParam($handle, $sectionHandle, $paramClass, $shortDesc='', $longDesc='')
+	{
+		if (!$handle || !$sectionHandle || !$paramClass) {
+			$this->errorStr = "You must provide a handle, section handle, and param class to addParam()";
+			return false;
+		}
+		
+		$section =& $this->getSection($sectionHandle);
+		if (!is_array($section)) {
+			$this->errorStr = "Cannot add param '$handle' to unknown section '$sectionHandle'";
+			return false;
+		}
+		else if (isset($section['params'][$handle])) {
+			$this->errorStr = "Param '$handle' already exists in section '$sectionHandle'";
+			return false;
+		}
+		
+		$section['params'][$handle] = array('class'=>$paramClass, 'shortdesc'=>$shortDesc, 'longdesc'=>$longDesc);
+		return true;
+	}
+	
+	/**
+	 * Get a parameter by its section and parameter handle. Will return a JLConfDataType class  
+	 *
+	 * @param string Handle to the parameter to get
+	 * @param string Handle to the section to look for the parameter in
+	 *
+	 * @return JLConfDataType If found. False if not.
+	 */
+	function &getParam($handle, $sectionHandle)
+	{
+		$section =& $this->getSection($sectionHandle);
+		if (!is_array($section)) {
+			$this->errorStr = "Unknown section: '$sectionHandle'";
+			return false;
+		}
+		else if(!isset($section['params'][$handle])) {
+			$this->errorStr = "Unknown parameter '$handle' in section '$sectionHandle'";
+			return false;
+		}
+		
+		return $section['params'][$handle]['class'];
+	}
+	
+	/**
+	 * Set an already-created parameter from a literal value.
+	 *
+	 * @param string Handle for the parameter to set
+	 * @param string Handle for the section the parameter is in
+	 * @param mixed Value in its native datatype
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean True if value was set. False if the value couldn't be set. Most likely due to a validation failure
+	 */
+	function setParam($handle, $sectionHandle, $value, $setDefaultOnFail=true)
+	{
+		$param =& $this->getParam($handle, $sectionHandle);
+		if (!$param) {
+			return false;
+		}
+		
+		$retVal = $param->setValue($value, $setDefaultOnFail);
+		
+		if (!$retVal) {
+			$this->errorStr = sprintf(_JL_UNABLETOSETPARAM, $handle, $sectionHandle);
+			if ($param->errorStr) {
+				$this->errorStr .= ': '.$param->errorStr;
+			}
+		}
+		else {
+			$this->errorStr = '';
+		}
+		return $retVal;
+	}
+	
+	/**
+	 * Set an already-created parameter from a serialized string value.
+	 *
+	 * @param string Handle for the parameter to set
+	 * @param string Handle for the section the parameter is in
+	 * @param mixed Value in its native datatype
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean True if value was set. False if the value couldn't be set. Most likely due to a validation failure
+	 */
+	function setParamFromSerialized($handle, $sectionHandle, $value, $setDefaultOnFail=true)
+	{
+		$param =& $this->getParam($handle, $sectionHandle);
+		if (!$param) {
+			return false;
+		}
+		
+		$retVal = $param->setValueFromSerialized($value, $setDefaultOnFail);
+		if (!$retVal) {
+			$this->errorStr = sprintf(_JL_UNABLETOSETPARAM, $handle, $sectionHandle);
+			if ($param->errorStr) {
+				$this->errorStr .= ': '.$param->errorStr;
+			}
+		}
+		else {
+			$this->errorStr = '';
+		}
+		return $retVal;
+	}
+	
+	/**
+	 * Write all of the current values to the serializer. Don't call this until you have added all of
+	 * the configuration variables you care about to this JLConf object.
+	 *
+	 * @param JLConfSerializer Class to serialize this configuration object with
+	 *
+	 * @return boolean true if OK. false if write failed
+	 *
+	 */
+	function write($jlConfSerializer)
+	{	
+		$jlConfSerializer->startApplication($this->_appName);
+		
+		foreach ($this->_confArray as $section) {
+			$sectionHandle = $section['handle'];
+			$sectionTitle = $section['title'];
+			
+			$jlConfSerializer->startSection($sectionHandle, $sectionTitle);
+			
+			foreach ($section['params'] as $paramHandle=>$param) {
+				
+				$st = $param['class']->onBeforeSerialize($paramHandle, $param['shortdesc'], $param['longdesc']);
+				if($st) {
+					continue; /* Callback told us to skip this parameter */
+				}
+				
+				$jlConfSerializer->writeParam($paramHandle, $param['class'], $param['shortdesc'], $param['longdesc']);
+				
+				$st = $param['class']->onAfterSerialize($paramHandle, $param['shortdesc'], $param['longdesc']);
+			}
+			
+			$jlConfSerializer->endSection();
+		}
+		
+		$jlConfSerializer->endApplication();
+		
+		return true;
+	}
+	
+}
+
+/**
+ * Class JLConfSerializer
+ *
+ * Class for serializing a JLConf object to some sort of store. Extend this and pass it to JLConf->write()
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializer
+{
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 * @abstract
+	 */
+	function startApplication($appHandle)
+	{
+		die('Must implement startApplication()');
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 * @abstract
+	 */
+	function endApplication()
+	{
+		die('Must implement endApplication()');
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 * @abstract
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{
+		die('Must implement startSection()');
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 * @abstract
+	 */
+	function endSection()
+	{
+		die('Must implement endSection()');
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 * @abstract
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{
+		die('Must implement startParam()');
+	}
+	
+	/**
+	 * Function for loading values serialized with this class into a JLConf object
+	 *
+	 * @param string Handle to the application
+	 * @param JLConf Configuration object to load values into
+	 * @param boolean Set each value to default if setting them fails. If false, this will leave the values untouched if an error occurs
+	 *
+	 * @return boolean True if OK. Array of error strings if not.
+	 *
+	 * @abstract
+	 */
+	function load($appHandle, &$jlConf, $setDefaultOnFail=true)
+	{
+		return array('This serializer does not support loading.');
+	}
+}
+
+/**
+ * Class JLConfSerializerDatabase
+ *
+ * Class for serializing a JLConf object to a Joomla database object
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerDatabase extends JLConfSerializer
+{	
+	var $_existingParams;
+	var $_currentSection;
+	var $_appId; /** integer Application identifier */
+	
+	/**
+	 * Constructor
+	 *
+	 */
+	function JLConfSerializerDatabase()
+	{
+		$this->_appId = 0;
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{
+		global $database;
+		
+		$this->_existingParams = array();
+		
+		if(!$this->_appId) {
+			$this->_appId = JLApp::getId($appHandle);
+		}
+		$appId = $this->_appId;
+		
+		$query = 'SELECT section, param, conftype, value '.
+		         'FROM #__jl_conf '.
+		         "WHERE appid='$appId' ".
+		         'ORDER BY section ASC';
+		$database->setQuery($query);
+		if (null === ($rows = $database->loadRowList())) {
+			return false;
+		}
+		
+		/* Keep track of which parameters already exist so we can UPDATE instead of insert */
+		foreach ($rows as $row) {
+			$str = $row[0].'_'.$row[1];
+			$this->_existingParams[$str] = 1;
+		}
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_currentSection = $sectionHandle;
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{
+		global $database;
+		
+		$str = $this->_currentSection.'_'.$paramHandle;
+		
+		$value = $database->getEscaped($jlConfDataType->getSerialized());
+		$type = $jlConfDataType->getType(); /* Should already be database-safe */
+		$appId = $this->_appId;
+		$sectionHandle = $database->getEscaped($this->_currentSection);
+		$paramHandle = $database->getEscaped($paramHandle);
+		
+		if (isset($this->_existingParams[$str])) {
+			/* Update */
+			$query = "UPDATE #__jl_conf SET conftype='$type', value='$value'
+			          WHERE appid='$appId' AND section='$sectionHandle' AND param='$paramHandle'";
+		}
+		else {
+			/* Insert */
+			$query = "INSERT INTO #__jl_conf VALUES ('$appId','$sectionHandle','$paramHandle','$type','$value')";
+		}
+		
+		$database->setQuery($query);
+		$database->query();
+	}
+	
+	/**
+	 * Function for loading values serialized with this class into a JLConf object
+	 *
+	 * @param string Handle to the application
+	 * @param JLConf Configuration object to load values into
+	 * @param boolean Set each value to default if setting them fails. If false, this will leave the values untouched if an error occurs
+	 *
+	 * @return boolean True if OK. Array of error strings if not.
+	 *
+	 */
+	function load($appHandle, &$jlConf, $setDefaultOnFail=true)
+	{
+		global $database;
+		
+		$errors = array();
+		
+		if(!$this->_appId) {
+			$this->_appId = JLApp::getId($appHandle);
+		}
+		$appId = $this->_appId;
+		
+		$query = "SELECT section, param, conftype, value 
+		         FROM #__jl_conf
+		         WHERE appid='$appId'
+		         ORDER BY section ASC";
+		$database->setQuery($query);
+		if (null === ($rows = $database->loadRowList())) {
+			/* All we can do is spit out the mysql error, since we should never be here */
+			$errors[] = $database->_errorMsg;
+			return $errors;
+		}
+		
+		foreach ($rows as $row) {
+			if (!$jlConf->setParamFromSerialized($row[1], $row[0], $row[3], $setDefaultOnFail)) {
+				/* Since we can't really fix the problem, remove the parameter that was giving the problems
+				   this will force the parameter to go back to its default value. This also removes old
+				   parameters */
+				$query = "DELETE FROM #__jl_conf WHERE appid='$appId' AND section='".$row[0]."' AND param='".$row[1]."'";
+				$database->setQuery($query);
+				$database->query();
+				
+				$errors[] = sprintf(_JL_REMOVEDMISSINGPARAMETER, $row[1], $row[0]);
+			}
+		}
+		
+		/* If there are no errors in the array, return TRUE */
+		if (!count($errors)) {
+			return true;
+		}
+		else {
+			return $errors;
+		}
+	}
+}
+
+/**
+ * Class JLConfSerializerPHPStdClass
+ *
+ * Class for serializing a JLConf object to a PHP Standard class
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerPHPStdClass extends JLConfSerializer
+{
+	var $_filename;
+	var $_fileHandle;
+	var $_varName;
+	var $_fileContents;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Filename to save the php variables to
+	 * @param string Variable name to create the class as. Must be a valid PHP variable name
+	 */
+	function JLConfSerializerPHPStdClass($filename, $varName)
+	{
+		$this->_filename = $filename;
+		$this->_varName = $varName;
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{	
+		$this->_fileContents = '$'.$this->_varName." = new stdClass();\n".
+		                       'global $'.$this->_varName.";\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		$this->_fileHandle = fopen($this->_filename, "w");
+		if (!$this->_fileHandle) {
+			return false;
+		}
+		
+		$this->_fileContents = "<?php\n" . $this->_fileContents . "?>";
+		
+		fwrite($this->_fileHandle, $this->_fileContents);
+		fclose($this->_fileHandle);
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_fileContents .= "/* $sectionTitle */\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+		$this->_fileContents .= "\n";
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$value = $jlConfDataType->getLiteral();
+		$type = $jlConfDataType->getType();
+		
+		$this->_fileContents .= "/** @var $type $longDesc */\n" .
+		                        '$'.$this->_varName.'->'.$paramHandle." = $value;\n";
+	}
+}
+
+/**
+ * Class JLConfSerializerPHPStdClassSectionSafe
+ *
+ * Class for serializing a JLConf object to a PHP Standard class, with sections
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * @since 1.1.0
+ */
+class JLConfSerializerPHPStdClassSectionSafe extends JLConfSerializerPHPStdClass {
+	var $_currentSection;
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_currentSection = $sectionHandle;
+		$this->_fileContents .= "/* $sectionTitle */\n";
+		$this->_fileContents .= '$'.$this->_varName.'->'.$sectionHandle." = new stdClass();\n";
+		
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$value = $jlConfDataType->getLiteral();
+		$type = $jlConfDataType->getType();
+		
+		$this->_fileContents .= "/** @var $type $longDesc */\n" .
+		                        '$'.$this->_varName.'->'.$this->_currentSection.
+		                        '->'.$paramHandle." = $value;\n";
+	}
+}
+
+/**
+ * Class JLConfSerializerPHPKeyValue
+ *
+ * Class for serializing a JLConf object to a PHP Key-value array
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerPHPKeyValue extends JLConfSerializer 
+{
+	var $_filename;
+	var $_fileHandle;
+	var $_varName;
+	var $_fileContents;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Filename to save the php variables to
+	 * @param string Variable name to save the key->value pairs as
+	 */
+	function JLConfSerializerPHPKeyValue($filename, $varName)
+	{
+		$this->_filename = $filename;
+		$this->_varName = $varName;
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{	
+		$this->_fileContents = '$'.$this->_varName." = array();\n".
+		                       'global $'.$this->_varName.";\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		$this->_fileHandle = fopen($this->_filename, "w");
+		if (!$this->_fileHandle) {
+			return false;
+		}
+		
+		$this->_fileContents = "<?php\n" . $this->_fileContents . "?>";
+		
+		fwrite($this->_fileHandle, $this->_fileContents);
+		fclose($this->_fileHandle);
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_fileContents .= "/* $sectionTitle */\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+		$this->_fileContents .= "\n";
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$value = $jlConfDataType->getLiteral();
+		$type = $jlConfDataType->getType();
+		
+		$this->_fileContents .= "/** @var $type $longDesc */\n" .
+		                        '$'.$this->_varName."['".$paramHandle."'] = $value;\n";
+	}
+}
+
+/**
+ * Class JLConfSerializerPHPKeyValue
+ *
+ * Class for serializing a JLConf object to a PHP Section-Key-value array
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * @since 1.1.0
+ */
+class JLConfSerializerPHPSectionKeyValue extends JLConfSerializerPHPKeyValue {
+	/**
+	 * Stores current section
+	 *
+	 * @var string
+	 */
+	var $_currentSection;
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_currentSection = $sectionHandle;
+		$this->_fileContents .= "/* $sectionTitle */\n";
+		$this->_fileContents .= '$'.$this->_varName."['".$sectionHandle."'] = array();\n";
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$value = $jlConfDataType->getLiteral();
+		$type  = $jlConfDataType->getType();
+		
+		$this->_fileContents .= "/** @var $type $longDesc */\n" .
+		                        '$'.$this->_varName."['".$this->_currentSection."']['".$paramHandle."'] = $value;\n";
+	}
+}
+
+
+/**
+ * Class JLConfSerializerPHPVars
+ *
+ * Class for serializing a JLConf object to a series of PHP variables in a file which you
+ * will include in your application
+ *
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerPHPVars extends JLConfSerializer
+{	
+	var $_filename;
+	var $_fileHandle;
+	var $_appHandle;
+	var $_appTitle;
+	var $_fileContents;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param Filename to save the php variables to
+	 */
+	function JLConfSerializerPHPVars($filename, $appTitle)
+	{
+		$this->_filename = $filename;
+		$this->_appTitle = $appTitle;
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{	
+		$this->_appHandle = $appHandle;
+		$this->_fileContents = '';
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		$this->_fileHandle = fopen($this->_filename, "w");
+		if (!$this->_fileHandle) {
+			return false;
+		}
+		
+		$this->_fileContents = "<?php\n" . $this->_fileContents . "?>";
+		
+		fwrite($this->_fileHandle, $this->_fileContents);
+		fclose($this->_fileHandle);
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_fileContents .= "/* $sectionTitle */\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+		$this->_fileContents .= "\n";
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$phpParamHandle = $this->_appHandle.'_'.$paramHandle;
+		
+		$value = $jlConfDataType->getLiteral();
+		$type = $jlConfDataType->getType();
+		
+		$this->_fileContents .= "/** @var $type $longDesc */\n" .
+		                        "\$$phpParamHandle = $value;\n";
+	}
+}
+
+/**
+ * Class JLConfSerializerGlobalArray
+ *
+ * Class for serializing a JLConf object to a array construct saved into a global variable
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerGlobalArray extends JLConfSerializer 
+{
+	var $_globalName;
+	var $_currentSection;
+	var $_construct;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Global variable name to save array to
+	 */
+	function JLConfSerializerGlobalArray ($globalName)
+	{
+		$this->_globalName = $globalName;
+		$this->_construct = array();
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{	
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		$globalName = $this->_globalName;
+		$GLOBALS[$globalName] = $this->_construct;
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{	
+		$this->_currentSection = $sectionHandle;
+		$this->_construct[$sectionHandle] = array();
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{	
+		$value = $jlConfDataType->getLiteral();
+		$section = $this->_currentSection;
+		
+		$this->_construct[$section][$paramHandle] = $value;  
+	}
+}
+
+/**
+ * Class JLConfSerializerCallback
+ *
+ * Class for serializing a JLConf object using a callback function
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerCallback extends JLConfSerializerGlobalArray 
+{
+
+	/**
+	 * Construct
+	 *
+	 * @param string $functionName
+	 * @param string $className
+	 * @return JLConfSerializerCallback
+	 */
+	function JLConfSerializerCallback ($functionName, $className = null)
+	{
+		$this->_globalName = empty($className) ? $functionName : array($className, $functionName);
+		$this->_construct = array();
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		call_user_func($this->_globalName, $this->_construct);
+	}
+}
+
+/**
+ * Class for serializing our configuration to an Admin form, an extension of JLConfSerializer
+ *
+ * This can be used for your Joomla configuration page
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerHTMLAdminForm extends JLConfSerializer
+{
+	/* Public Variables */
+	var $leftColumnWidth;
+	var $middleColumnWidth;
+	
+	/* Private Variables */
+	var $_appTitle;
+	var $_appHandle;
+	var $_postTo;
+	var $_formName;
+	var $_tabs;
+	var $_option;
+	var $_act;
+	var $_task;
+	var $_currentSection;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Application title as it will be printed on the form
+	 * @param string Joomla Option name. This should be the name of your component/module/plugin
+	 * @param string Joomla Action for this form
+	 * @param string Joomla Task for this form
+	 * @param string File to post results to. Most likely, this will be index2.php
+	 * @param string Name for this form (for CSS purposes)
+	 *
+	 */
+	function JLConfSerializerHTMLAdminForm($appTitle, $option, $act, $task='saveedit', $postTo='index2.php', $formName='adminForm')
+	{
+		/* Public Variables */
+		$this->leftColumnWidth = 130;
+		$this->middleColumnWidth = 80;
+		
+		/* Private Variables */
+		$this->_appTitle = $appTitle;
+		$this->_postTo = $postTo;
+		$this->_formName = $formName;
+		$this->_appHandle = '';
+		$this->_act = $act;
+		$this->_option = $option;
+		$this->_task = $task;
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{
+		$this->_appHandle = $appHandle;
+		
+		echo '<form action="'.$this->_postTo.'" method="post" name="'.$this->_formName.'" id="'.$this->_formName.'">
+	  	      ';
+		
+		$this->_tabs = new mosTabs(1);		
+		$this->_tabs->startPane($this->_appHandle);
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{
+		$this->_tabs->endPane();
+  		
+		echo '<input type="hidden" name="task" value="'.$this->_task.'" />
+	          <input type="hidden" name="act" value="'.$this->_act.'" />
+	          <input type="hidden" name="option" value="'.$this->_option.'" />
+	          </form>
+	          ';
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{
+		$this->_currentSection = $sectionHandle;
+		
+		$this->_tabs->startTab($sectionTitle, $sectionHandle);
+		echo '<table width="100%" border="0" cellpadding="4" cellspacing="2" class="'.$this->_formName.'">'."\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+		echo "</table>\n";
+		$this->_tabs->endTab();
+	}
+	
+	/**
+	 * Function for serializing a parameter
+	 *
+	 * @param string Parameter handle
+	 * @param JLConfDataType value to serialize.
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 * @abstract
+	 */
+	function writeParam($paramHandle, $jlConfDataType, $shortDesc, $longDesc)
+	{
+		$controlName = $this->_currentSection.':'.$paramHandle;
+		$inputHtml = $jlConfDataType->getFormHTML($controlName);
+		
+		if (!$shortDesc) {
+			$shortDesc = '&nbsp;';
+		}
+		
+		if (!$longDesc) {
+			$longDesc = '&nbsp;';
+		}
+		if(!empty($inputHtml)){
+	  		echo  '<tr align="center" valign="middle">
+				     <td width="'.$this->leftColumnWidth.'" align="left" valign="top"><strong>'.$shortDesc.'</strong></td>
+				      <td width="'.$this->middleColumnWidth.'" align="left" valign="top">'.$inputHtml.'</td>
+				  	  <td align="left" valign="top">'.$longDesc.'</td>
+			       </tr>
+			       ';
+		}
+	}
+	
+	/**
+	 * Function for loading values serialized with this class into a JLConf object
+	 *
+	 * @param string Handle to the application
+	 * @param JLConf Configuration object to load values into
+	 * @param boolean Set each value to default if setting them fails. If false, this will leave the values untouched if an error occurs
+	 *
+	 * @return boolean True if OK. Array of error strings if not.
+	 *
+	 */
+	function load($appHandle, &$jlConf, $setDefaultOnFail)
+	{
+		
+		$errors = array();
+		
+		foreach ($_POST as $k=>$v) {
+			if($k !='act' AND $k !='option' AND $k !='conf' AND $k !='task') {
+				
+				/* Parameters will be separated as 'section:param' */
+				$param = explode(':', $k);
+				if (count($param) != 2) {
+					continue;
+				}
+				
+				if (!$jlConf->setParam($param[1], $param[0], $v, $setDefaultOnFail)) {
+					$errors[] = $jlConf->errorStr;
+				}
+			}
+		}
+		
+		/* If there are no errors in the array, return TRUE */
+		if (!count($errors)) {
+			return true;
+		}
+		else {
+			return $errors;
+		}
+	}
+}
+
+/**
+ * Class for serializing a single section of configuration parameters to an HTML form
+ *
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfSerializerHTMLAdminFormSection extends JLConfSerializerHTMLAdminForm
+{
+	var $_onlySection; /* Only section we care about */
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Application title as it will be printed on the form
+	 * @param string Section we care about, the only one we want to write to this form
+	 * @param string Joomla Option name. This should be the name of your component/module/plugin
+	 * @param string Joomla Action for this form
+	 * @param string Joomla Task for this form
+	 * @param string File to post results to. Most likely, this will be index2.php
+	 * @param string Name for this form (for CSS purposes)
+	 *
+	 */
+	function JLConfSerializerHTMLAdminFormSection($appTitle, $section, $option, $act, $task='saveedit', $postTo='index2.php', $formName='adminForm')
+	{
+		$this->_onlySection = $section;
+		
+		/* Call the parent constructor */
+		parent::JLConfSerializerHTMLAdminForm($appTitle, $option, $act, $task, $postTo, $formName);
+	}
+	
+	/**
+	 * Function for starting the serialization of an application.
+	 *
+	 * @param string Application handle
+	 *
+	 */
+	function startApplication($appHandle)
+	{
+		$this->_appHandle = $appHandle;
+		
+		echo '<form action="'.$this->_postTo.'" method="post" name="'.$this->_formName.'" id="'.$this->_formName.'">
+	  	      ';
+	}
+	
+	/**
+	 * Function for ending the serialization of an application.
+	 *
+	 */
+	function endApplication()
+	{	
+		echo '<input type="hidden" name="task" value="'.$this->_task.'" />
+	          <input type="hidden" name="act" value="'.$this->_act.'" />
+	          <input type="hidden" name="option" value="'.$this->_option.'" />
+	          </form>
+	          ';
+	}
+	
+	/**
+	 * Function for starting the serialization of a section
+	 *
+	 * @param string Handle for this section
+	 * @param string Title for this section
+	 *
+	 */
+	function startSection($sectionHandle, $sectionTitle)
+	{
+		if($sectionHandle == $this->_onlySection) {
+			$this->_currentSection = $sectionHandle;
+		}
+		else {
+			$this->_currentSection = '';
+			return;
+		}
+		
+		echo "<h1>$sectionTitle</h1>\n";
+		echo '<table width="100%" border="0" cellpadding="4" cellspacing="2" class="'.$this->_formName.'">'."\n";
+	}
+	
+	/**
+	 * Function for ending the serialization of a section
+	 *
+	 */
+	function endSection()
+	{
+		if(!$this->_currentSection) {
+			return;
+		}
+		
+		echo "</table>\n";
+	}
+}
+
+
+/**
+ * Parent class that all JL datatypes should extend. Make sure to implement all of this class's methods as well.
+ *
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfDataType
+{
+	/* Public variables */
+	var $errorStr; /** Text of the last error to occur */
+	
+	/* Private variables */
+	var $_value; /** Value of this in its native datatype */
+	var $_defaultValue; /** Default value of this in its native datatype */
+	
+	/**
+	 * Get the serialized version of this value
+	 *
+	 * @return string Serialized string of this variable as it should be written to the database.
+	 *
+	 * @abstract
+	 */
+	function getSerialized()
+	{
+		return ''.$this->getValue(); /** Serialize the value as a string */
+	}
+	
+	/**
+	 * Get the PHP literal for the r-value of an assignment expression.
+	 *
+	 * @return mixed Right side of an expression for creating this type.
+	 *
+	 */
+	function getLiteral()
+	{
+		$value = $this->getValue();
+		
+		if (is_string($value)) {
+			return '\''.str_replace("'", "\\'", $value).'\'';
+		}
+		else if (is_scalar($value)) {
+			return $value;
+		}
+		else {
+			return 'unserialize(\''.serialize($value).'\')'; /* Just get a safe string for it */
+		}
+	}
+	
+	/**
+	 * Get the natively-typed version of this value.
+	 *
+	 * @return mixed Natively typed version of this value. 
+	 *
+	 */
+	function getValue()
+	{
+		return $this->_value;
+	}
+	
+	/**
+	 * Validate a value
+	 *
+	 * @param mixed Value to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		$this->errorStr = '';
+		return true; /* Return true if this isn't extended */
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true)
+	{
+		if ($this->isValid($value)) {
+			$this->_value = $value; /* Default is to just set it */
+			return true;
+		}
+		else if ($setDefaultOnFail) {
+			$this->_value = $this->_defaultValue;
+		}
+		return false;
+	}
+	
+	/**
+	 * Set the default value for this datatype. If this fails, it will throw a fatal error
+	 *
+	 * @param mixed Default value to set
+	 *
+	 */
+	function setDefaultValue($defaultValue)
+	{
+		if ($this->isValid($defaultValue)) {
+			$this->_defaultValue = $defaultValue; /* Default is to just set it */
+			return true;
+		}
+		else {
+			$this->raiseError("Default value '$defaultValue' is invalid for ".$this->getType());
+		}
+	}
+	
+	/**
+	 * Set the value of this datatype from its serialized value. If this fails, the value will
+	 * be set to the default value.
+	 *
+	 * @param string Serialized string to set the value from
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean true if the value was set. False if the default was used
+	 */
+	function setValueFromSerialized($value, $setDefaultOnFail=true)
+	{
+		$this->setValue($value, $setDefaultOnFail);
+		return true;
+	}
+	
+	
+	/**
+	 * Get the datatype constant for this class. Make sure this is unique for whatever type you create
+	 *
+	 * @return string datatype
+	 *
+	 * @abstract
+	 */
+	function getType()
+	{
+		return 'badtype';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 * @abstract
+	 */
+	function getFormHTML($elementName)
+	{
+		return '';
+	}
+	
+	/**
+	 * Raise an error
+	 *
+	 * @param string Text to print as part of the error
+	 */
+	function raiseError($errorText)
+	{
+		die($errorText);
+	}
+	
+	/**
+	 * Virtual method to overload to perform an action BEFORE this parameter is serialized
+	 * Since these methods belong to the parameter, use $this->... to access the parameter.
+	 *
+	 * @param string Parameter handle
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 * @return integer 0 if OK. 1 if we should skip this parameter (don't serialize it)
+	 */
+	function onBeforeSerialize($paramHandle, $shortDesc, $longDesc)
+	{
+		return 0;
+	}
+	
+	/**
+	 * Virtual method to overload to perform an action AFTER this parameter is serialized
+	 * Since these methods belong to the parameter, use $this->... to access the parameter.
+	 *
+	 * @param string Parameter handle
+	 * @param string Short description of this parameter
+	 * @param string Long description of this parameter
+	 *
+	 */
+	function onAfterSerialize($paramHandle, $shortDesc, $longDesc)
+	{
+		return 0;
+	}
+}
+
+/**
+ * Class for handling an enumeration where all of the keys in key=>value are integers
+ *
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfEnumInteger extends JLConfEnum
+{
+	/**
+	 * Constructor
+	 *
+	 * @param mixed Value of this enumeration (must match a key in enumArray)
+	 * @param mixed Default value of this enumeration (must match a key in enumArray)
+	 * @param array Key=>value array of valid choices for this enumeration
+	 *
+	 */
+	function JLConfEnumInteger($value, $defaultValue, $enumArray)
+	{
+		parent::JLConfEnum($value, $defaultValue, $enumArray);
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'enumInteger';
+	}
+	
+	/**
+	 * Validate a value
+	 *
+	 * @param mixed Value to validate
+	 *
+	 * @return true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if(!is_integer($validateMe)) {
+			$this->errorStr = sprintf(_JL_MUSTBEANINTEGER, $validateMe);
+			return false;
+		}
+		
+		return parent::isValid($validateMe);
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true)
+	{
+		if (is_string($value)) {
+			$value = intval($value);
+		}
+		
+		return parent::setValue($value, $setDefaultOnFail);
+	}
+}
+
+
+/**
+ * Class for handing an enumeration where the values are stored as key=>value
+ *
+ *
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfEnum extends JLConfDataType 
+{
+	var $enumArray; /** Array of key=>values that are valid values for this enumeration. $this->_value will contain the key */
+	
+	/**
+	 * Constructor
+	 *
+	 * @param mixed Value of this enumeration (must match a key in enumArray)
+	 * @param mixed Default value of this enumeration (must match a key in enumArray)
+	 * @param array Key=>value array of valid choices for this enumeration
+	 *
+	 */
+	function JLConfEnum($value, $defaultValue, $enumArray)
+	{
+		$this->enumArray = $enumArray;
+		
+		if (!$this->isValid($defaultValue)) {
+			$this->raiseError('Invalid default value for '.$this->getType());
+		}
+		$this->setValue($value);
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'enum';
+	}
+	
+	/**
+	 * Validate a value
+	 *
+	 * @param mixed Value to validate
+	 *
+	 * @return true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if (isset($this->enumArray) && isset($this->enumArray[$validateMe])) {
+			$this->errorStr = '';
+			return true;
+		}
+		else {
+			$this->errorStr = sprintf(_JL_KEYISBADFORENUM, $validateMe);
+			return false;
+		}
+	}
+	
+   /**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$keyValOptions = array();
+		
+		foreach ($this->enumArray as $key=>$value) {
+			$keyValOptions[] = mosHTML::makeOption( $key, $value);
+		}
+		
+		$fieldHtml = mosHTML::selectList( $keyValOptions, $elementName, 'class="inputbox" size="1"', 'value', 'text', $this->getValue());
+		return  $fieldHtml;
+	}
+	
+	/**
+	 * Set the value of this datatype from its serialized value. If this fails, the value will
+	 * be set to the default value.
+	 *
+	 * @param string Serialized string to set the value from
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean true if the value was set. False if the default was used
+	 */
+	function setValueFromSerialized($value)
+	{
+		return $this->setValue(unserialize($value));
+	}
+	
+	/**
+	 * Get the serialized version of this value
+	 *
+	 * @return string Serialized string of this variable as it should be written to the database.
+	 *
+	 * @abstract
+	 */
+	function getSerialized()
+	{
+		return serialize($this->getValue());
+	}
+}
+
+
+
+/**
+ * Class for handling Yes/No input
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfYesNo extends JLConfEnumInteger
+{
+	/**
+	 * Constructor
+	 *
+	 * @param integer Value 1=yes, 0=no
+	 * @param integer Default Value 1=yes, 0=no
+	 *
+	 */
+	function JLConfYesNo($value, $defaultValue)
+	{
+		$yesNoArray = array(_JL_NO, _JL_YES);
+		parent::JLConfEnumInteger($value, $defaultValue, $yesNoArray);
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'yesno';
+	}
+}
+
+/**
+ * Class for handling integer input
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfInteger extends JLConfDataType
+{
+	var $_minIntVal = false;
+	var $_maxIntVal = false;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param integer Initial value for this integer
+	 * @param integer Default value for this integer
+	 * @param integer Optional minimum value
+	 * @param integer Optional maximum value 
+	 *
+	 */
+	function JLConfInteger($value, $defaultValue, $minValue=false, $maxValue=false)
+	{
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+		$this->_minIntVal = false;
+		$this->_maxIntVal = false;
+		
+		if ($minValue !== false) {
+			if ($this->isValid($minValue)) {
+				$this->_minIntVal = $minValue;
+			}
+			else {
+				$this->raiseError("Invalid min value '$minValue'");
+			}
+		}
+		
+		if ($maxValue !== false) {
+			if ($this->isValid($maxValue)) {
+				$this->_maxIntVal = $maxValue;
+			}
+			else {
+				$this->raiseError("Invalid max value '$maxValue'");
+			}
+		}
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'integer';
+	}
+	
+	/**
+	 * Validate an integer
+	 *
+	 * @param integer Value to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if (!is_int($validateMe)) {
+			$this->errorStr = sprintf(_JL_MUSTBEANINTEGER, $validateMe);
+			return false;
+		}
+		
+		if (is_int($this->_minIntVal) && $validateMe < $this->_minIntVal) {
+			$this->errorStr = sprintf(_JL_INTEGERLESSTHANMININUM, $validateMe, $this->_minIntVal);
+			return false;
+		}
+		
+		if (is_int($this->_maxIntVal) && $validateMe > $this->_maxIntVal) {
+			$this->errorStr = sprintf(_JL_INTEGERGREATERTHANMAXIMUM, $validateMe, $this->_maxIntVal);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+	
+	/**
+	 * Set the value of this datatype from its serialized value. If this fails, the value will
+	 * be set to the default value.
+	 *
+	 * @param string Serialized string to set the value from
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean true if the value was set. False if the default was used
+	 */
+	function setValueFromSerialized($value, $setDefaultOnFail=true)
+	{
+		return $this->setValue(intval($value), $setDefaultOnFail);
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$boxWidth = 10;
+		$formHtml = '<input type="text" name="'.$elementName.
+		             '" maxlength="'.$boxWidth.'" size="'.$boxWidth.'" class="inputbox" value="'.$this->getValue().'">';
+		return $formHtml;
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true)
+	{
+		if (is_string($value)) {
+			$value = intval($value);
+		}
+		
+		return parent::setValue($value, $setDefaultOnFail);
+	}
+}
+
+/**
+ * Class for handling integer input only will never show on form
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfIntegerHidden extends JLConfInteger
+{
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'integerHidden';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		return '';
+	}
+}
+
+/**
+ * Class for handling floating point input
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfDouble extends JLConfDataType
+{
+	var $_minDoubleVal = false;
+	var $_maxDoubleVal = false;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param double Initial value for this double
+	 * @param double Default value for this double
+	 * @param double Optional minimum value
+	 * @param double Optional maximum value 
+	 *
+	 */
+	function JLConfDouble($value, $defaultValue, $minValue=false, $maxValue=false)
+	{
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+		$this->_minDoubleVal = false;
+		$this->_maxDoubleVal = false;
+		
+		if ($minValue !== false) {
+			if ($this->isValid($minValue)) {
+				$this->_minDoubleVal = $minValue;
+			}
+			else {
+				$this->raiseError("Invalid min value '$minValue'");
+			}
+		}
+		
+		if ($maxValue !== false) {
+			if ($this->isValid($maxValue)) {
+				$this->_maxDoubleVal = $maxValue;
+			}
+			else {
+				$this->raiseError("Invalid max value '$maxValue'");
+			}
+		}
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'double';
+	}
+	
+	/**
+	 * Validate a double
+	 *
+	 * @param double Value to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if (!is_double($validateMe)) {
+			$this->errorStr = sprintf(_JL_MUSTBEADOUBLE, $validateMe);
+			return false;
+		}
+		
+		if (is_int($this->_minDoubleVal) && $validateMe < $this->_minDoubleVal) {
+			$this->errorStr = sprintf(_JL_DOUBLELESSTHANMININUM, $validateMe, $this->_minDoubleVal);
+			return false;
+		}
+		
+		if (is_int($this->_maxDoubleVal) && $validateMe > $this->_maxDoubleVal) {
+			$this->errorStr = sprintf(_JL_DOUBLEGREATERTHANMAXIMUM, $validateMe, $this->_maxDoubleVal);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+	
+	/**
+	 * Set the value of this datatype from its serialized value. If this fails, the value will
+	 * be set to the default value.
+	 *
+	 * @param string Serialized string to set the value from
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean true if the value was set. False if the default was used
+	 */
+	function setValueFromSerialized($value, $setDefaultOnFail=true)
+	{
+		return $this->setValue(doubleval($value), $setDefaultOnFail);
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$boxWidth = 10;
+		$formHtml = '<input type="text" name="'.$elementName.
+		             '" maxlength="'.$boxWidth.'" size="'.$boxWidth.'" class="inputbox" value="'.$this->getValue().'">';
+		return $formHtml;
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true)
+	{
+		if (is_string($value)) {
+			$value = doubleval($value);
+		}
+		
+		return parent::setValue($value, $setDefaultOnFail);
+	}
+}
+
+/**
+ * Class for handling double input only will never show on form
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfDoubleHidden extends JLConfDouble 
+{
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'doubleHidden';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		return '';
+	}
+}
+
+/**
+ * Class for handling single-line string input
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfString extends JLConfDataType
+{
+	var $_minStrLen = 0;
+	var $_maxStrLen = false;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this double
+	 * @param string Optional minimum string length
+	 * @param string Optional maximum string length
+	 *
+	 */
+	function JLConfString($value, $defaultValue, $minLen=0, $maxLen=false)
+	{
+		$this->_minStrLen = 0;
+		$this->_maxStrLen = false;
+
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+		
+		if ($minLen !== false) {
+			if (is_integer($minLen)) {
+				$this->_minStrLen = $minLen;
+			}
+			else {
+				$this->raiseError("Minimum string length ($minLen) must be an int");
+			}
+		}
+		
+		if ($maxLen !== false) {
+			if (is_integer($maxLen)) {
+				$this->_maxStrLen = $maxLen;
+			}
+			else {
+				$this->raiseError("Maximum string length ($maxLen) must be an int");
+			}
+		}
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'string';
+	}
+	
+	/**
+	 * Validate a string
+	 *
+	 * @param string String to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if (!is_string($validateMe)) {
+			$this->errorStr = _JL_VALUEISNOTASTRING;
+			return false;
+		}
+		
+		$len = strlen($validateMe);
+		
+		if ($this->_minStrLen !== false && $len < $this->_minStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOSHORT, $validateMe, $this->_minStrLen);
+			return false;
+		}
+		
+		if ($this->_maxStrLen !== false && $len > $this->_maxStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOLONG, $validateMe, $this->_maxStrLen);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$boxWidth = ($this->_maxStrLen !== false) ? min($this->_maxStrLen, 30) : 10;
+		$maxStrLen = ($this->_maxStrLen !== false) ? $this->_maxStrLen : 255;
+		
+		$formHtml = '<input type="text" name="'.$elementName.
+		             '" maxlength="'.$maxStrLen.'" size="'.$boxWidth.'" class="inputbox" value="'.$this->getValue().'">';
+		return $formHtml;
+	}
+}
+
+/**
+ * Class for handling single-line string input, Read Only form element
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfStringReadOnly extends JLConfString
+{
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'stringReadOnly';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$boxWidth = ($this->_maxStrLen !== false) ? min($this->_maxStrLen, 30) : 10;
+		$maxStrLen = ($this->_maxStrLen !== false) ? $this->_maxStrLen : 255;
+		
+		$formHtml = '<input type="text" readonly="true" name="'.$elementName.
+		             '" maxlength="'.$maxStrLen.'" size="'.$boxWidth.'" class="inputbox" value="'.$this->getValue().'">';
+		return $formHtml;
+	}
+}
+
+/**
+ * Class for handling E-mail adresses.
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfStringEmail extends JLConfString
+{
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'stringEmail';
+	}
+	
+	/**
+	 * Validate a string
+	 *
+	 * @param string String to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe) {
+		if (!is_string($validateMe)) {
+			$this->errorStr = _JL_VALUEISNOTASTRING;
+			return false;
+		}
+		
+		$this->_minStrLen = max($this->_minStrLen, 6); //e-mails are always at least 6 char
+		$len = strlen($validateMe);
+		
+		if ($this->_minStrLen !== false && $len < $this->_minStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOSHORT, $validateMe, $this->_minStrLen);
+			return false;
+		}
+		
+		if ($this->_maxStrLen !== false && $len > $this->_maxStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOLONG, $validateMe, $this->_maxStrLen);
+			return false;
+		}
+		
+		$regex = "^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(([a-z]([-a-z0-9]*[a-z0-9]+)?){1,63}\.)+([a-z]([-a-z0-9]*[a-z0-9]+)?){2,63}$";
+		if (!eregi($regex, $validateMe)){
+			$this->errorStr = sprintf(_JL_STRNOTEMAIL, $validateMe);
+			return false;
+		}
+		$this->errorStr = '';
+		return true;
+	}
+}
+
+/**
+ * Class for handling Ip adresses.
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfStringIp extends JLConfString
+{
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this double
+	 */
+	function JLConfStringIp($value, $defaultValue)
+	{
+		$this->_minStrLen = 7;
+		$this->_maxStrLen = 15;
+
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+	}
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'stringIp';
+	}
+	
+	/**
+	 * Validate a string
+	 *
+	 * @param string String to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe) {
+		if (!is_string($validateMe)) {
+			$this->errorStr = _JL_VALUEISNOTASTRING;
+			return false;
+		}
+		$len = strlen($validateMe);
+		
+		if ($this->_minStrLen !== false && $len < $this->_minStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOSHORT, $validateMe, $this->_minStrLen);
+			return false;
+		}
+		
+		if ($this->_maxStrLen !== false && $len > $this->_maxStrLen) {
+			$this->errorStr = sprintf(_JL_STRINGTOOLONG, $validateMe, $this->_maxStrLen);
+			return false;
+		}
+		
+		$ip = long2ip(ip2long($validateMe));
+		if($ip != $validateMe){
+			$this->errorStr = sprintf(_JL_STRNOTIP, $validateMe);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+}
+
+/**
+ * Class for handling single-line string input, will never show on form
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfStringHidden extends JLConfString
+{
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'stringHidden';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		return '';
+	}
+}
+
+/**
+ * Class for handling multi-line string input
+ * 
+ * @package JL
+ * @subpackage JLConf
+ */
+class JLConfText extends JLConfDataType
+{
+	var $_rows = false;
+	var $_cols = false;
+	
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this string
+	 * @param string Optional rows for textarea
+	 * @param string Optional cols for textarea
+	 */
+	function JLConfText($value, $defaultValue, $rows=false, $cols=false)
+	{
+
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+		
+		if ($rows !== false) {
+			if (is_integer($rows)) {
+				$this->_rows = $rows;
+			}
+			else {
+				$this->raiseError("Rows ($rows) must be an int");
+			}
+		}
+		
+		if ($cols !== false) {
+			if (is_integer($cols)) {
+				$this->_cols = $cols;
+			}
+			else {
+				$this->raiseError("Cols ($cols) must be an int");
+			}
+		}
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'textarea';
+	}
+	
+	/**
+	 * Validate a string
+	 *
+	 * @param string String to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe)
+	{
+		if (!is_string($validateMe)) {
+			$this->errorStr = _JL_VALUEISNOTASTRING;
+			return false;
+		}
+		
+		$len = strlen($validateMe);
+		/* text holds 65536 bytes */
+		if ($len > 65536) {
+			$this->errorStr = sprintf(_JL_STRINGTOOLONG, $validateMe, 65536);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$rows = ($this->_rows !== false) ? min($this->_rows, 20) : 10;
+		$cols = ($this->_cols !== false) ? $this->_cols : 30;
+		
+		$formHtml = '<textarea rows="'.$rows.'" cols="'.$cols.'" name="'.$elementName.'" class="text_area">'
+					.$this->getValue().'</textarea>';
+		return $formHtml;
+	}
+}
+
+/**
+ * Expermintal and should not yet be included with first shipment until proven an validated
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * 
+ *@todo needs some more testing but seems to work
+ */
+class JLConfFileAdjustment extends JLConfDataType {
+	var $_file;
+
+	function JLConfFileAdjustment($value, $defaultValue, $rows=false, $cols=false) {
+		JLCoreApi::import('JLFilelocking');
+		
+		$this->setDefaultValue($defaultValue);
+		$this->_file = $defaultValue;
+		/* first load or reset */
+		$value = $this->_getContents($this->_file);
+		$this->setValue($value);
+		
+		if ($rows !== false) {
+			if (is_integer($rows)) {
+				$this->_rows = $rows;
+			}
+			else {
+				$this->raiseError("Rows ($rows) must be an int");
+			}
+		}
+		
+		if ($cols !== false) {
+			if (is_integer($cols)) {
+				$this->_cols = $cols;
+			}
+			else {
+				$this->raiseError("Cols ($cols) must be an int");
+			}
+		}
+	}
+	
+	/**
+	 * No storage of this in any files
+	 *
+	 * @return mixed Right side of an expression for creating this type.
+	 *
+	 */
+	function getLiteral(){
+		return '\'\'';
+	}
+	
+	/**
+	 * We write back to a file and give bogus string to database. 
+	 *
+	 * @return mixed Right side of an expression for creating this type.
+	 *
+	 */
+	function getSerialized(){
+		if(file_exists($this->_file)){
+			$JLFL = new JLFileLocking();
+			$JLFL->write($this->_file, $this->getValue());
+		}
+		return 'bogus'; /** set bogus so we can filter out database reload */
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType()
+	{
+		return 'fileadjustment';
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName)
+	{
+		$rows = ($this->_rows !== false) ? min($this->_rows, 20) : 10;
+		$cols = ($this->_cols !== false) ? $this->_cols : 30;
+		
+		$formHtml = '<textarea rows="'.$rows.'" cols="'.$cols.'" name="'.$elementName.'" class="text_area">'
+					.$this->getValue().'</textarea>';
+		return $formHtml;
+	}
+	
+	/**
+	 * Loads the content of the file into a string
+	 *
+	 * @param string $filename
+	 * @return string
+	 */
+	function _getContents($filename){
+		if(function_exists('file_get_contents')){
+			$content = file_get_contents($filename);
+		} else {
+			if (!($fd = $this->fopen($filename, 'rb'))) {
+			    $content = '';
+			}
+			$fileSize = filesize($filename);
+			$content = $fileSize == 0 ? '' : $this->fread($fd, $fileSize);
+			$this->fclose($fd);
+		}
+		return $content;
+	}
+
+	/**
+	 * We don't need to validate but we need to intercept the bogus sting from database load
+	 *
+	 * @param string $value
+	 * @param boolean $setDefaultOnFail
+	 * @return boolean
+	 */
+	function setValue($value, $setDefaultOnFail=true){
+		if ($value == 'bogus') {
+			return true;
+		} 
+		$this->_value = $value;
+		return true;
+	}
+	
+}
+
+/**
+ * Class for handling String input to array, with sorting
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * @since 1.1.0
+ */
+class JLConfStringToArray extends JLConfDataType {
+	var $_glue;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this string
+	 * @param string Glue used to confert from string => array and back again
+	 * @param string Optional rows for textarea
+	 * @param string Optional cols for textarea
+	 */
+	function JLConfStringToArray($value, $defaultValue, $glue, $rows=false, $cols=false)
+	{
+
+		$this->setDefaultValue($defaultValue);
+		$this->setValue($value);
+		$this->_glue = trim($glue, ' ');
+		
+		if ($rows !== false) {
+			if (is_integer($rows)) {
+				$this->_rows = $rows;
+			}
+			else {
+				$this->raiseError("Rows ($rows) must be an int");
+			}
+		}
+		
+		if ($cols !== false) {
+			if (is_integer($cols)) {
+				$this->_cols = $cols;
+			}
+			else {
+				$this->raiseError("Cols ($cols) must be an int");
+			}
+		}
+	}
+	
+	/**
+	 * Validate a Array
+	 *
+	 * @param string Array to validate
+	 *
+	 * @return boolean true if is valid. false if isn't.
+	 *
+	 */
+	function isValid($validateMe) {
+		if (!is_array($validateMe)) {
+			$this->errorStr = '';
+			return false;
+		}
+		
+		$len = strlen(serialize($validateMe));
+		/* text holds 65536 bytes */
+		if ($len > 65536) {
+			$this->errorStr = sprintf(_JL_STRINGTOOLONG, $validateMe, 65536);
+			return false;
+		}
+		
+		$this->errorStr = '';
+		return true;
+	}
+	
+	/**
+	 * Get form HTML
+	 *
+	 * @param string Form element name
+	 *
+	 * @return string Form HTML
+	 *
+	 */
+	function getFormHTML($elementName){
+		$rows  = ($this->_rows !== false) ? min($this->_rows, 20) : 10;
+		$cols  = ($this->_cols !== false) ? $this->_cols : 30;
+		$value = implode($this->_glue, $this->getValue()); 
+		
+		$formHtml = '<textarea rows="'.$rows.'" cols="'.$cols.'" name="'.$elementName.'" class="text_area">'
+					.$value.'</textarea>';
+		return $formHtml;
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType() {
+		return 'StringArray';
+	}
+	
+	/**
+	 * Get the serialized version of this value
+	 *
+	 * @return string Serialized string of this variable as it should be written to the database.
+	 *
+	 */
+	function getSerialized(){
+		return serialize($this->getValue());
+	}
+	
+	/**
+	 * Set the value of this datatype from its serialized value. If this fails, the value will
+	 * be set to the default value.
+	 *
+	 * @param string Serialized string to set the value from
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return boolean true if the value was set. False if the default was used
+	 */
+	function setValueFromSerialized($value){
+		return $this->setValue(unserialize($value));
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true) {
+		if(!is_array($value) && is_string($value)){
+			$value = explode($this->_glue, $value);
+		}
+		$value = array_map('trim', $value);	
+		return parent::setValue($value, $setDefaultOnFail);
+	}
+}
+
+/**
+ * Class for handling String input to array, with sorting
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * @since 1.1.0
+ */
+class JLConfStringToArraySort extends JLConfStringToArray {
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this string
+	 * @param string Glue used to confert from string => array and back again
+	 * @param string Optional rows for textarea
+	 * @param string Optional cols for textarea
+	 */
+	function JLConfStringToArraySort($value, $defaultValue, $glue, $rows=false, $cols=false){
+		parent::JLConfStringToArray($value, $defaultValue, $glue, $rows, $cols);
+	}
+	
+	/**
+	 * Set the value of this datatype. If this fails, the value will be set to the default and false will be returned
+	 *
+	 * @param mixed Value to set this as
+	 * @param boolean Set to default if setting this value fails. If false, this will leave the value untouched
+	 *
+	 * @return true if setting value went OK. false if not.
+	 *
+	 */
+	function setValue($value, $setDefaultOnFail=true) {
+		if(!is_array($value) && is_string($value)){
+			$value = explode($this->_glue, $value);
+		}
+		if(is_array($value)){
+			$valueLowercase = array_map('strtolower', $value);
+			array_multisort($valueLowercase, SORT_ASC, SORT_REGULAR, $value);
+		}
+		return parent::setValue($value, $setDefaultOnFail);
+	}
+	
+	/**
+	 * Set the default value for this datatype. If this fails, it will throw a fatal error
+	 *
+	 * @param mixed Default value to set
+	 *
+	 */
+	function setDefaultValue($defaultValue)
+	{
+		if ($this->isValid($defaultValue)) {
+			$defaultValue = array_map('trim', $defaultValue);
+			$valueLowercase = array_map('strtolower', $defaultValue);
+			array_multisort($valueLowercase, SORT_ASC, SORT_REGULAR, $defaultValue);
+			$this->_defaultValue = $defaultValue; /* Default is to just set it */
+			return true;
+		}
+		else {
+			$this->raiseError("Default value '$defaultValue' is invalid for ".$this->getType());
+		}
+	}
+}
+
+
+/**
+ * Class for handling String input to array keys. Only the literal value is expressed as array[$string]=>1
+ * 
+ * @package JL
+ * @subpackage JLConf
+ * @since 1.2.0
+ */
+class JLConfStringToKeyArray extends JLConfStringToArray {
+	var $_glue;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param string Initial value for this string
+	 * @param string Default value for this string
+	 * @param string Glue used to confert from string => array and back again
+	 * @param string Optional rows for textarea
+	 * @param string Optional cols for textarea
+	 */
+	function JLConfStringToKeyArray($value, $defaultValue, $glue, $rows=false, $cols=false)
+	{
+		$this->JLConfStringToArray($value, $defaultValue, $glue, $rows, $cols);
+	}
+	
+	/**
+	 * Get the datatype constant for this class
+	 *
+	 * @return string datatype
+	 *
+	 */
+	function getType() {
+		return 'StringKeyArray';
+	}
+	
+	/**
+	 * Get the PHP literal for the r-value of an assignment expression.
+	 *
+	 * @return mixed Right side of an expression for creating this type.
+	 *
+	 */
+	function getLiteral()
+	{
+		$value = $this->getValue();
+		
+		$newValue = array();
+		
+		foreach ($value as $row) {
+			$newValue[$row] = 1;
+		}
+		
+		return 'unserialize(\''.serialize($newValue).'\')'; /* Just get a safe string for it */
+	}
+}
+
+?>

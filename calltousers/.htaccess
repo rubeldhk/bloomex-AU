@@ -1,0 +1,4 @@
+AuthType Basic   
+AuthName admin 
+AuthUserFile /etc/httpd/conf/.htpasswd
+require user letmein1

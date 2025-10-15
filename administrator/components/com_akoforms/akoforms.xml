@@ -1,0 +1,133 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+  <name>AkoForms</name>
+  <creationDate>13.10.2004</creationDate>
+  <author>Arthur Konze</author>
+  <copyright>Copyright 2004 by Arthur Konze. Distribution prohibited!</copyright>
+  <version>1.2</version>
+  <description>AkoForms is a fully integrated Mambo form generator component.</description>
+  <files>
+    <filename>akoforms.php</filename>
+    <filename>class.phpmailer.php</filename>
+  </files>
+  <images>
+    <filename>languages/bosnian.php</filename>
+    <filename>languages/dutch.php</filename>
+    <filename>languages/english.php</filename>
+    <filename>languages/finnish.php</filename>
+    <filename>languages/french.php</filename>
+    <filename>languages/germanf.php</filename>
+    <filename>languages/germani.php</filename>
+    <filename>languages/greek.php</filename>
+    <filename>languages/italian.php</filename>
+    <filename>languages/norwegian.php</filename>
+    <filename>languages/polish.php</filename>
+    <filename>languages/portuguese.php</filename>
+    <filename>languages/russian.php</filename>
+    <filename>languages/simplified_chinese.php</filename>
+    <filename>languages/spanish.php</filename>
+    <filename>languages/traditional_chinese.php</filename>
+  </images>
+  <install>
+    <queries>
+      <query>DROP TABLE IF EXISTS `#__akoforms`</query>
+      <query>
+        CREATE TABLE `#__akoforms` (
+          `id` int(11) NOT NULL auto_increment,
+          `title` text NOT NULL,
+          `text` text NOT NULL,
+          `sendmail` tinyint(1) NOT NULL default '1',
+          `emails` text NOT NULL,
+          `savedb` tinyint(1) NOT NULL default '1',
+          `showresult` tinyint(1) NOT NULL default '1',
+          `published` tinyint(1) NOT NULL default '0',
+          `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+          `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+          `ordering` float unsigned NOT NULL default '0',
+          `target` int(11) NOT NULL default '0',
+          `targeturl` text NOT NULL,
+          `thanktitle` text NOT NULL,
+          `thanktext` text NOT NULL,
+          PRIMARY KEY  (`id`)
+        ) TYPE=MyISAM
+      </query>
+      <query>DROP TABLE IF EXISTS `#__akoforms_fields`</query>
+      <query>
+        CREATE TABLE `#__akoforms_fields` (
+          `id` int(11) NOT NULL auto_increment,
+          `catid` int(11) NOT NULL default '0',
+          `type` int(11) NOT NULL default '0',
+          `title` text NOT NULL,
+          `text` text NOT NULL,
+          `value` text NOT NULL,
+          `style` text NOT NULL,
+          `required` tinyint(1) NOT NULL default '0',
+          `published` tinyint(1) NOT NULL default '0',
+          `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+          `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+          `ordering` float unsigned NOT NULL default '0',
+          PRIMARY KEY  (`id`)
+        ) TYPE=MyISAM;
+      </query>
+      <query>DROP TABLE IF EXISTS `#__akoforms_data`</query>
+      <query>
+        CREATE TABLE `#__akoforms_data` (
+          `id` int(11) NOT NULL auto_increment,
+          `senderid` int(11) NOT NULL default '0',
+          `fieldid` int(11) NOT NULL default '0',
+          `data` text NOT NULL,
+          PRIMARY KEY  (`id`)
+        ) TYPE=MyISAM;
+      </query>
+      <query>DROP TABLE IF EXISTS `#__akoforms_sender`</query>
+      <query>
+        CREATE TABLE `#__akoforms_sender` (
+          `id` int(11) NOT NULL auto_increment,
+          `formid` int(11) NOT NULL default '0',
+          `senderip` text NOT NULL,
+          `senderdate` datetime NOT NULL default '0000-00-00 00:00:00',
+          PRIMARY KEY  (`id`)
+        ) TYPE=MyISAM;
+      </query>
+    </queries>
+  </install>
+  <uninstall>
+    <queries>
+      <query>DELETE FROM `#__akoforms`</query>
+      <query>DROP TABLE `#__akoforms`</query>
+      <query>DELETE FROM `#__akoforms_fields`</query>
+      <query>DROP TABLE `#__akoforms_fields`</query>
+      <query>DELETE FROM `#__akoforms_data`</query>
+      <query>DROP TABLE `#__akoforms_data`</query>
+    </queries>
+  </uninstall>
+    <installfile>install.akoforms.php</installfile>
+    <uninstallfile>uninstall.akoforms.php</uninstallfile>
+  <administration>
+    <menu>AkoForms</menu>
+    <submenu>
+      <menu task="forms">View Forms</menu>
+      <menu task="fields">View Fields</menu>
+      <menu task="data">Stored Data</menu>
+      <menu task="settings">Edit Settings</menu>
+      <menu task="language">Edit Language</menu>
+      <menu task="about">About AkoForms</menu>
+    </submenu>
+    <files>
+      <filename>admin.akoforms.html.php</filename>
+      <filename>admin.akoforms.php</filename>
+      <filename>class.akoforms.php</filename>
+      <filename>config.akoforms.php</filename>
+      <filename>fields.akoforms.php</filename>
+      <filename>fields_custom.akoforms.php</filename>
+      <filename>install.akoforms.php</filename>
+      <filename>toolbar.akoforms.html.php</filename>
+      <filename>toolbar.akoforms.php</filename>
+      <filename>uninstall.akoforms.php</filename>
+    </files>
+    <images>
+      <filename>images/akoforms_box.png</filename>
+      <filename>images/logo.png</filename>
+    </images>
+</administration>
+</mosinstall>

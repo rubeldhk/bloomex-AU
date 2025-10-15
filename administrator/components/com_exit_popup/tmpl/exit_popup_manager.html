@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<h1>Exit PopUp</h1>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<style>
+    .red-border {
+        border: 1px solid red;
+    }
+</style>
+</form>
+{MESSAGE}
+<form action="{ACTION}" enctype="multipart/form-data" method="post" name="insert-form">
+    <table class="adminlist">
+        <tr>
+            <th  align='left'>
+                Image <span style="color:red">*</span>
+            </th>
+            <th  align='left'>
+                Btn Title <span style="color:red">*</span>
+            </th>
+            <th align='left'>
+                Btn Color
+            </th>
+            <th align='left'>
+                Btn Style
+            </th>
+            <th align='left'>
+                Btn PositionX <span style="color:red">*</span>
+            </th>
+            <th align='left'>
+                Btn PositionY <span style="color:red">*</span>
+            </th>
+            <th align='left'>
+                Product ID
+            </th>
+            <th align='left'>
+                Published
+            </th>
+            <th align="left">
+                Action
+            </th>
+        </tr>
+        <tr>
+            <td align="left" >
+                <input id="filename" type="file" name="filename" onchange="upload_new_image('filename', 'filename');" >
+                <h5 id="filename_text" style="display: none;">File exists, plz rename file.</h5>
+            </td>
+            <td align="left" >
+                <input type="text" name="btn_title">
+            </td>
+            <td align="left" >
+                <select name="btn_color">
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="orange">Orange</option>
+                    <option value="purple">Purple</option>
+                    <option value="pink">Pink</option>
+                    <option value="brown">Brown</option>
+                    <option value="gray">Gray</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="magenta">Magenta</option>
+                </select>
+            </td>
+            <td align="left" >
+                <textarea name="btn_style" rows="4" cols="40"></textarea>
+            </td>
+            <td align="left" >
+                <input type="number" name="position_x" min="10" style="width: 50px"/>
+            </td>
+            <td align="left" >
+                <input type="number" name="position_y" min="10" style="width: 50px"/>
+            </td>
+            <td align="left" >
+                <input type="text" name="product_id"/>
+            </td>
+            <td align="left" >
+                <input type="checkbox" name="is_active" value="1"/>
+            </td>
+            <td align="left" >
+                <input type="button" name="insert" value="Save">
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    $('input[name=insert]').click(function () {
+        completed = ( $('input[name=filename]').val().length < 4 ) ? redFile('filename') : normal('filename');
+        if (completed) completed = ( $('input[name=btn_title]').val().length < 1 ) ? red('btn_title') : normal('btn_title');
+        if (completed) completed = ( $('input[name=position_x]').val().length < 1 ) ? red('position_x') : normal('position_x');
+        if (completed) completed = ( $('input[name=position_y]').val().length < 1 ) ? red('position_y') : normal('position_y');
+
+        if (completed) {
+            $('form[name=insert-form]').submit();
+        }
+    });
+
+    function redFile(name) {
+        $('input[id=' + name + ']').css('border', '1px solid #f00');
+        return false;
+    }
+
+    function red(name) {
+        $('input[name=' + name + ']').css('border', '1px solid #f00');
+        return false;
+    }
+
+    function normal(name) {
+        $('input[name=' + name + ']').css('border', '1px solid #000');
+        return true;
+    }
+
+    function upload_new_image(id_upload) {
+        var upload = document.getElementById(id_upload);
+        var fileName = upload.value.split('\\').pop();
+        isset_name(fileName, id_upload);
+    }
+
+    function isset_name(image_name, id_upload) {
+        jQuery.post("?option=com_exit_popup",
+            {
+                option: 'com_exit_popup',
+                task: 'check_image',
+                name: image_name
+            },
+            function (data) {
+                if (data == 'error') {
+                    var imageEl = document.getElementById(id_upload);
+                    var imageText = document.getElementById('filename_text');
+                    imageEl.classList.add('red-border');
+                    imageText.style.display = '';
+                }
+            });
+    }
+</script>
+<br />
+<div>{DOMAINLIST}</div>
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>VM Products</name>
+  <author>EI</author>
+  <version>1.0</version>
+  <description>Definition for VM component (Products)</description>
+  <reference>
+  	<table name="vm_product">
+  		<field type="referenceid" name="product_id" translate="0">ID</field>
+  		<field type="titletext" name="product_name" translate="1">Name</field>
+                <field type="text" name="alias" translate="1">Alias</field>
+  		<field type="textarea" name="product_s_desc" translate="1">Short description</field>
+  		<field type="htmltext" name="product_desc" translate="1">Description</field>
+  		<field type="created_date" name="cdate" translate="0">Created</field>
+  		<field type="modified_date" name="mdate" translate="0">Modified</field>
+  	</table>
+  </reference>
+</joomfish>

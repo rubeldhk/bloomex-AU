@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            var id_script = 3;
+            var stream_count = 1;
+            var script_count_start = 0;
+            var script_count = 0;
+            
+            var startTime, endTime;
+
+            function start() {
+                startTime = new Date();
+            };
+            
+            start();
+
+            function end() {
+                endTime = new Date();
+                var timeDiff = endTime - startTime;
+                timeDiff /= 1000;
+
+                var seconds = Math.round(timeDiff);
+                var percent = ((script_count_start-script_count)/(script_count_start)).toFixed(4);
+                var time_left = (seconds / percent).toFixed(0);
+                            
+                jQuery('.time > span').text(seconds);
+                jQuery('.time-left > span').text(time_left);
+            }
+            
+            function getIteration() {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: './'+id_script+'.php',
+                    data: {
+                        'stream_count': stream_count
+                    },
+                    async: true,
+                    dataType: 'json',
+                    context: this,
+                    beforeSend: function() {
+                        
+                    },
+                    success: function (data) {
+                        if (data.result) {
+                            script_count -= 1000;
+                            
+                            var r = script_count_start - (script_count_start-script_count);
+                            var percent = ((script_count_start-script_count)/(script_count_start/100)).toFixed(4);
+
+                            jQuery('.count > span').text(r);
+                            jQuery('.percents > span').text(percent);
+                        }
+                        else {
+                        }
+                        
+                        if (script_count > 0) {
+                            getIteration();
+                        }
+                        end();
+                    }
+                });
+                
+                return false;
+            }
+
+            jQuery(document).ready(function() {
+                
+                jQuery.ajax({
+                    type: 'POST',
+                    url: './'+id_script+'.php',
+                    data: {
+                        'task': 'getCount'
+                    },
+                    async: true,
+                    dataType: 'json',
+                    context: this,
+                    beforeSend: function() {
+                        
+                    },
+                    success: function (data) {
+                        if (data.result) {
+                            script_count = data.count;
+                            script_count_start = data.count;
+                            
+                            for (var i = 1; i <= stream_count; i++) {
+                                getIteration();
+                            }
+                        }
+                    }
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+        <div class="count"><span></span> items remaining</div>
+        <div class="time">
+            <span></span> seconds 
+        </div>
+        <div class="time-left">
+            <span></span> seconds left
+        </div>
+        <div class="percents">
+            <span></span> percent ready
+        </div>
+    </body>
+</html>

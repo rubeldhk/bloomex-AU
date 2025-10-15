@@ -1,0 +1,252 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::import('JLPlatform');
+JLCoreApi::import('JLLog');
+
+/**
+ * Enter description here...
+ * 
+ * @package JL
+ * @subpackage JLFileLocking
+ */
+class JLFileLocking {
+	/**
+	 * File handle of the lock file
+	 *
+	 * @var filehandle
+	 */
+	var $fp;
+	/**
+	 * Log object
+	 *
+	 * @var object
+	 */
+	var $log;
+	/**
+	 * Enter description here...
+	 *
+	 * @var unknown_type
+	 */
+	var $_dirPerms = null;
+	/**
+	 * Enter description here...
+	 *
+	 * @var unknown_type
+	 */
+	var $_filePerms = null;
+	/**
+	 * Enter description here...
+	 *
+	 * @var unknown_type
+	 */
+	var $_umask = null;
+
+	/**
+     * Return the major and minor version of the JLFileLocking API.
+     *
+     * @return array major number, minor number
+     */
+	function getApiVersion() {
+		return array(1, 0);
+	}
+
+	/**
+	 * Constructer function
+	 *
+	 * @param onject optional Joomlalog object
+	 * @return JLFileLocking
+	 */
+	function JLFileLocking($logObj = null){
+		$this->__construct($logObj);
+	}
+
+	/**
+	 * Constructer function
+	 *
+	 * @param onject optional Joomlalog object
+	 * @return JLFileLocking
+	 */
+	function __construct($logObj = null){
+		if(!$logObj) {
+			$logObj = new JLLog('jl');
+		}
+		$this->log = $logObj;
+	}
+
+	/**
+	 * Safe File writing
+	 *
+	 * @param string $filename
+	 * @param string $data
+	 * @return bool
+	 */
+	function write($filename, $data){
+		if(!$this->_lock($filename)){
+			return false;
+		}
+		$ret = $this->_atomicWrite($filename, $data);
+		$this->_unlock($filename);
+		return $ret;
+	}
+
+	/**
+	 * File Locking function
+	 *
+	 * @param string $filename
+	 * @return bool
+	 */
+	function _lock($filename){
+		$id = $this->_getLockId($filename);
+		if(!@mkdir($id)){
+			/* first check if it's a dead lock */
+			clearstatcache();
+			if(@$stat = stat($id.'/lock')){
+				if($stat[9] < time()  - 120){
+					$this->log->l(5, 'Found Dead lock on file: %s', $filename);
+					$this->fp = fopen($id.'/lock', "w+");
+					/* try to get flock so we are the only one */
+					if (flock($this->fp, LOCK_EX)) {
+						fwrite($this->fp, ".");
+						// we got the lock now release flock again as we don't need it anymore
+						flock($this->fp, LOCK_UN);
+						$this->log->l(5, 'Fixed dead lock on file: %s', $filename);
+						return true;
+					}
+				}
+			}
+			/* we don't have a lock, wait a while and see if we can get one */
+			$waitInterval = 10000;
+			$waitTimes = 10;
+			for ($i = 0; $i < $waitTimes; $i++) {
+				if (@mkdir($id)) {
+					$succes = true;
+					break;
+				}
+				$n = rand(5, 10);
+				usleep($n * $waitInterval);
+				$succes = false;
+			}
+			if(!$succes){
+				$str = $this->log->l(5, 'Lock Time out.');
+				return false; //Lock timeout
+			}
+		}
+
+		$this->fp = fopen($id.'/lock', "w+");
+		fwrite($this->fp, ".");
+		$this->log->l(4, 'Got Lock on file: %s', $filename);
+		return true;
+	}
+
+	/**
+	 * File Unlocking function
+	 *
+	 * @param string, $filename
+	 * @return bool
+	 */
+	function _unlock($filename){
+		$id = $this->_getLockId($filename);
+		fclose($this->fp);
+		if(@unlink($id.'/lock')){
+			if(!@rmdir($id)) {
+				/* put the lock file back with lower creation time, the we might operate normally */
+				touch($id.'/lock', time() - 9999);
+				/* throw error */
+				$str = $this->log->l(10, 'We couldn\'t delete %s remove it by hand', $id);
+				die($str);
+			}
+		} else {
+			$str = $this->log->l(10, 'lock file was not unlinked!');
+			die($str);
+		}
+		$this->log->l(4, 'Released Lock on file: %s',$filename);
+		return true;
+	}
+
+	/**
+	 * Atomic write function
+	 *
+	 * @param string, $filename
+	 * @param string, $data
+	 * @return bool
+	 */
+	function _atomicWrite($filename, $data) {
+		$tempFile = tempnam(dirname($filename), basename($filename));
+		$fd = fopen($tempFile, 'wb');
+		$success = false;
+		if ($fd) {
+			if (!isset($this->_filePerms)) {
+				$this->_loadPermissionPreferences();
+		    }
+		    chmod($tempFile, $this->_filePerms);
+			$bytesWritten = fwrite($fd, $data);
+			if ($bytesWritten == strlen($data)) {
+				$success = true;
+			}
+			fclose($fd);
+		}
+		if ($success) {
+			if (file_exists($filename)) {
+				@unlink($filename);
+			}
+			return rename($tempFile, $filename);
+		} else {
+			@unlink($tempFile);
+			return false;
+		}
+	}
+
+	/**
+     * Gets the lock id for the file
+     *
+     * @param string filename
+     * @return string lock id
+     */
+	function _getLockId($filename){
+		if (!isset($this->_dirPerms)) {
+			$this->_loadPermissionPreferences();
+		}
+		$basePath = JLCoreApi::getJLBasePath().'/lock';
+		if(!is_writable($basePath)){
+			$str = $this->log->l(10, 'lock directory error, we need write permissions!');
+			die($str);
+		}
+		$id = md5($filename);
+		clearstatcache();
+		if(!is_dir($basePath.'/'.$id{0})){
+			$umask = umask(0);
+			mkdir($basePath.'/'.$id{0}, $this->_dirPerms);
+			mkdir($basePath.'/'.$id{0}.'/'.$id{1}, $this->_dirPerms);
+			umask($umask);
+
+		} elseif (!is_dir($basePath.'/'.$id{0}.'/'.$id{1})){
+			$umask = umask(0);
+			mkdir($basePath.'/'.$id{0}.'/'.$id{1}, $this->_dirPerms);
+			umask($umask);
+		}
+
+		return $basePath.'/'.$id{0}.'/'.$id{1}.'/'.$id;
+	}
+
+	function _loadPermissionPreferences() {
+		Global $mosConfig_dirperms, $mosConfig_fileperms;
+		
+		$this->_filePerms = 0644;
+		if (!empty($mosConfig_fileperms)) {
+			$this->_filePerms = octdec($mosConfig_fileperms);
+		}
+		
+		$this->_umask = 0777 - $this->_filePerms;
+		
+		$this->_dirPerms = 0755;
+		if (!empty($mosConfig_dirperms)) {
+			$this->_dirPerms = octdec($mosConfig_dirperms);
+		}
+	}
+}
+?>

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+ <name>CurrencyConverter</name>
+ <creationDate>04/15/2006</creationDate>
+ <author>Norbert Feria</author>
+ <copyright>This component in released under the GNU/GPL License</copyright>
+ <authorEmail>ombing@gmail.com</authorEmail>
+ <authorUrl>www.ombing.com</authorUrl>
+ <version>1.0</version>
+ <files>
+  <filename>currencyconverter.php</filename>
+  <filename>ajax.js</filename>
+  <filename>convert.php</filename>
+ </files>
+   <administration>
+    <menu>Currency Converter</menu>
+   </administration>
+</mosinstall>

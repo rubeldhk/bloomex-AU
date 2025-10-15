@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>List Variable Parameter File</name>
+	<creationDate>April 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Database Query is a Mambo query manager.</description>
+	<params>
+		<param name="MULTI_SELECT_JOINER" type="text" default="," label="Multi Select Joiner" description="Syntax to join input in a SQL statement for list variables - Used by variables of type Multiselect"/>
+		<param name="DEFAULT_FILE_DIRECTORY" type="text" size="60" default="" label="File Directory" description="Directory where files will be scanned"/>
+		<param name="FILE_LIST_REGEX" type="text" size="60" default="" label="File Regular Expression" description="The regular expression that will be used to filter file names"/>
+		<param name="FILES_ABSOLUTE_PATH" type="list" default="" label="Directory Root" description="Indicates if files are to be found under the Joomla root directory">
+			<option value="">Use Global</option>
+			<option value="0">Webserver</option>
+			<option value="1">Joomla</option>
+		</param>
+		<param name="ESCAPE_OVERRIDE" type="list" default="" label="Escape Override" description="Do not escape the replacement value that will be used in the query">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="VARIABLE_TEMPLATE_ID" type="text" size="3" default="1" label="Variable Template ID" description="Template ID for the variable's template file."/>
+	</params>
+</mosparams>

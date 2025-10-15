@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" client="administrator" version="1.0">
+  <name>Custom QuickIcons</name>
+  <author>Halil Koklu</author>
+  <creationDate>12/05/2005</creationDate>
+  <copyright>(C) 2005 Halil Koklu. All rights reserved.</copyright>
+  <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+  <authorEmail>halilkoklu@gmail.com</authorEmail>
+  <description>It displays the QuickIcons configured in the Component Custom QuickIcons.</description>
+  <version>1.0</version>
+ 
+  <files>
+    <filename module="mod_customquickicons">mod_customquickicons.php</filename>
+  </files>
+</mosinstall>

@@ -1,0 +1,39 @@
+<mos:comment>
+@version 1.0
+@package servermanger
+@copyright Copyright (C) 2012 Bloomex
+</mos:comment>
+<div class="message">{MESSAGE}</div>
+<h1>EXIT PAGE POP UP</h1>
+<div id="exportResult"></div>
+<br></br>
+<br></br>
+
+<div>{POPUPSLIST}</div>
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<script type="text/javascript">
+ $("#importOrders").click(function() {
+    
+    $("#exportResult").html('<img src="/administrator/components/com_virtuemart/html/jquery_ajax.gif" align="absmiddle"/> Loading...');
+                    $.post("index2.php",
+                 {option: "com_exit_page_pop_up",
+                      task: "load_order",
+                  dfrom: $("#dfrom").val(),
+              dto:   $("#dto").val(),
+                    norder: $("#norder").val(),
+                        ordersrc:  $("#ordersrc").val()
+                    },
+                function(data) {
+               // alert("Data Loaded: " + data);
+                if (data != "error") {
+                    $("#exportResult").html(data);
+                } else {
+                    alert("Import Orders error!")
+                }
+            }
+            );
+        
+        
+        });
+</script>

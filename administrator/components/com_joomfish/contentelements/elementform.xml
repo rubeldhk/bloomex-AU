@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>AkoForms_FORM</name>
+  <author>Arthur Konze</author>
+  <version>1.2</version>
+  <description>AkoForms is a fully integrated Mambo form generator component.</description>
+  <reference>
+  	<table name="akoforms">
+  		<field type="referenceid" name="id" translate="0">ID</field>
+  		<field type="text" name="title" translate="1">Name</field>
+  		<field type="textarea" name="text" translate="1">Description</field>  		
+  		<field type="htmltext" name="thanktext" translate="1">Thank text</field>
+  		<field type="checked_out_date" name="publish_down" translate="0">Check out date</field>
+  	</table>
+  </reference>
+</joomfish>

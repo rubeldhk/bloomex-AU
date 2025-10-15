@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<orders version="1.0.0">
+<order>
+	<mode>1</mode> <!-- 0: send test order xml file; 1: send order process live-->
+	<partner_order_id>111111</partner_order_id> <!-- If  it is blank, system will generate this id follow format "partner_name_NUMBER" => tester0001 -->
+	<partner_name>tester10</partner_name> <!-- User ID, we will create new account for each partners-->
+	<delivery_date>10-26-2010</delivery_date>
+	<occasion>birthday</occasion>
+	<coupon_code>10hos</coupon_code>
+	<card_message>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</card_message>	
+	<signature>Mr Tester</signature>		
+	<shipping>
+		<first_name>Tester</first_name>
+		<last_name>Testman</last_name>
+		<middle_name>Testy</middle_name>
+		<company>TestCO</company>
+		<country>CAN</country>
+		<state>BC</state>
+		<zipcode>V2V 1X1</zipcode>
+		<city>testville</city>
+		<address1>12345 test st.</address1>
+		<address2>1234532423 test st.</address2>
+		<phone>123 456 7890</phone>
+		<fax>345342523452</fax>
+		<email>abc@gmail.com</email>
+	</shipping>
+	<product>
+		<item>
+			<sku>UF11-13</sku>
+			<quantity>1</quantity>			
+		</item>
+		<item>
+			<sku>UF27-11</sku>
+			<quantity>2</quantity>			
+		</item>
+		<item>
+			<sku>UF3-33</sku>
+			<quantity>4</quantity>			
+		</item>
+	</product>
+</order>
+<order>
+	<mode>1</mode> <!-- 0: send test order xml file; 1: send order process live-->
+	<partner_order_id>11112</partner_order_id> <!-- If  it is blank, system will generate this id follow format "partner_name_NUMBER" => tester0001 -->
+	<partner_name>tester10</partner_name> <!-- User ID, we will create new account for each partners-->
+	<delivery_date>10-6-2010</delivery_date>
+	<occasion>birthday</occasion>
+	<coupon_code>OCC2006</coupon_code>
+	<card_message>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</card_message>	
+	<signature>Mr Tester</signature>
+	<shipping>
+		<first_name>Tester</first_name>
+		<last_name>Testman</last_name>
+		<middle_name>Testy</middle_name>
+		<company>TestCO</company>
+		<country>CAN</country>
+		<state>BC</state>
+		<zipcode>V2V 1X1</zipcode>
+		<city>testville</city>
+		<address1>12345 test st.</address1>
+		<address2>1234532423 test st.</address2>
+		<phone>123 456 7890</phone>
+		<fax>345342523452</fax>
+		<email>abc@gmail.com</email>
+	</shipping>
+	<product>
+		<item>
+			<sku>UF6-31</sku>
+			<quantity>1</quantity>			
+		</item>
+		<item>
+			<sku>UF37-21</sku>
+			<quantity>4</quantity>			
+		</item>
+	</product>
+</order>
+</orders>

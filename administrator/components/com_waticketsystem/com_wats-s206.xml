@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+    <name>WATicketSystem</name>
+    <creationDate>18/11/2006</creationDate>
+    <author>James Kennard</author>
+    <copyright>This component is released under the GNU/GPL License</copyright>
+    <authorEmail>james@webamoeba.co.uk</authorEmail>
+    <authorUrl>www.webamoeba.co.uk</authorUrl>
+    <version>2.0.6 (stable)</version>
+    <description>Help ticket system</description>
+    <files>
+        <filename>waticketsystem.php</filename>
+		<filename>waticketsystem.html.php</filename>
+		<filename>waticketsystem.class.php</filename>
+		<filename>wats.css</filename>
+		<filename>wats.restore.css</filename>
+		<filename>wats.js</filename>
+		<filename>bbcode.inc.php</filename>
+		<filename>index.html</filename>
+		<filename>lang/brazilian.php</filename>
+		<filename>lang/dutch.php</filename>
+		<filename>lang/english.php</filename>
+		<filename>lang/french.php</filename>
+		<filename>lang/german.php</filename>
+		<filename>lang/germanf.php</filename>
+		<filename>lang/greek.php</filename>
+		<filename>lang/italian.php</filename>
+		<filename>lang/portuguese.php</filename>
+		<filename>lang/slovak.php</filename>
+		<filename>lang/spanish.php</filename>
+		<filename>lang/swedish.php</filename>
+		<filename>lang/turkish.php</filename>
+    </files>
+	<images>
+		<filename>images/stn_delete1616.gif</filename>
+		<filename>images/stn_ticket1616.gif</filename>
+		<filename>images/stn_user1616.gif</filename>
+		<filename>images/btm_delete1616.gif</filename>
+		<filename>images/btm_ticket1616.gif</filename>
+		<filename>images/btm_user1616.gif</filename>
+		<filename>images/cls_delete1616.gif</filename>
+		<filename>images/cls_ticket1616.gif</filename>
+		<filename>images/cls_user1616.gif</filename>
+		<filename>images/rsq_delete1616.gif</filename>
+		<filename>images/rsq_ticket1616.gif</filename>
+		<filename>images/rsq_user1616.gif</filename>
+		<filename>images/gsq_delete1616.gif</filename>
+		<filename>images/gsq_ticket1616.gif</filename>
+		<filename>images/gsq_user1616.gif</filename>
+		<filename>images/grn_delete1616.gif</filename>
+		<filename>images/grn_ticket1616.gif</filename>
+		<filename>images/grn_user1616.gif</filename>
+		<filename>images/red_delete1616.gif</filename>
+		<filename>images/red_ticket1616.gif</filename>
+		<filename>images/red_user1616.gif</filename>
+		<filename>images/pty_delete1616.gif</filename>
+		<filename>images/pty_ticket1616.gif</filename>
+		<filename>images/pty_user1616.gif</filename>
+		<filename>images/pty2_delete1616.gif</filename>
+		<filename>images/pty2_ticket1616.gif</filename>
+		<filename>images/pty2_user1616.gif</filename>
+		<filename>images/blb_delete1616.gif</filename>
+		<filename>images/blb_ticket1616.gif</filename>
+		<filename>images/blb_user1616.gif</filename>
+		<filename>images/mdn_delete1616.gif</filename>
+		<filename>images/mdn_ticket1616.gif</filename>
+		<filename>images/mdn_user1616.gif</filename>
+		<filename>images/watshead.gif</filename>
+		<filename>images/bb_smile.gif</filename>
+		<filename>images/bb_eek.gif</filename>
+		<filename>images/bb_biggrin.gif</filename>
+		<filename>images/bb_wink.gif</filename>
+		<filename>images/bb_confused.gif</filename>
+		<filename>images/bb_tongue.gif</filename>
+		<filename>images/bb_frown.gif</filename>
+		<filename>images/mdn_userSmall.jpg</filename>
+		<filename>images/mdn_userSmallGreen.jpg</filename>
+		<filename>images/mdn_userSmallRed.jpg</filename>
+	</images>
+	<install>
+		<queries>
+		</queries>
+	</install>
+    <installfile>install.waticketsystem.php</installfile>
+	<uninstallfile>uninstall.waticketsystem.php</uninstallfile>
+	<administration>
+		<menu>WATicketSystem</menu>
+			<submenu>
+				<menu act="configure">Configure</menu>
+				<menu act="css">CSS</menu>
+				<menu act="user">User Manager</menu>
+				<menu act="rites">Rites Manager</menu>
+				<menu act="category">Category Manager</menu>
+				<menu act="ticket">Ticket Viewer</menu>
+				<menu act="database">Database Maintenance</menu>
+				<menu act="about">About</menu>
+			</submenu>
+		<files>
+			<filename>admin.waticketsystem.php</filename>
+			<filename>admin.waticketsystem.class.php</filename>
+			<filename>admin.waticketsystem.html.php</filename>
+			<filename>admin.wats.js</filename>
+			<filename>toolbar.waticketsystem.php</filename>
+			<filename>toolbar.waticketsystem.html.php</filename>
+			<filename>index.html</filename>
+		</files>
+		<images>
+			<filename>images/header.gif</filename>
+			<filename>images/tooltip.gif</filename>
+			<filename>images/warning.gif</filename>
+			<filename>images/red.gif</filename>
+			<filename>images/wats.gif</filename>
+		</images>
+	</administration>
+</mosinstall>

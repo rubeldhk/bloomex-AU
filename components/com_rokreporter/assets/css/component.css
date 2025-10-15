@@ -1,0 +1,54 @@
+/**
+ * @version $Id $
+ */
+
+fieldset {
+	border: 1px #CCC solid;
+	padding: 6px;
+}
+
+legend {
+	color: #666;
+}
+
+.about {
+	font-size: x-small;
+	text-align: right;
+}
+
+.jrheading {
+	text-align: right;
+}
+
+.bar_0 {
+	background-color: #8D1B1B;
+	border: 2px ridge #B22222;
+}
+
+.bar_1 {
+	background-color: #6740E1;
+	border: 2px ridge #4169E1;
+}
+
+.bar_2 {
+	background-color: #8D8D8D;
+	border: 2px ridge #D2D2D2;
+}
+
+.bar_3 {
+	background-color: #CC8500;
+	border: 2px ridge #FFA500;
+}
+
+.bar_4 {
+	background-color: #5B781E;
+	border: 2px ridge #6B8E23;
+}
+
+.row0 {
+	background-color: #fff;
+}
+
+.row1 {
+	background-color: #eee;
+}

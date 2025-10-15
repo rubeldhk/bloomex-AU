@@ -1,0 +1,102 @@
+  <?xml version="1.0" encoding="iso-8859-9"?>
+<mosinstall type="module" version="1.0.0">
+<name>Page Peel Banner</name>
+<author>Andy Sikumbang</author>
+<creationDate>Oct 2007</creationDate>
+<copyright>2007</copyright>
+<license>GNU GPL</license>
+<authorEmail>plazza@templateplazza.com</authorEmail>
+<authorUrl>www.templateplazza.com</authorUrl>
+<version>1.1</version>
+<description>
+	<![CDATA[
+	 <p /><img src="../modules/pagepeel_banner/logo.png" hspace="15" align="left" style="padding-bottom:15px" />Candy Joomla Ads System, based on Pageear Script by <a href="http://www.webpicasso.de/blog/kostenloses-pagepeel/"><strong>www.webpicasso.de</strong></a>
+	 <p/> <strong>Features :</strong>
+	 <ul>
+	 	<li>Support Impression and Click Statistic via Core Joomla Banner Component</li>
+		<li>Displaying alternative image + link if there's no Core Joomla banner published</li>
+		<li>Support *.jpg images and Flash Animation / *.swf (It doesn't support gif and png files yet)</li>
+		<li>Enable / Disable Page Peel Mirror option</li>
+		<li>Pagepeel is Resizeable </li>
+		<li>Option to Browser target</li>
+		
+	 </ul>
+	  <p/> <strong>New Features (in Version 1.1) </strong>
+	  <ul>
+	  	<li>Pagepeel Direction, Page peel can be opened from right side or left side</li>
+	  	<li>Auto Open Pagepeel , you can set timing for this autoopen pagepeel</li>
+	  </ul>
+	  
+<p>If you found PagePeel Baneer useful you may want to rate and comment PagePeel banner <a href="http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,3209/Itemid,35/"><strong>here </strong></a>at <strong>extensions.joomla.org</strong></p>
+<p/> <strong>Tips :</strong>
+<ul><li> If you want to display a flash animation file (*.swf) inside the page peel banner, you have to change the extension of your swf file into 'jpg' before uploading it, to make them available from the image dropdown list at the Core Joomla Banner Backend</li>
+<li>
+For the best result, please make sure your banner files (jpg or swf) have the 500x500 px dimension  </li> </ul>
+
+	]]>
+</description>
+
+<files>
+  <filename module="mod_pagepeel_banner">mod_pagepeel_banner.php</filename>
+  <filename>pagepeel_banner/AC_OETags.js</filename>
+  <filename>pagepeel_banner/animated_ads.jpg</filename>
+  <filename>pagepeel_banner/clickhere.jpg</filename>
+  <filename>pagepeel_banner/pageear_b.swf</filename>
+  <filename>pagepeel_banner/pageear_s.swf</filename>
+  <filename>pagepeel_banner/static_ads.jpg</filename>
+  <filename>pagepeel_banner/logo.png</filename>
+  <filename>pagepeel_banner/index.html</filename>
+</files>
+
+	<params>
+		<param name="banner_cids" type="text" default="5" label="Banner client" description="Reference to banner client id. Enter separated by ','!" />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		<param name="peelspeed" type="list" default="4" label="PeelPage Animation Speed" description="PeelPage Animation Speed">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+	</param>
+	<param name="peelmirror" type="radio" default="1" label="PagePeel Mirror" description="PagePeel Mirror">
+			<option value="1">Enable</option>
+			<option value="0">Disable</option>
+	</param>
+	<param name="peelnomirrorclr" type="text" default="FFFFFF" label="Peel Corner Color If PagePeel Mirror disabled" description="Peel Corner Color If Mirroring ortion disabled" />
+	<param name="peellinktarget" type="list" default="self" label="Browser Link Open Target" description="PeelPage Animation Speed">
+			<option value="self">Current Window</option>
+			<option value="new">New Window</option>
+	</param>
+	
+	<param name="@spacer" type="spacer" default="" label="Auto Open Setting" description="Please set here if you want enable auto open." />
+	
+	<param name="peelautoopenable" type="list" default="disable" label="Auto Open" description="Enable/disable auto open ">
+			<option value="enable">enable</option>
+			<option value="disable">disable</option>
+	</param>
+	
+	<param name="peelautoopenbehaviour" type="list" default="reload" label="Auto Open behaviour" description="Once view or on every reload page (fill if auto open enable)">
+			<option value="once">Once</option>
+			<option value="reload">Every reload page</option>
+	</param>
+	
+	<param name="peelautoopen" type="text" default="5" label="Second to Open Peel" description="Fill with any number (in second)" /> 
+	
+	<param name="peelcloseautoopen" type="text" default="5" label="Second to Close Peel ( If Auto Open is enabled)" description="Fill any number (in second)" />
+	
+	<param name="@spacer" type="spacer" default="" label="" description="" />
+
+	
+	<param name="peeldirection" type="list" default="rt" label="Page Peel Direction" description="Page Peel Direction, not fully implemented yet">
+			<option value="rt">Right</option>
+			<option value="lt">Left</option>
+	</param>
+	<param name="alterlink" type="text" default="http://www.templateplazza.com" label="Alternative Link " description="Alternative link when there is no Core Joomla Banner published / recent banner impression expired)" />
+	<param name="alterimage" type="imagelist" directory="/modules/pagepeel_banner" default="animated_ads.jpg" label="Alternative Big Peel Image" description="Alternative image when there is no Core Joomla Banner published / recent banner impression expired" />
+	<param name="peelsmallimage" type="imagelist" directory="/modules/pagepeel_banner" default="clickhere.jpg" label="Small Peel Image" description="Small Peel Image" />
+	
+	<param name="peelsmallwidth" type="text" default="100" label="Small Peel Size " description="Width and Height size of small peel (px)" />
+	<param name="peelbigwidth" type="text" default="500" label="Big Peel Size " description="Width and Height size of big peel (px)" />
+	
+	</params>	
+	
+</mosinstall>       

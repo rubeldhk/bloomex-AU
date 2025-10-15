@@ -1,0 +1,178 @@
+<?php
+/**
+ * CoreApi Class
+ *
+ * @package JL
+ */
+if(defined('_JEXEC') || defined('_VALID_MOS')){
+	/**
+ 	 * set our own check so we only have to change one file.
+	 *
+ 	 */
+	define('_JOOMLALIB', 1);
+}
+
+/**
+ * Core Api for JoomlaLib
+ * 
+ * @package JL
+ * @subpackage JLCoreApi
+ */
+class JLCoreApi{
+	
+	/**
+	 * Require class once and Check if api version compatible
+	 *
+	 * @param string class name
+	 * @param integer Major version number required
+	 * @param integer Minor version Number required 
+	 * @return bool
+	 * @static 
+	 */
+	function import($class, $major=null, $minor=null){
+		JLCoreApi::relativeRequireOnce('/classes/'.$class.'.class');
+		if($major && $minor){
+			$required = array($major,$minor);
+			$provided = call_user_func(array($class, 'getApiVersion'));
+			return JLCoreApi::isCompatibleWithApi($required, $provided);
+		}
+		return true;
+	}
+	
+	/**
+	 * Relative require once from joomlalib front end
+	 *
+	 * @param string path relative to /etc/components/com_joomlalib
+	 * @return boolean
+	 * @since 1.1.0
+	 */
+	function relativeRequireOnce($filename){
+		static $loaded = array();
+		$filename = strtolower($filename);
+		if(!isset($loaded[$filename])){
+			$path = JLCoreApi::getJLBasePath().$filename;
+			$loaded[$filename] = true;
+			require($path);
+		}
+		return true;
+	}
+	
+	/**
+	 * Require an internal class once. Only useful from within JoomlaLib
+	 *
+	 * @param string class name
+	 * @return bool
+	 * @static
+	 */
+	function internalImport($class){
+		$filename = '/internal/'.$class.'.class';
+		return JLCoreApi::relativeRequireOnce($filename);
+	}
+	
+	/**
+	 * Load the configuration variable from its file
+	 *
+	 * @return boolean true if OK. false on error.
+	 * @static 
+	 */
+	function loadConfig(){
+		return JLCoreApi::relativeRequireOnce('/cfg/config.joomlalib.php');
+	}
+	
+	/**
+	 * Get the absolute filesystem path to Joomla/Mambo
+	 *
+	 * @return string Base path of the installation
+	 * @static
+	 */
+	function getBasePath()
+	{
+		return dirname(dirname(JLCoreApi::getJLBasePath()));
+	}
+	
+	/**
+	 * Get the absolute filesystem path to JoomlaLib
+	 *
+	 * @return string Base path of the installation
+	 * @static
+	 */
+	function getJLBasePath()
+	{
+		return dirname(dirname(__FILE__));
+	}
+	
+	/**
+	 * Get the absolute filesystem path to JoomlaLib's administrator Backend
+	 *
+	 * @return string Base path of the installation's Backend
+	 * @static
+	 */
+	function getJLAdminBasePath()
+	{
+		return JLCoreApi::getBasePath() . '/administrator/components/com_joomlalib';
+	}
+	
+	/**
+	 * Get the HTTP address of the JoomlaLib component. Use this for creating URLs
+	 *
+	 * @return string Base URL to prepend to all URLs
+	 * @static
+	 */
+	function getJLUrl()
+	{
+		global $mosConfig_live_site;
+		
+		return $mosConfig_live_site. '/components/com_joomlalib';
+	}
+	
+	/**
+     * Verify that the API provided is compatible with the API that we require.
+     *
+     * We're only compatible if the major numbers are the same, and the required
+     * minor number is less than or equal to the provided minor number.
+     *
+     * @param array required (major, minor)
+     * @param array provided (major, minor)
+     * @static 
+     */
+    function isCompatibleWithApi($required, $provided) {
+		if (!is_array($required) || !is_array($provided)) {
+		    return false;
+		}
+		if (count($required) != count($provided) || count($required) != 2) {
+		    return false;
+		}
+		for ($i = 0; $i < 1; $i++) {
+		    if (!is_int($required[$i]) || !is_int($provided[$i])) {
+			return false;
+		    }
+		}
+		if ($required[0] != $provided[0]) {
+		    return false;
+		}
+		if ($required[1] > $provided[1]) {
+		    return false;
+		}
+		return true;
+    }
+    
+    /**
+     * Install dependancies
+     * 
+     * @static 
+     */
+    function install(){
+    	/* Install all of the components */
+    	JLCoreApi::import('JLApp');
+    	JLApp::install();
+    	JLCoreApi::import('JLLog');
+    	JLLog::install();
+    	JLCoreApi::import('JLCron');
+    	JLCron::install();
+    	JLCoreApi::import('JLConf');
+    	JLConf::install();
+    	JLCoreApi::import('JLIp');
+    	JLIp::install();
+    }
+}
+?>

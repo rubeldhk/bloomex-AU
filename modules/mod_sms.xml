@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+	<name>AB: SMS</name>
+	<author>Wayne Smith</author>
+	<creationDate>Oct 2006</creationDate>
+	<copyright>Archaic Binary</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>zharvek@archaicbinary.net</authorEmail>
+	<authorUrl>www.archaicbinary.net</authorUrl>
+	<version>1.0</version>
+	<description>Send SMS messages to Cell Phones using Teleflip's SMS Service</description>
+	<files>
+		<filename module="mod_sms">mod_sms.php</filename>
+	</files>
+	<params>
+	<param name="mailfrom" type="text" size="20" default=""
+           label="Mail From Address" description="Can be any name, but MUST have your domain at the end." />
+    </params>
+</mosinstall>

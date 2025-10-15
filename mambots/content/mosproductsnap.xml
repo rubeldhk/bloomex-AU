@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="mambot" group="content">
+	<name>mosproductsnap</name>
+	<author>soeren</author>
+	<creationDate>March 2005</creationDate>
+	<copyright>Soeren</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>soeren@virtuemart.net</authorEmail>
+	<authorUrl>www.virtuemart.net</authorUrl>
+	<version>1.1</version>
+	<description>Show Product Snapshots in Content</description>
+	<files>
+		<filename mambot="mosproductsnap">mosproductsnap.php</filename>
+	</files>
+</mosinstall>

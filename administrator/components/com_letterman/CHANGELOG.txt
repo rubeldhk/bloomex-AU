@@ -1,0 +1,86 @@
+Changelog for Letterman
+
+Version 1.2.x
+****************
+
+- moved functions sendMail and sendNewsletter to central class file (+ renamed with lm_ prefix)
+- fixed: "Send Now" not visible when button image not available
+- "Compose Newsletter": only loads important mambots now (can be changed
+	in the file /includes/contentRenderer.class.php)
+- preventing double mailings now: when errors occur, the step-by-step mailer counts on
+- changed mail send method to step-by-step even when the newsletter doesn't need to be personalized
+- added [EMAIL] tag to allow email address inclusion in mail body
+- added "<base href="xxx" />" to the newsletter HTML source to have functional links in mail clients
+
+---------- version 1.2.1 released ------------
+
+- selected content items are sent through all content mambots now on compose
+- added: "Compose Newsletter" feature, which let's you create a newsletter using content items, which can be selected from a list
+- added: file attachment support (directory, from which you can choose the attachments can be configured) 
+
+- changed: CSS inclusion in HTML message!
+- added: CSS styles can be configured now for being included in the newsletter (default = CSS styles from the default template)
+- added: Page navigation for newsletter listing in frontend
+- fixed: footer text in HTML email nt formatted
+- fixed: footer text in text emails not displaying
+- fixed: configuration would not load (a wrong query returned 4 results and not 1).
+- added hungarian language file
+- fixed the javascript in the module
+
+---------- version 1.2.0 released ------------
+
+- added configuration variable to easily switch between image embedding (default) or image referencing
+- fixed image embedding (works correctly now!)
+- form to "make users to susbcribers" doesn't show ALL users, but only the first 1000
+- added small configuration screen
+- added "Validate" link to backend, to validate unconfirmed email addresses
+- added enhanced email validation (email_validation_class by 
+	See http://www.phpclasses.org/browse/package/13.html
+	This resolves the MX domain given by the email address and checks
+	if it exists and accepts email
+- added Marlar's CB integration (http://www.kreacom.dk/components/letterman.html)
+- Added feature to sent Newsletters to group "shop customers"
+	(when VirtueMart or mambo-phpShop is installed)
+- Newsletters without [NAME] in it, are sent to all subscribers at once (because
+	no personalization replacing [NAME] is needed),
+	adding all recipients as BCC addresses
+- mails can be sent out in steps now (default: 100 mails per step)
+- corrected html entities handling on export and import
+- fixed: "confirmed?" drop-down only displaying "no"
+- including the correct language file now
+
+-------- version 1.1.0 released ----------
+	2005-02-05
+- added User-to-Subscriber section, so you can add existing Mambo users to the Newsletter subscribers
+
+
+-------- version 1.1 beta released ----------
+  2005-02-01
+- complete Newsletter Administration for Frontend
+- fixed various bugs that were reported on mamboforge.net/projects/letterman
+- fixed unsubscribing procedure
+- fixed PHP5 compatibility error on line 499
+- changed module to be multi-language
+- changed component files to be multi-language
+- changed Mail sending to send out a personalized email to every recipient
+  the Tag [NAME] (as in YaNC/MaMML) can be used in Newsletter content
+- you can now select wether you only want to send the newsletter to confirmed subscriber accounts
+- when the name field is not hidden, the user now MUST fill in a name.
+
+-------- version 1.0a released ----------
+  2005-01-07
+- bug fix: non-clickable Links in the Newsletter Footer
+- Import now uses DOMIT!
+- bug fix: Import Error when XML File contains HTML Entities
+- bug fix: SQL Error on Filter/Search in the Subscriber List
+- bug fix: Blank Screen / Empty File on Export (caused by gzip=On!)
+- bug fix: changed "mos_" to "#__" in XML file
+- bug fix: "Account no found" on subscription confirmation
+- bug fix: Newsletter not send to specific Mambo User Groups (e.g. Editor)
+- bug fix: missing ")" on lines 148 and 180
+
+-------- version 1.0 released ----------
+
+Version 1.0
+************
+Initial Release

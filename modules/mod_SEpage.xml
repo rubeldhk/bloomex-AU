@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+   <name>SE Landing Page</name>
+   <author>Active Innovation</author>
+   <creationDate>May 2007</creationDate>
+   <copyright>(C)Active Innovation</copyright>
+   <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+   <authorEmail>support@recly.com</authorEmail>
+   <authorUrl>www.socioclick.com</authorUrl>
+   <version>1.0.0</version>
+   <description>
+
+   <![CDATA[
+   
+   <style type="text/css" media="all">
+<!--
+.extension_container {padding:0px 0px 8px 0px;}
+.extension_container ul {margin:4px 16px;padding:0px;list-style:square;}
+.extension_container ol {margin:4px 16px;padding:0px;}
+.extension_container ul li,
+.extension_container ol li {margin:2px 8px 2px 0px;padding:0px;}
+h1 {clear:both;margin:0px 0px 12px 0px;padding:0px 0px 1px 0px;color:#C64934;font-size:17px;border-bottom:1px dotted #505050;}
+h2 {font-size:14px;font-family:Tahoma;font-weight:bold;color:#333;}
+.title {margin:4px 0px;font-size:12px;font-weight:bold;}
+.red {color:#C64934;}
+-->
+</style>
+<div class="extension_container">
+  <h1><a target="_blank" title="socioclick!" href="http://www.socioclick.com">SE Landing Page </a></h1>
+  <a target="_blank" title="Visit oscandy the website for UGM, SmoothGallery & JMC!" href="http://www.oscansy.com"><img style="float:right;background:#fff;border:1px solid #ccc;padding:2px;margin:0px 0px 2px 8px;" src="../modules/images/sepagelogo.png" border="0" alt="Logo" /></a>
+  <h2>Description</h2>
+  <p>When visitors is referred to your site from a search engine, they  are definitely looking for something specific - often they just roughly  check the page they land on and then closes the window if what they are  looking for isn&rsquo;t there. Why not help them by showing them related  posts to their search on your Joomla Site?</p>
+  <p>This module lets you do that, works with a long list of search engines!</p>
+  <h2>Example</h2>
+  <p>Do a search google for <a href="http://www.google.com/search?hl=en&client=safari&rls=da-dk&q=socioword&btnG=Search">Socioword</a>, and click the link to this site - you will be presented with a list of related posts right away<br />
+  </p>
+  <h1>USAGE INSTRUCTIONS</h1>
+<ul>
+  <li> Install the 'SE landing Page' as a standard joomla module. </li>
+  <li> Position the 'SE Landing page' to the most suitable position at the top portion of your Joomla Site, this is usually 'user1' position.</li>
+  <li> The title display should be set to 'no', this is because the module collapses once a link has been clicked on; however the title would still display.</li>
+  <li> Just publish the module</li>
+</ul>
+  
+    <br />
+   <br />
+   
+   <h1>CHANGELOG</h1>
+  <br />
+     
+      <div class="title">Version 1.0b Changelog </div>
+     <br><br>
+<ul>
+   <li>1.0b</li>
+   <ul>
+      <li>Initial Beta release</li>
+   </ul>
+   <li>1.0.1b</li>
+   <ul>
+      <li>Non UTF-8 charset encodingss suppport added</li>
+   </ul>
+</ul>  
+     <h1>INFO &amp; CREDITS</h1>
+      <p>'SELanding Page' is an extesion from the Social Media Solutions provided by Active Innovation via <a href="http://www.socioclick.com" alt="socioclick.com">socioclick.com</a>. </b><br/>
+        Maximum credit due to Thomas Silkj&aelig;r of <a href="http://theundersigned.net" target="_blank">theundersigned</a> for the orginal concept of the wordpress landing page. The module has been developed by Murat S. Erkenov.
+  </p>
+      <p>        
+      <h1>The Active innovation team:</h1>
+      </p>
+      <p>Azzam Sheikh - Project Manager  <br />
+        Anton Nikiforov - Lead Developer <br/>
+       Murat S. Erkenov - Developer
+        <br />
+                  </p>
+</div>
+]]>
+
+   
+   </description>
+   <files>
+      <filename module="mod_SEpage">mod_SEpage.php</filename>
+      <filename module="mod_SEpage">images/sepagelogo.png</filename>
+   </files>
+</mosinstall>

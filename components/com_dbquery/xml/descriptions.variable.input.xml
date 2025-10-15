@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Query Descriptions Parameter File</name>
+	<creationDate>June 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Description definitions for a query object.</description>
+	<params>
+		<param name="@spacer" type="spacer" default="" label="General Language Settings" description="These settings determine what and how descriptions will appear to describe a variable." />
+		<param name="GENERAL_DESCRIPTION" type="textarea" rows="5" cols="60" default="" label="General Description" description="A description of the variable that will appear on the form view."/>
+		<param name="DEFAULT_LANGUAGE" type="text" default="" label="Default Language" description="The language in which these descriptions are written.  If no value is specified, the Joomla default is used."/>
+		<param name="GENERAL_DESCRIPTION_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_VARIABLE_NAME_DESCRIPTION" label="Description Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="DISPLAY_NAME_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_VARIABLE_NAME_DISPLAY" label="Language Code" description="This language code will be used to display the name of the query when the user's language is not the query's language."/>
+		<param name="@spacer" type="spacer" default="" label="Alternative Text" description="Using the following parameters, you can define alternative texts for variables." />
+		<param name="INPUT_COMMENT_TEXT" type="textarea" rows="5" cols="60" default="" label="Text for Input Comment" description="This text will describe what input is expected."/>
+		<param name="INPUT_COMMENT_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_VARIABLE_NAME_COMMENT" label="Language Code for Input Comment" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="INPUT_INVALID_TEXT" type="textarea" rows="5" cols="60" default="" label="Text for Invalid Input" description="This text will appear when the user has submitted invalid input."/>
+		<param name="INPUT_INVALID_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_VARIABLE_NAME_INVALID" label="Language Code for Invalid Input" description="This language code will be used when the user's language is not the language defined above."/>
+	</params>
+</mosparams>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<mosinstall type="template" version="1.0.0">
+	<name>pda</name>
+	<version>2.1.2</version>
+	<author>Denis Ryabov</author>
+	<creationDate>05 September 2007</creationDate>
+	<copyright>Denis Ryabov</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>dryabov@yandex.ru</authorEmail>
+	<authorUrl>http://physicist.phpnet.us/</authorUrl>
+	<description><![CDATA[<div style="font-weight:400;"><h3>PDA-template.</h3><p>Development of a mambot and template: &copy;&nbsp;2007 <a href="mailto:dryabov@yandex.ru">Denis Ryabov</a>, <a href="http://physicist.phpnet.us/">Interesting about Joomla! CMS</a>.</p><p><b>Always check for last version at <a href="http://physicist.phpnet.us/">http://physicist.phpnet.us/</a></b></p><p>&nbsp;</p><p><b>If you find this template useful, consider making a <a href="http://physicist.phpnet.us/donate/">donation</a> to show your support.</b></p></div>]]></description>
+	<files>
+		<filename>index.php</filename>
+		<filename>template_thumbnail.png</filename>
+	</files>
+	<css>
+		<filename>css/template_css.css</filename>
+	</css>
+</mosinstall>

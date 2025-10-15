@@ -1,0 +1,95 @@
+</form>
+<table class="adminheading">
+    <tbody><tr>
+        <th>
+            Thank You Page Review Url Manager:
+        </th>
+    </tr>
+    <tr>
+        <td>Select Position:
+            <form  action="{ACTION}" method='post'>
+                <select name="type" onchange='this.form.submit()'>
+                    <option value="google" {GOOGLE}>Google Reviews</option>
+                    <option value="company" {COMPANY}>Companies</option>
+                </select>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>{RESULT}<br>
+
+<form action="{ACTION}" enctype="multipart/form-data" method="post" name="insert-form">
+<table class="adminlist">
+    <tr>
+        <th width="15%">
+            Name
+        </th>
+        <th width="25%">
+            Image
+        </th>
+        <th width="15%">
+            URL
+        </th>
+        <th width="15%">
+            Percent
+        </th>
+        <th width="15%">
+            Published
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+    <tr>
+        <td align="center">
+            <input type="text" name="name" value="{ITEM_NAME}" style="width: 100%;" />
+        </td>
+        <td align="center">
+            <input type="file" name="filename">
+        </td>
+        <td align="center">
+            <input type="text" name="url" value="{ITEM_URL}" style="width: 100%;" />
+        </td>
+        <td align="center">
+            <input type="number" name="percent" max="100" min="0" value="{ITEM_PERCENT}" style="width: 40px;" /> %
+        </td>
+        <td align="center">
+            <input type="checkbox" name="published" {ITEM_PUBLISHED}>
+        </td>
+        <td align="center">
+            <input type="submit" class="send_form"  value="{ITEM_ACTION}" >
+            <input type="hidden" name="{ITEM_ACTION}" value="1">
+        </td>
+    </tr>
+</table>
+    {ITEM_ID}
+    <input type="hidden" name="type" value="{TYPE}">
+</form>
+
+{VIEW}
+
+
+<script>
+
+    $('.send_form').click(function(e){
+        e.preventDefault();
+        var completed = true;
+        completed = ( $('input[name="name"]').val().length < 1 ) ? red('name') : normal('name');
+        if( completed ) completed = ( $('input[name="url"]').val().length < 1 ) ? red('url') : normal('url');
+        if(completed){
+            $('form[name=insert-form]').submit();
+        }
+    });
+    
+    function red(name){
+        $('input[name='+name+']').css('border', '1px solid #f00');
+        return false;
+    }
+    
+    function normal(name){
+        $('input[name='+name+']').css('border', '1px solid #000');
+        return true;
+    }
+</script>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>ContXTD</name>
+  <author>clockbit.com</author>
+  <version>1.0.1</version>
+  <description>&lt;p&gt; Contacts XTD is a component for Mambo 4.5.2 and derived from the Mambo Contacts Component.</description>
+  <reference>
+  	<table name="contxtd_details">
+  		<field type="referenceid" name="id" translate="0">ID</field>
+  		<field type="titletext" name="name" translate="1">Name</field>
+  		<field type="text" name="con_position" translate="1">Position</field>
+       		<field type="text" name="company" translate="1">Company</field>
+  		<field type="text" name="address" translate="1">Street Address</field>
+  		<field type="text" name="suburb" translate="1">Town/Suburb</field>
+  		<field type="text" name="state" translate="1">State/County</field>
+  		<field type="text" name="country" translate="1">Country</field>
+  		<field type="textarea" name="misc1" translate="1">Miscellaneous Info1</field>
+  		<field type="textarea" name="misc2" translate="1">Miscellaneous Info2</field>
+  		<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+  		<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+  	</table>
+  </reference>
+</joomfish>

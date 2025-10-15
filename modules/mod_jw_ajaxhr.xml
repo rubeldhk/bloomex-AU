@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mosinstall type="module">
+	<name>AJAX Header Rotator</name>
+	<author>JoomlaWorks.gr</author>
+	<creationDate>23/09/2006</creationDate>	
+	<copyright>This component in released under the GNU/GPL License</copyright>
+	<authorEmail>joomlaworks@gmail.com</authorEmail>
+	<authorUrl>http://www.joomlaworks.gr</authorUrl>
+	<version>1.1</version>
+	<description>
+		<![CDATA[
+<div style="padding:0px 8px 8px 0px;">
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #505050;"><a target="_blank" title="Visit JoomlaWorks!" href="http://www.joomlaworks.gr">"AJAX HEADER ROTATOR" MODULE by JoomlaWorks</a></h1>
+  <a title="Visit the official website!" href="http://www.joomlaworks.gr"><img style="float:right;background:#fff;border:1px solid #ccc;padding:2px;margin:0px 0px 2px 8px;" src="../modules/mod_jw_ajaxhr/logo.gif" border="0" alt="Logo" /></a>A simple module to offer a smart and eye-candy image rotating mechanism (slideshow in plain English)! The "AJAX Header Rotator" borrows the style from Flash rotation scripts and the brains from AJAX, which is used to dynamically load images. So you have a flash-like image rotator (or slideshow), which dynamically loads as many images as you wish, without overweighing your webpage!<br />
+  <br />
+  It's a simple to use module, which <b>adds to the overall look</b> of your Joomla! website.<br />
+  <br />
+  Check out a demo <a target="_blank" href="http://demo.joomlaworks.gr/">HERE</a> and at <a target="_blank" href="http://www.cinemad.gr/">Cinemad</a> for a real world example!
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #505050;">USAGE</h1>
+  First of all, create a folder anywhere in your Joomla site. Prefer to do this under 'images/stories', so that you want stumble upon file permission issues! Create for example a folder named 'headers' inside 'images/stories'. Now add the full path to this newly created folder in the parameters below. The path would be 'images/stories/headers'.<br />
+  <br />
+  Fill in below a unique ID for this image rotator (this allows to have multiple rotators at once), adjust the image delay to suit your needs and that's it! Publish the module in a position and enjoy!
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #505050;">FOR INFO, UPDATES, REQUESTS &amp; CONTACT</h1>
+  Check out <a target="_blank" title="Visit JoomlaWorks!" href="http://www.joomlaworks.gr">JoomlaWorks.gr</a>, the official website of this Joomla extension and home to other popular ones, like the <b>AllVideos (Bot) Plugin</b>, the <b>Ultimate PNG Fix Plugin</b> or the <b>Ultimate AJAX Newsflash Module</b>.<br />
+  <br />
+  <b>JoomlaWorks.gr</b> is the place to read interesting articles or find useful tips and tutorials for the Joomla! CMS and web design/development in general. At <b>JoomlaWorks.gr</b> you can always download updates to this extension as well as post comments, requests or even discuss the extension.<br />
+  <br />
+  Please show your support by rating or commenting on this extension at the official Joomla! Extensions website <a href="http://extensions.joomla.org/component/option,com_mtree/task,viewowner/user_id,1596/Itemid,35/">HERE</a>. <br />
+  <br />
+  <b>Thank you for your support!</b><br />
+  <br />
+  <i>(Last update: September 23rd, 2006 - version 1.1)</i><br />
+  <br />
+</div>
+		]]>
+	</description>
+	<files>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr.php</filename>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr/prototype.lite.js</filename>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr/moo.fx.js</filename>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr/moo.fx.pack.js</filename>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr/rotator.js</filename>
+		<filename module="mod_jw_ajaxhr">mod_jw_ajaxhr/logo.gif</filename>
+	</files>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable). This allows individual module styling." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />	
+		<param name="uniqueid" type="text" default="rotator" label="Unique ID for this AJAX Header Rotator" description="This ID is used by the module's CSS and javascript code, so keep it unique and simple, like 'rotator', using only latin characters, without any spaces or numbers!" />
+		<param name="imagefolder" type="text" default="images/stories/headers" label="Image Folder path" description="Set here the path to the folder containing the images to be displayed. The module will scan this folder and display images automatically!" />
+		<param name="delay" type="text" default="6000" label="Image (header) display duration" description="Set here the time delay (in miliseconds) between fading images. 1000 means 1 second." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+	</params>
+</mosinstall>

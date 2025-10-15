@@ -1,0 +1,155 @@
+2008-03-08  
+  shumisha
+ 
+
+	* administrator/components/com_sef/sef.xml: Changed to 1.3.2
+
+2008-03-18  
+  shumisha
+ 
+
+	* administrator/components/com_sef/language/plugins/com_myblog.php,
+	  administrator/components/com_sef/sef.xml,
+	  components/com_sef/sef_ext/com_deeppockets.php,
+	  components/com_sef/sef_ext/com_myblog.php: Added deeppckets
+	  plugin
+	  
+	  Fixed myblog plugin for missing dashboard new items
+
+	* administrator/components/com_sef/sef.xml,
+	  components/com_sef/sef.php: Fixed potential bug with search
+	  engine detection when user agent string is empty
+
+2008-03-19  
+  shumisha
+ 
+
+	* administrator/components/com_sef/sh404sef.class.php: Set language
+	  auto detect to off by default
+
+2008-03-23  
+  shumisha
+ 
+
+	* administrator/components/com_sef/readme.inc.php,
+	  administrator/components/com_sef/sef.xml,
+	  administrator/components/com_sef/sh404sef.class.php,
+	  components/com_sef/sef.php: Updated readme and some links to go
+	  to new support site domaon (extensions.siliana.com)
+
+2008-04-01  
+  shumisha
+ 
+
+	* administrator/components/com_sef/images/logo.gif,
+	  administrator/components/com_sef/images/sh404SEF-logo.png,
+	  administrator/components/com_sef/images/sh404SEF-logo-big.png:
+	  Replaced old logo by new, thanks to Chris at Joomlajunkie.com
+
+	* administrator/components/com_sef/language/dutch.php,
+	  administrator/components/com_sef/language/english.php,
+	  administrator/components/com_sef/language/french.php,
+	  administrator/components/com_sef/language/german.php,
+	  administrator/components/com_sef/language/hungarian.php,
+	  administrator/components/com_sef/language/hungariani.php,
+	  administrator/components/com_sef/language/italian.php,
+	  administrator/components/com_sef/language/russian.php,
+	  administrator/components/com_sef/language/spanish.php: Updated
+	  language strings for new "Very advanced" config tab
+
+	* administrator/components/com_sef/404SEF_cpanel.php,
+	  administrator/components/com_sef/admin.sef.html.php,
+	  administrator/components/com_sef/admin.sef.php,
+	  administrator/components/com_sef/default.sef.php,
+	  administrator/components/com_sef/install.sef.php,
+	  administrator/components/com_sef/readme.inc.php,
+	  administrator/components/com_sef/sef.xml,
+	  administrator/components/com_sef/sh404sef.class.php,
+	  administrator/components/com_sef/uninstall.sef.php: Updated to
+	  handle new "Very advanced" config tab
+	  
+	  Added default.sef.php file
+
+	* components/com_sef/sef_ext/com_deeppockets.php: Added new
+	  DeepPockets SEF URL plugin
+
+	* components/com_sef/sef_ext/com_mtree.php: Added handling of new
+	  alpha var, in latest version of Mtree
+
+	* components/com_sef/sef_ext/com_smf.php: Removed params, now in
+	  default.sef.php file
+
+	* components/com_sef/sef_ext/com_sobi2.php: Improved Sobi2 plugin,
+	  sponsored by Sean at http://themebot.com
+
+	* components/com_sef/sef.php: Improved security checks by handling
+	  & passed as &amp;
+
+	* components/com_sef/sef404.php: Improved handling of /index.php to
+	  / redirect : fixed bug in multilingual sites
+	  
+	  and added a param to disable it alltogether in case server does
+	  not provide correct URI
+
+	* modules/mod_shCustomTags.php: Improved compat with other
+	  extensions : replace ob_end_clean with ob_clean.
+	  
+	  Still does not work on some servers with GZip on though
+
+2008-04-02  
+  shumisha
+ 
+
+	* administrator/components/com_sef/admin.sef.php: Fixed :
+	  mosGetParam would prevent changing the 404 page
+
+2008-04-08  
+  shumisha
+ 
+
+	* administrator/components/com_sef/default.sef.php:
+
+	* components/com_sef/sef.php: Auto-redirect of outbound links is
+	  not a 303 instead of 301
+
+	* administrator/components/com_sef/install.sef.php: Protected
+	  default.sef.php param file, upon upgrading
+
+	* administrator/components/com_sef/sef.xml: Included changelog.txt
+	  file in build
+
+	* administrator/components/com_sef:
+
+	* components/com_sef/sef.php: Fixed typo
+
+2008-04-08 Released version 1.3.3 ----------------------------------  
+  shumisha
+  
+2008-04-09  
+  shumisha
+ 
+
+	* administrator/components/com_sef/language/dutch.php: Removed
+	  duplicate language string causing notice error
+
+	* administrator/components/com_sef/admin.sef.php: Protected against
+	  destroying config data when calling saveConfig from non-form
+	  situation (like when switching interface levels)
+
+	* administrator/components/com_sef/sh404sef.class.php: Protected
+	  against destroying config data when calling saveConfig from
+	  non-form situation (like when switching interface levels)
+
+	* administrator/components/com_sef/admin.sef.php,
+	  administrator/components/com_sef/default.sef.php,
+	  administrator/components/com_sef/sh404sef.class.php: Protected
+	  against destroying config data when calling saveConfig from
+	  non-form situation (like when switching interface levels)
+
+	* administrator/components/com_sef/admin.sef.html.php:
+
+	* administrator/components/com_sef/sef.xml: updated to 1.3.4
+
+2008-04-10 Released version 1.3.4 ----------------------------------  
+  shumisha
+  

@@ -1,0 +1,31 @@
+<mos:comment>@version $Id: common.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:tmpl name="reportCSS">
+	<link href="{SITEURL}/components/{OPTION}/assets/css/component.css" rel="stylesheet" type="text/css" />
+</mos:tmpl>
+
+<mos:tmpl name="reportHeading" varscope="body">
+	<div class="jrheading">
+		<a href="{SELF}?option={OPTION}&Itemid={ITEMID}">
+			<mos:Translate>Back to list</mos:Translate></a>
+	</div>
+</mos:tmpl>
+
+<mos:tmpl name="reportSubmitButton">
+<script language="javascript" type="text/javascript">
+	function submitbutton( task, param ) {
+		frm = document.adminForm;
+		if (task == 'reorder') {
+			if (frm.orderCol.value == param) {
+				frm.orderDirn.value = 1 - frm.orderDirn.value;
+			} else {
+				frm.orderDirn.value = 0;
+			}
+			frm.orderCol.value = param;
+			task = 'run';
+		}
+		frm.task.value = task;
+		frm.submit();
+	}
+</script>
+</mos:tmpl>

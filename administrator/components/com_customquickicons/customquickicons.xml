@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<mosinstall type="component" version="1.0">
+  <name>Custom QuickIcons</name>
+  <creationDate>12/05/2005</creationDate>
+  <author>Halil Koklu</author>
+  <copyright>(C) 2005 Halil Koklu. All rights reserved.</copyright>
+  <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+  <authorEmail>halilkoklu@gmail.com</authorEmail>
+  <version>1.0</version>
+  <description>Change the QuickIcons in the CPanel of your Backend</description>
+  <install>
+    <queries>
+      <query id="1">DROP TABLE IF EXISTS `#__custom_quickicons`;</query>
+      <query id="2">
+				CREATE TABLE `#__custom_quickicons` (
+  				`id` int(11) NOT NULL auto_increment,
+  				`title` varchar(64) NOT NULL default '',
+  				`target` varchar(255) NOT NULL default '',
+	  			`icon` varchar(100) NOT NULL default '',
+  				`ordering` int(10) unsigned NOT NULL default '0',
+  				`new_window` tinyint(1) NOT NULL default '0',
+  				`prefix` varchar(30) NOT NULL default '',
+  				`postfix` varchar(30) NOT NULL default '',
+	  			`published` tinyint(1) unsigned NOT NULL default '0',
+  				PRIMARY KEY  (`id`)
+				) ENGINE=MyISAM;
+	 		</query>
+      <query id="3">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Add New Content', 'index2.php?option=com_content&sectionid=0&task=new', 'module.png', 1, 0, '', '', 1);</query>
+      <query id="4">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Section Manager', 'index2.php?option=com_sections&scope=content', 'sections.png', 5, 0, '', '', 1);</query>
+      <query id="5">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Frontpage Manager', 'index2.php?option=com_frontpage', 'frontpage.png', 4, 0, '', '', 1);</query>
+      <query id="6">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Content Items Manager', 'index2.php?option=com_content&sectionid=0', 'addedit.png', 2, 0, '', '', 1);</query>
+      <query id="7">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Static Content Manager', 'index2.php?option=com_typedcontent', 'addedit.png', 3, 0, '', '', 1);</query>
+      <query id="8">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Media Manager', 'index2.php?option=com_media', 'mediamanager.png', 7, 0, '', '', 1);</query>
+      <query id="9">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Category Manager', 'index2.php?option=com_categories&section=content', 'categories.png', 6, 0, '', '', 1);</query>
+      <query id="10">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Trash Manager', 'index2.php?option=com_trash', 'trash.png', 8, 0, '', '', 1);</query>
+      <query id="11">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Menu Manager', 'index2.php?option=com_menumanager', 'menu.png', 9, 0, '', '', 1);</query>
+      <query id="12">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Language Manager', 'index2.php?option=com_languages', 'langmanager.png', 10, 0, '', '', 1);</query>
+      <query id="13">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('User Manager', 'index2.php?option=com_users', 'user.png', 11, 0, '', '', 1);</query>
+      <query id="14">INSERT INTO `#__custom_quickicons` 
+				(`title`, `target`, `icon`, `ordering`, `new_window`, `prefix`, `postfix`, `published`)
+				VALUES ('Global Configuration', 'index2.php?option=com_config&hidemainmenu=1', 'config.png', 12, 0, '', '', 1);</query>
+    </queries>
+  </install>
+  <uninstall>
+    <queries>
+      <query id="1">DROP TABLE `#__custom_quickicons`</query>
+    </queries>
+  </uninstall>
+  <installfile>install.customquickicons.php</installfile>
+  <uninstallfile>uninstall.customquickicons.php</uninstallfile>
+  <administration>
+    <menu>Custom QuickIcons</menu>
+    <files>
+      <filename>admin.customquickicons.php</filename>
+      <filename>admin.customquickicons.html.php</filename>
+      <filename>toolbar.customquickicons.php</filename>
+      <filename>toolbar.customquickicons.html.php</filename>
+      <filename>customquickicons.class.php</filename>
+      <filename>lang/german.php</filename>
+      <filename>lang/english.php</filename>
+    </files>
+  </administration>
+</mosinstall>

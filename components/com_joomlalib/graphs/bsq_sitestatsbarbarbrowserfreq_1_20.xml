@@ -1,0 +1,18 @@
+<graph caption='Browser Frequencies' subcaption='Graphs by JoomlaLib' showValues='1' animation='0' showCanvas='1' formatNumber='0' formatNumberScale='0' decimalSeparator='.' thousandSeparator=','>
+	<set name="Internet Explorer" value="2654282" color="0099CC" />
+	<set name="Firefox" value="555531" color="FF0000" />
+	<set name="Safari" value="96282" color="006F00" />
+	<set name="Mozilla" value="47072" color="FF66CC" />
+	<set name="Crawler/Search Engine" value="43381" color="996600" />
+	<set name="Indeterminable" value="16071" color="FF9933" />
+	<set name="Netscape" value="13314" color="9900FF" />
+	<set name="Opera" value="6050" color="999999" />
+	<set name="Camino" value="1263" color="CCCC00" />
+	<set name="Konqueror" value="494" color="0372AB" />
+	<set name="Links" value="478" color="0099CC" />
+	<set name="Firebird" value="129" color="FF0000" />
+	<set name="iCab" value="36" color="006F00" />
+	<set name="Lynx" value="28" color="FF66CC" />
+	<set name="OmniWeb" value="15" color="996600" />
+	<set name="Phoenix" value="4" color="FF9933" />
+</graph>

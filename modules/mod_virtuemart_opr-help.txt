@@ -1,0 +1,106 @@
+DOCUMENTATION
+-------------
+This module will enable you to create lists of products that are 
+related to other products by their order_id.  This is normally
+used as a "Customers who bought this item also bought"
+type of thing.  But it could be used for other things.
+
+This module has some special requirements that mandate
+a slightly more cumbersom setup.  They are..
+
+1) Only dispaly on flypage
+2) If this is a new item, and therefore has not been
+   ordered, then no related items will exist.  In
+   this situation the module must fail gracefully
+   and output no text (since there is nothing to 
+   display).
+
+#2 above requires some special handling.  
+
+
+HOW IT WORKS:
+-------------
+A new table is created (#__{vm}_order_product_relations)
+which holds the information.  The script runs whenever 
+the shop.flypage (or whatever page you wish to use as 
+your flypage) is called.  When the script runs it
+checks the last time the information was built.
+
+If the information was built to long ago (as defined
+by the $build_interval variable, the information will
+be rebuilt.  Otherwise it will just read the previously
+built information and display it.  This avoids a 
+CPU intesive build on every page load.
+
+The data is loaded as two formats. One is a pipe (|)
+seperated list of values (product_id) and the other
+is a formated string for display. Only the formated
+string is used by this script. The pipe seperated list
+is included only to maintain coherence with the 
+product_relations table format.
+
+
+CONFIGURATION VARIABLES:
+------------------------
+See the module configuration page
+
+INSTALLATION
+------------
+1) Install as you would any normal module.
+2) Create the Database table
+3) Modify your site template to call the module
+
+
+SPECIAL NOTES:
+--------------
+Unfortunately, it looks like Joomla does not support 
+install queries during mmodule installation, at least 
+not yet.  So you'll have to install the database table
+manually before using this module.  Just run this query
+(or course, replace #__{vm} with your appropriate
+prefix.
+
+CREATE TABLE `#__{vm}_order_product_relations` (
+  `product_id` int(11) NOT NULL default '0',
+  `related_products` text collate utf8_unicode_ci,
+  `last_build_time` int(12) NOT NULL default '1',
+  `formated_results` text collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`product_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores ordered product data';
+
+
+This module only works if it is called from the flypage
+(or whatever page is your flypage) in virtuemart.  It
+needs the product_id to build on. 
+
+In order to do that you'll have to modify your site
+template and insert some code that lets the site
+know when the flypage has been called.  
+
+Here is one way to do it.
+
+1) Create a new module postion called flyopr.
+2) Assign this module to postion flypopr and publish it.
+3) Modify your site template and include the following code
+
+<?php if ( ereg ("flypage", $QUERY_STRING) ) { mosLoadModules('flyopr', -1); } ?> 
+
+
+STYLING:
+--------
+You'll need to apply some styles to the module to get it 
+to work. The structure of the output is like this...
+
+<div class="$div_class" id="$div_id">
+  <span>$title</span>
+  <links> //if you use tables, they will be here
+</div>
+
+
+
+
+
+
+
+
+

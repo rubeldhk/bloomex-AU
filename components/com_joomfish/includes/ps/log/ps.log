@@ -1,0 +1,392 @@
+Thu Dec 20 03:59:55 :Listener created :0.0.0.0 port 30003
+Thu Dec 20 03:59:55 :Loading all Users..
+Thu Dec 20 03:59:55 :No Users found.
+Thu Dec 20 03:59:55 :psyBNC2.3.1-cBITLdDMSoNp started (PID :25889)
+Thu Dec 20 04:00:19 :connect from 124.153.17.122
+Thu Dec 20 04:00:39 :New User:agus (agus) added by agus
+Thu Dec 20 04:00:46 :User agus () has no server added
+Thu Dec 20 04:01:01 :User agus () trying rumble.dal.net port 7000 ().
+Thu Dec 20 04:01:01 :User agus () connected to rumble.dal.net:7000 ()
+Thu Dec 20 04:09:19 :connect from 124.153.19.205
+Thu Dec 20 04:09:19 :User agus logged in.
+Thu Dec 20 04:20:37 :connect from 124.153.17.177
+Thu Dec 20 04:20:37 :User agus logged in.
+Thu Dec 20 04:22:57 :New User:uux (uux) added by agus
+Thu Dec 20 04:23:02 :User uux () has no server added
+Thu Dec 20 04:24:32 :User uux () has no server added
+Thu Dec 20 04:26:02 :User uux () has no server added
+Thu Dec 20 04:27:32 :User uux () has no server added
+Thu Dec 20 04:29:02 :User uux () has no server added
+Thu Dec 20 04:30:32 :User uux () has no server added
+Thu Dec 20 04:32:02 :User uux () has no server added
+Thu Dec 20 04:33:32 :User uux () has no server added
+Thu Dec 20 04:35:02 :User uux () has no server added
+Thu Dec 20 04:36:32 :User uux () has no server added
+Thu Dec 20 04:37:21 :connect from 124.153.17.177
+Thu Dec 20 04:37:21 :User uux logged in.
+Thu Dec 20 04:37:33 :User uux () has no server added
+Thu Dec 20 04:37:48 :User uux () trying mesra.dal.net port 6667 ().
+Thu Dec 20 04:37:48 :User uux () connected to mesra.dal.net:6667 ()
+Thu Dec 20 04:40:28 :connect from 124.153.19.90
+Thu Dec 20 04:40:29 :User uux logged in.
+Thu Dec 20 05:00:00 :User agus disconnected (from 124.153.17.177)
+Thu Dec 20 05:13:04 :User uux disconnected (from 124.153.19.90)
+Thu Dec 20 06:22:02 :connect from 124.153.21.3
+Thu Dec 20 06:22:02 :User uux logged in.
+Thu Dec 20 08:06:37 :User uux disconnected (from 124.153.21.3)
+Thu Dec 20 08:14:37 :connect from 124.153.20.196
+Thu Dec 20 08:14:37 :User agus logged in.
+Thu Dec 20 08:24:43 :connect from 124.153.16.165
+Thu Dec 20 08:24:43 :User agus logged in.
+Thu Dec 20 09:15:46 :connect from 124.153.16.209
+Thu Dec 20 09:15:46 :User agus logged in.
+Thu Dec 20 09:31:02 :User agus quitted (from 124.153.16.209)
+Thu Dec 20 09:33:04 :User agus disconnected (from 124.153.16.209)
+Thu Dec 20 09:38:04 :connect from 124.153.19.22
+Thu Dec 20 09:38:04 :User agus logged in.
+Thu Dec 20 11:33:05 :User agus disconnected (from 124.153.19.22)
+Thu Dec 20 11:43:09 :connect from 124.153.16.169
+Thu Dec 20 11:43:09 :User agus logged in.
+Thu Dec 20 18:57:03 :User agus quitted (from 124.153.16.169)
+Thu Dec 20 19:01:24 :connect from 124.153.19.83
+Thu Dec 20 19:01:24 :User agus logged in.
+Thu Dec 20 20:13:12 :connect from 124.153.19.83
+Thu Dec 20 20:13:12 :User uux logged in.
+Thu Dec 20 22:51:18 :connect from 124.153.18.160
+Thu Dec 20 22:51:20 :User agus logged in.
+Thu Dec 20 23:18:27 :User uux disconnected (from 124.153.19.83)
+Fri Dec 21 01:30:37 :connect from 124.153.18.117
+Fri Dec 21 01:30:38 :User agus logged in.
+Fri Dec 21 01:42:21 :connect from 124.153.19.115
+Fri Dec 21 01:42:21 :User agus logged in.
+Fri Dec 21 01:43:41 :connect from 124.153.16.140
+Fri Dec 21 01:43:41 :User agus logged in.
+Fri Dec 21 01:48:47 :connect from 124.153.17.210
+Fri Dec 21 01:48:47 :User agus logged in.
+Fri Dec 21 01:58:42 :connect from 124.153.18.101
+Fri Dec 21 01:58:43 :User agus logged in.
+Fri Dec 21 04:05:02 :connect from 124.153.18.101
+Fri Dec 21 04:05:02 :User uux logged in.
+Fri Dec 21 07:41:40 :connect from 124.153.17.19
+Fri Dec 21 07:41:40 :User uux logged in.
+Fri Dec 21 07:42:37 :connect from 124.153.17.19
+Fri Dec 21 07:42:38 :User agus logged in.
+Fri Dec 21 07:49:14 :connect from 124.153.19.9
+Fri Dec 21 07:49:15 :User agus logged in.
+Fri Dec 21 07:57:05 :connect from 124.153.19.9
+Fri Dec 21 07:57:07 :User uux logged in.
+Fri Dec 21 07:57:45 :Hop requested by uux. Quitting.
+Fri Dec 21 07:57:45 :User uux got disconnected from server.
+Fri Dec 21 07:57:58 :User uux () trying rumble.dal.net port 7000 ().
+Fri Dec 21 07:57:59 :User uux () connected to rumble.dal.net:7000 ()
+Fri Dec 21 08:02:11 :User uux quitted (from 124.153.19.9)
+Fri Dec 21 08:02:30 :connect from 124.153.19.9
+Fri Dec 21 08:02:30 :User uux logged in.
+Fri Dec 21 08:04:03 :User uux quitted (from 124.153.19.9)
+Fri Dec 21 08:15:55 :User uux disconnected (from 124.153.19.9)
+Fri Dec 21 09:45:50 :connect from 124.153.19.9
+Fri Dec 21 09:45:50 :User uux logged in.
+Fri Dec 21 13:52:41 :connect from 124.153.18.194
+Fri Dec 21 13:52:41 :User uux logged in.
+Fri Dec 21 13:57:22 :connect from 124.153.18.194
+Fri Dec 21 13:57:22 :User agus logged in.
+Fri Dec 21 14:29:06 :User uux quitted (from 124.153.18.194)
+Fri Dec 21 19:39:30 :connect from 124.153.18.194
+Fri Dec 21 19:39:30 :User agus logged in.
+Fri Dec 21 19:39:35 :User agus quitted (from 124.153.18.194)
+Sat Dec 22 02:17:48 :User agus quitted (from 124.153.18.194)
+Sat Dec 22 02:42:22 :connect from 124.153.21.58
+Sat Dec 22 02:42:22 :User agus logged in.
+Sat Dec 22 02:48:12 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 02:48:17 :connect from 124.153.21.58
+Sat Dec 22 02:48:18 :User agus logged in.
+Sat Dec 22 02:49:11 :connect from 124.153.21.58
+Sat Dec 22 02:49:11 :User agus logged in.
+Sat Dec 22 02:53:23 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 02:53:23 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 02:57:47 :connect from 124.153.21.58
+Sat Dec 22 02:57:48 :User agus logged in.
+Sat Dec 22 02:58:21 :connect from 124.153.21.58
+Sat Dec 22 02:58:22 :User agus logged in.
+Sat Dec 22 02:58:24 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 02:58:41 :connect from 124.153.21.58
+Sat Dec 22 02:58:41 :User agus logged in.
+Sat Dec 22 02:59:47 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 03:00:11 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 04:00:46 :connect from 124.153.21.58
+Sat Dec 22 04:00:47 :User agus logged in.
+Sat Dec 22 04:00:50 :User agus quitted (from 124.153.21.58)
+Sat Dec 22 04:00:54 :connect from 124.153.21.58
+Sat Dec 22 04:00:54 :User agus logged in.
+Sat Dec 22 04:02:12 :User uux () got disconnected (from rumble.fl.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by aguzz!~agus@209.85.105.17)
+Sat Dec 22 04:02:26 :User uux () trying mesra.dal.net port 6667 ().
+Sat Dec 22 04:02:27 :User uux () connected to mesra.dal.net:6667 ()
+Sat Dec 22 04:58:59 :connect from 124.153.21.58
+Sat Dec 22 04:58:59 :User uux logged in.
+Sat Dec 22 05:01:48 :Hop requested by uux. Quitting.
+Sat Dec 22 05:01:48 :User uux got disconnected from server.
+Sat Dec 22 05:01:59 :User uux () trying rumble.dal.net port 7000 ().
+Sat Dec 22 05:01:59 :User uux () connected to rumble.dal.net:7000 ()
+Sat Dec 22 05:13:57 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 05:14:11 :connect from 124.153.21.58
+Sat Dec 22 05:14:11 :User uux logged in.
+Sat Dec 22 05:27:11 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 05:27:15 :connect from 124.153.21.58
+Sat Dec 22 05:27:15 :User uux logged in.
+Sat Dec 22 05:55:52 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 05:55:59 :connect from 124.153.21.58
+Sat Dec 22 05:56:00 :User uux logged in.
+Sat Dec 22 06:24:01 :connect from 124.153.21.58
+Sat Dec 22 06:24:01 :User uux logged in.
+Sat Dec 22 06:36:56 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 06:36:59 :connect from 124.153.21.58
+Sat Dec 22 06:36:59 :User uux logged in.
+Sat Dec 22 06:45:55 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 06:45:57 :connect from 124.153.21.58
+Sat Dec 22 06:45:57 :User uux logged in.
+Sat Dec 22 06:49:11 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 06:49:18 :connect from 124.153.21.58
+Sat Dec 22 06:49:20 :User uux logged in.
+Sat Dec 22 06:51:38 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 06:51:41 :connect from 124.153.21.58
+Sat Dec 22 06:51:42 :User uux logged in.
+Sat Dec 22 06:59:36 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 07:00:07 :connect from 124.153.21.58
+Sat Dec 22 07:00:08 :User uux logged in.
+Sat Dec 22 07:00:43 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 07:01:12 :connect from 124.153.21.58
+Sat Dec 22 07:01:12 :User uux logged in.
+Sat Dec 22 07:09:31 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 07:09:50 :connect from 124.153.21.58
+Sat Dec 22 07:09:51 :User uux logged in.
+Sat Dec 22 07:46:17 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 07:47:52 :connect from 124.153.21.58
+Sat Dec 22 07:47:52 :User uux logged in.
+Sat Dec 22 08:12:35 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 08:13:11 :connect from 124.153.21.58
+Sat Dec 22 08:13:13 :User uux logged in.
+Sat Dec 22 08:13:39 :User uux disconnected (from 124.153.21.58)
+Sat Dec 22 08:22:05 :connect from 124.153.21.58
+Sat Dec 22 08:36:00 :Lost Connection from 124.153.21.58 ()
+Sat Dec 22 08:36:26 :connect from 124.153.21.58
+Sat Dec 22 08:36:31 :User uux logged in.
+Sat Dec 22 09:28:11 :connect from 124.153.21.58
+Sat Dec 22 09:28:11 :User uux logged in.
+Sat Dec 22 09:53:37 :User uux quitted (from 124.153.21.58)
+Sat Dec 22 10:12:57 :connect from 124.153.21.10
+Sat Dec 22 10:13:02 :User agus logged in.
+Sat Dec 22 10:31:51 :User uux () got disconnected (from rumble.fl.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by aguzz!~agus@209.85.105.17)
+Sat Dec 22 10:31:52 :User uux () trying mesra.dal.net port 6667 ().
+Sat Dec 22 10:31:53 :User uux () connected to mesra.dal.net:6667 ()
+Sat Dec 22 13:43:27 :connect from 124.153.20.76
+Sat Dec 22 13:43:29 :User agus logged in.
+Sat Dec 22 13:44:50 :User agus quitted (from 124.153.20.76)
+Sat Dec 22 13:45:02 :connect from 124.153.20.76
+Sat Dec 22 13:45:03 :User agus logged in.
+Sat Dec 22 13:46:08 :User agus quitted (from 124.153.20.76)
+Sat Dec 22 13:59:17 :User agus disconnected (from 124.153.20.76)
+Sat Dec 22 22:23:54 :connect from 124.153.20.76
+Sat Dec 22 22:23:54 :User agus logged in.
+Sat Dec 22 22:45:40 :User agus quitted (from 124.153.20.76)
+Sun Dec 23 03:34:05 :connect from 124.153.20.76
+Sun Dec 23 03:34:06 :User agus logged in.
+Sun Dec 23 03:53:30 :connect from 124.153.20.76
+Sun Dec 23 03:53:31 :User uux logged in.
+Sun Dec 23 04:11:36 :User uux quitted (from 124.153.20.76)
+Sun Dec 23 04:12:08 :connect from 124.153.20.76
+Sun Dec 23 04:12:08 :User uux logged in.
+Sun Dec 23 05:02:11 :User agus quitted (from 124.153.20.76)
+Sun Dec 23 05:02:26 :connect from 124.153.20.76
+Sun Dec 23 05:02:26 :User agus logged in.
+Sun Dec 23 05:02:35 :User agus quitted (from 124.153.20.76)
+Sun Dec 23 05:03:04 :connect from 124.153.20.76
+Sun Dec 23 05:03:05 :User agus logged in.
+Sun Dec 23 06:31:26 :connect from 124.153.18.128
+Sun Dec 23 06:31:26 :User agus logged in.
+Sun Dec 23 06:39:04 :connect from 124.153.18.128
+Sun Dec 23 06:39:05 :User uux logged in.
+Sun Dec 23 08:38:57 :User agus quitted (from 124.153.18.128)
+Sun Dec 23 08:48:29 :connect from 124.153.21.40
+Sun Dec 23 08:48:29 :User uux logged in.
+Sun Dec 23 08:55:15 :connect from 124.153.21.40
+Sun Dec 23 08:55:15 :User agus logged in.
+Sun Dec 23 09:22:13 :connect from 124.153.19.198
+Sun Dec 23 09:22:13 :User uux logged in.
+Sun Dec 23 09:25:44 :connect from 124.153.19.198
+Sun Dec 23 09:25:44 :User agus logged in.
+Sun Dec 23 13:27:02 :User uux quitted (from 124.153.19.198)
+Sun Dec 23 21:31:54 :connect from taximauritius.mu
+Sun Dec 23 21:31:54 :Lost Connection from taximauritius.mu ()
+Sun Dec 23 22:28:10 :connect from 124.153.19.198
+Sun Dec 23 22:28:10 :User agus logged in.
+Sun Dec 23 22:29:39 :User agus quitted (from 124.153.19.198)
+Sun Dec 23 22:30:16 :connect from 124.153.19.198
+Sun Dec 23 22:30:16 :User agus logged in.
+Sun Dec 23 22:30:26 :User agus quitted (from 124.153.19.198)
+Sun Dec 23 22:58:18 :connect from 124.153.19.198
+Sun Dec 23 22:58:20 :User uux logged in.
+Mon Dec 24 07:11:06 :connect from 124.153.21.143
+Mon Dec 24 07:11:08 :User agus logged in.
+Mon Dec 24 07:18:13 :User uux disconnected (from 124.153.19.198)
+Mon Dec 24 07:32:56 :connect from 124.153.21.143
+Mon Dec 24 07:32:56 :User uux logged in.
+Mon Dec 24 08:06:54 :connect from 124.153.17.102
+Mon Dec 24 08:06:54 :User agus logged in.
+Mon Dec 24 08:23:02 :User agus quitted (from 124.153.17.102)
+Mon Dec 24 08:24:45 :User agus disconnected (from 124.153.17.102)
+Mon Dec 24 08:27:18 :connect from 124.153.19.88
+Mon Dec 24 08:27:18 :User agus logged in.
+Mon Dec 24 08:34:09 :User uux disconnected (from 124.153.21.143)
+Mon Dec 24 09:04:48 :connect from 124.153.19.88
+Mon Dec 24 09:04:48 :User uux logged in.
+Mon Dec 24 09:06:54 :User uux quitted (from 124.153.19.88)
+Mon Dec 24 09:06:56 :connect from 124.153.19.88
+Mon Dec 24 09:06:57 :User uux logged in.
+Mon Dec 24 13:33:56 :User uux disconnected (from 124.153.19.88)
+Mon Dec 24 21:15:27 :User agus quitted (from 124.153.19.88)
+Mon Dec 24 21:20:48 :connect from 124.153.18.154
+Mon Dec 24 21:20:48 :User agus logged in.
+Mon Dec 24 21:23:42 :User agus quitted (from 124.153.18.154)
+Tue Dec 25 05:43:27 :connect from 124.153.17.159
+Tue Dec 25 05:43:31 :User uux logged in.
+Tue Dec 25 06:04:02 :connect from 124.153.17.159
+Tue Dec 25 06:04:02 :User agus logged in.
+Tue Dec 25 06:22:01 :User uux quitted (from 124.153.17.159)
+Tue Dec 25 08:24:50 :User agus quitted (from 124.153.17.159)
+Tue Dec 25 08:48:21 :connect from 124.153.21.225
+Tue Dec 25 08:48:21 :User uux logged in.
+Tue Dec 25 09:29:28 :connect from 124.153.21.245
+Tue Dec 25 09:29:28 :User uux logged in.
+Tue Dec 25 10:18:41 :connect from 124.153.19.25
+Tue Dec 25 10:18:41 :User uux logged in.
+Tue Dec 25 10:59:31 :User uux quitted (from 124.153.19.25)
+Tue Dec 25 16:18:38 :connect from 124.153.19.92
+Tue Dec 25 16:18:43 :User uux logged in.
+Tue Dec 25 18:06:51 :connect from 124.153.17.10
+Tue Dec 25 18:06:51 :User uux logged in.
+Tue Dec 25 19:04:34 :connect from 124.153.17.10
+Tue Dec 25 19:04:34 :User agus logged in.
+Tue Dec 25 20:11:40 :User uux quitted (from 124.153.17.10)
+Tue Dec 25 23:30:27 :User agus disconnected (from 124.153.17.10)
+Tue Dec 25 23:33:44 :connect from 124.153.18.240
+Tue Dec 25 23:33:45 :User agus logged in.
+Tue Dec 25 23:48:06 :connect from 124.153.18.240
+Tue Dec 25 23:48:08 :User agus logged in.
+Wed Dec 26 00:38:42 :connect from 124.153.19.220
+Wed Dec 26 00:38:42 :User agus logged in.
+Wed Dec 26 00:39:20 :connect from 124.153.19.220
+Wed Dec 26 00:39:20 :User agus logged in.
+Wed Dec 26 03:17:56 :connect from 124.153.19.220
+Wed Dec 26 03:17:56 :User uux logged in.
+Wed Dec 26 03:19:43 :User uux () got disconnected (from serenity.ix.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by uuk!~agus@124.153.19.220)
+Wed Dec 26 03:19:43 :User uux () trying rumble.dal.net port 7000 ().
+Wed Dec 26 03:19:44 :User uux () connected to rumble.dal.net:7000 ()
+Wed Dec 26 03:20:29 :User agus () got disconnected (from irc.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by uux!~uux@209.85.105.17)
+Wed Dec 26 03:20:30 :User agus () trying irc.dal.net port 7000 ().
+Wed Dec 26 03:20:31 :User agus () connected to irc.dal.net:7000 ()
+Wed Dec 26 03:20:55 :User agus quitted (from 124.153.19.220)
+Wed Dec 26 03:21:07 :User agus quitted (from 124.153.19.220)
+Wed Dec 26 04:17:02 :User uux disconnected (from 124.153.19.220)
+Wed Dec 26 04:17:49 :connect from 124.153.19.220
+Wed Dec 26 04:17:49 :User uux logged in.
+Wed Dec 26 04:18:15 :User agus () got disconnected (from rumble.fl.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by jokosan!~uux@209.85.105.17)
+Wed Dec 26 04:18:17 :User agus () trying mesra.dal.net port 6667 ().
+Wed Dec 26 04:18:17 :User agus () connected to mesra.dal.net:6667 ()
+Wed Dec 26 04:18:30 :User agus () got disconnected (from serenity.ix.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by jokosan!~uux@209.85.105.17)
+Wed Dec 26 04:18:47 :User agus () trying rumble.dal.net port 7000 ().
+Wed Dec 26 04:18:47 :User agus () connected to rumble.dal.net:7000 ()
+Wed Dec 26 10:12:29 :connect from 124.153.19.154
+Wed Dec 26 10:12:29 :User uux logged in.
+Wed Dec 26 12:45:57 :User uux disconnected (from 124.153.19.154)
+Wed Dec 26 21:11:53 :connect from 124.153.19.130
+Wed Dec 26 21:11:53 :User agus logged in.
+Wed Dec 26 21:12:32 :User uux () got disconnected (from rumble.fl.us.dal.net) Reason: Closing Link: 209.85.105.17 (SVSKilled: Ghost command used by uuk!~agus@209.85.105.17)
+Wed Dec 26 21:12:42 :User uux () trying mesra.dal.net port 6667 ().
+Wed Dec 26 21:12:42 :User uux () connected to mesra.dal.net:6667 ()
+Wed Dec 26 21:12:47 :User agus quitted (from 124.153.19.130)
+Wed Dec 26 21:13:09 :connect from 124.153.19.130
+Wed Dec 26 21:13:10 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:10 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:13:15 :connect from 124.153.19.130
+Wed Dec 26 21:13:15 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:15 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:13:20 :connect from 124.153.19.130
+Wed Dec 26 21:13:20 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:20 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:13:25 :connect from 124.153.19.130
+Wed Dec 26 21:13:25 :Lost Connection from 124.153.19.130 ()
+Wed Dec 26 21:13:43 :connect from 124.153.19.130
+Wed Dec 26 21:13:44 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:44 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:13:49 :connect from 124.153.19.130
+Wed Dec 26 21:13:49 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:49 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:13:54 :connect from 124.153.19.130
+Wed Dec 26 21:13:54 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:13:54 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:14:19 :connect from 124.153.19.130
+Wed Dec 26 21:14:20 :Failed Authentification for uux from host 124.153.19.130
+Wed Dec 26 21:14:20 :Lost Connection from 124.153.19.130 (uux)
+Wed Dec 26 21:14:44 :connect from 124.153.19.130
+Wed Dec 26 21:14:44 :User agus logged in.
+Wed Dec 26 21:16:07 :User agus quitted (from 124.153.19.130)
+Wed Dec 26 21:16:25 :connect from 124.153.19.130
+Wed Dec 26 21:16:26 :User uux logged in.
+Wed Dec 26 21:17:21 :User uux quitted (from 124.153.19.130)
+Wed Dec 26 21:17:33 :connect from 124.153.19.130
+Wed Dec 26 21:17:34 :User uux logged in.
+Wed Dec 26 21:54:51 :User uux quitted (from 124.153.19.130)
+Thu Dec 27 00:20:32 :connect from 124.153.19.163
+Thu Dec 27 00:20:33 :User agus logged in.
+Thu Dec 27 00:40:36 :connect from corenet.it.pehadia.com
+Thu Dec 27 00:40:36 :User agus logged in.
+Thu Dec 27 01:15:04 :User agus disconnected (from corenet.it.pehadia.com)
+Thu Dec 27 03:13:34 :connect from 124.153.19.44
+Thu Dec 27 03:13:34 :User agus logged in.
+Thu Dec 27 05:39:24 :User agus disconnected (from 124.153.19.44)
+Thu Dec 27 19:53:44 :connect from 124.153.16.165
+Thu Dec 27 19:53:45 :User agus logged in.
+Thu Dec 27 20:04:40 :connect from 124.153.21.187
+Thu Dec 27 20:04:40 :User agus logged in.
+Thu Dec 27 22:22:58 :connect from n8-h50.jasmine.access.te.net.id
+Thu Dec 27 22:22:58 :User uux logged in.
+Thu Dec 27 22:48:07 :User agus quitted (from 124.153.21.187)
+Thu Dec 27 22:48:11 :connect from 124.153.21.187
+Thu Dec 27 22:48:13 :User agus logged in.
+Thu Dec 27 22:50:24 :connect from 124.153.18.46
+Thu Dec 27 22:50:24 :User agus logged in.
+Thu Dec 27 22:50:24 :User agus quitted (from 124.153.18.46)
+Thu Dec 27 22:50:25 :connect from 124.153.18.46
+Thu Dec 27 22:50:25 :User agus logged in.
+Thu Dec 27 22:52:13 :User agus quitted (from 124.153.18.46)
+Thu Dec 27 23:02:18 :connect from 124.153.18.235
+Thu Dec 27 23:02:18 :User agus logged in.
+Thu Dec 27 23:33:43 :User uux quitted (from n8-h50.jasmine.access.te.net.id)
+Fri Dec 28 03:20:08 :connect from n8-h50.jasmine.access.te.net.id
+Fri Dec 28 03:20:08 :User uux logged in.
+Fri Dec 28 04:46:16 :User uux disconnected (from n8-h50.jasmine.access.te.net.id)
+Fri Dec 28 23:22:36 :User agus disconnected (from 124.153.18.235)
+Fri Dec 28 23:30:08 :connect from 124.153.21.97
+Fri Dec 28 23:30:08 :User agus logged in.
+Sat Dec 29 01:17:52 :connect from n8-h50.jasmine.access.te.net.id
+Sat Dec 29 01:17:52 :User uux logged in.
+Sat Dec 29 02:00:44 :User uux quitted (from n8-h50.jasmine.access.te.net.id)
+Sat Dec 29 03:58:28 :connect from n8-h50.jasmine.access.te.net.id
+Sat Dec 29 03:58:28 :User uux logged in.
+Sat Dec 29 05:31:29 :User uux quitted (from n8-h50.jasmine.access.te.net.id)
+Sat Dec 29 21:34:42 :connect from 193.254.241.203
+Sat Dec 29 21:34:42 :Lost Connection from 193.254.241.203 ()
+Sat Dec 29 23:31:20 :connect from 124.153.20.238
+Sat Dec 29 23:31:22 :User agus logged in.
+Sat Dec 29 23:32:08 :connect from 124.153.16.37
+Sat Dec 29 23:32:08 :User agus logged in.
+Sun Dec 30 04:57:07 :User agus disconnected (from 124.153.16.37)
+Sun Dec 30 05:48:23 :connect from 124.153.20.239
+Sun Dec 30 05:48:23 :User agus logged in.
+Sun Dec 30 06:20:18 :connect from 124.153.20.239
+Sun Dec 30 06:20:18 :User agus logged in.
+Sun Dec 30 07:31:04 :connect from 124.153.20.154
+Sun Dec 30 07:31:04 :User agus logged in.
+Sun Dec 30 09:49:17 :User agus disconnected (from 124.153.20.154)
+Sun Dec 30 11:42:13 :connect from 124.153.19.183
+Sun Dec 30 11:42:13 :User agus logged in.

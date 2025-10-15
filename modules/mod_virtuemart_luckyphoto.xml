@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<mosinstall type="module">
+    <name>VirtueMart LuckyPhoto Module</name>
+    <creationDate>11.03.2007</creationDate>
+    <author>LuckyTeam</author>
+    <copyright>VirtueMart is released under GNU/GPLicense</copyright>
+    <authorEmail>info@luckyteam.co.uk</authorEmail>
+    <authorUrl>http://luckyteam.co.uk</authorUrl>
+    <version>1.0</version>
+    <description>Shows the LuckyPhoto effect (LightBox variant) when clicking on product thumbnail</description>
+     <files>
+         <filename module="mod_virtuemart_luckyphoto">mod_virtuemart_luckyphoto.php</filename>
+	 <filename>luckyphoto/LuckyPhoto.js</filename>
+     </files>
+     <params>
+         <param name="msg" type="text" default="Click for bigger view" label="Message" description="The text below thumbnail image" />
+	 <param name="speed" type="text" default="70" label="Speed" description="The speed of the LuckyPhoto effect" />
+	 <param name="bgcolor" type="text" default="#000" label="Bgcolor" description="Background color of the LuckyPhoto effect" />
+	 <param name="bgopacity" type="text" default="100" label="Bg opacity" description="Final background opacity of the LuckyPhoto effect" />
+	 <param name="border" type="text" default="3px solid #fff" label="image border" description="Style of the image border of the LuckyPhoto effect" />
+	 <param name="progress" type="text" default="/modules/luckyphoto/progr02.gif" label="preload image" description="Animated progress bar image, path is relative to Joomla URL" />
+	 <param name="pages" type="list" default="both" label="Pages to show effect on" description="Select pages where this effect should be active">
+    	     <option value="shop.product_details">Product details</option>
+	     <option value="shop.browse">Browse products</option>
+	     <option value="both">Both pages</option>
+	 </param>
+	 <param name="mode" type="list" default="mode1" label="Compatibility mode for some templates" description="try other mod			 e if current is not working with your template">
+	    <option value="mode1">Mode 1 (default)</option>
+	   <option value="mode2">Mode 2</option>
+	 </param>
+     </params>
+</mosinstall>

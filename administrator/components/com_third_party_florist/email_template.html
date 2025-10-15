@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Bloomex order appointment</title>
+    </head>
+    <body style="font:normal 12px Tahoma, Verdana;" bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+        <a href="{lifesite}/any_files/partner.php?key={Key}">View on Bloomex</a>
+        <table border="0" cellspacing="0" cellpadding="2" width="100%">
+            <!-- begin customer information --> 
+           
+            <tr> 
+                <td>ABN:</td>
+                <td>27 147 609 443</td>
+            </tr>
+            <tr> 
+                <td>Order Number:</td>
+                <td>{OrderNumber}</td>
+            </tr>
+            <tr> 
+                <td>Order Date:</td>
+                <td>{OrderDate}</td>
+            </tr>
+            <tr> 
+                <td><b>Delivery Date:</b></td>
+                <td><b>{DeliveryDate}</B></td>
+            </tr>
+
+            <tr> 
+                <td>Order Status:</td>
+                <td>{OrderStatus}</td>
+            </tr>
+
+            <tr class="sectiontableheader"> 
+                <th align="left" colspan="2">Customer Information</th>
+            </tr>
+            <tr valign="top"> 
+                <td width="50%"> 
+                    <!-- Begin ShipTo --> 
+                    <table width="100%" cellspacing="0" cellpadding="2" border="0">
+                        <tr> 
+                            <td colspan="2"><strong>Delivery Information</strong></td>
+                        </tr>
+                        <tr> 
+                            <td>Company :</td>
+                            <td>{Company}</td>
+                        </tr>
+                        <tr> 
+                            <td>Full Name :</td>
+                            <td>{FullName}</td>
+                        </tr>
+                        <tr valign="top"> 
+                            <td>Address :</td>
+                            <td>{Address}</td>
+                        </tr>
+                        <tr> 
+                            <td>City :</td>
+                            <td>{City}</td>
+                        </tr>  
+                        <tr> 
+                            <td>State/Province/Region :</td>
+                            <td>{State}</td>
+                        </tr>
+                        <tr> 
+                            <td>Zip/Postcode :</td>
+                            <td>{Zip}</td>
+                        </tr>
+                        <tr> 
+                            <td>Country :</td>
+                            <td>{Country}</td>
+                        </tr>
+                        <tr> 
+                            <td>Phone :</td>
+                            <td>{Phone}</td>
+                        </tr>
+                        <tr> 
+                            <td>Mobile Phone :</td>
+                            <td>{MobilePhone}</td>
+                        </tr> 
+                        <tr> 
+                            <td>Fax :</td>
+                            <td>{Fax}</td>
+                        </tr>          
+                    </table>
+
+                </td>
+            </tr>
+            <tr> 
+                <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+
+            <tr class="sectiontableheader"> 
+                <th align="left" colspan="2">Order Items</th>
+            </tr>
+            <tr> 
+                <td colspan="2"> 
+                    <table width="100%" cellspacing="0" cellpadding="2" border="0">
+                        <tr align="left"> 
+                            <th><b>Img</b></th>
+                            <th><b>Qty</b></th>
+                            <th> <b> Name</b></th>
+                            <th>SKU</th>
+                        </tr>
+                        {OrderItems}
+                    </table>
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr class="sectiontableheader">
+                        <td align="left" colspan="1">Customer's note :</td>
+                        <td>{CustomerNote}</td>
+                    </tr>
+                        <tr class="sectiontableheader">
+                            <td align="left" colspan="1">Signature :</td>
+                            <td>{Signature}</td>
+                        </tr>
+                        <tr>
+                            <td> Occasion :</td>
+                            <td>{Occasion}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Instructions and comments </b><br/><small> (we keep this information confidential)</small> :</td>
+                            <td>{Instructions}</td>
+                        </tr>
+                    </table>
+                    
+            </tr>
+             <tr class="sectiontableheader"> 
+                <th align="left">Order Total:</th>
+                <th align="left">${Price}</th>
+                
+            </tr>
+             <tr class="sectiontableheader"> 
+                <th align="left"><a href="{lifesite}/any_files/partner.php?key={Key}&confirm=1">Accept Order</a></th>
+                <th align="left"><a href="{lifesite}/any_files/partner.php?key={Key}&confirm=0">Decline Order</a></th>
+            </tr>
+        </table>
+    </body>
+</html>

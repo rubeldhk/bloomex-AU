@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.2" type="mambot" group="search">
+
+	<name>Search Contacts XTD</name>
+	<creationDate>July 2005</creationDate>
+	<version>1.0.1</version>
+	<mamboVersion>4.5.2</mamboVersion>
+	
+	<author>clockbit.com</author>
+	<authorName>Kurt Banfi</authorName>
+	<authorEmail>mambo@clockbit.com</authorEmail>
+	<authorUrl>www.clockbit.com</authorUrl>
+	
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+
+	<description>Allows Searching of Contacts XTD Component</description>
+
+	<files>
+		<filename mambot="contxtd.searchbot">contxtd.searchbot.php</filename>
+	</files>
+	<params/>
+
+</mosinstall>

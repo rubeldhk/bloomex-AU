@@ -1,0 +1,11 @@
+                      -886161035<table class="bsq_reporttable">
+    <tr class="bsq_reportheaderrow">
+        <td class="bsq_reportheadercol">Referer</td>
+        <td class="bsq_reportheadercol">Resource</td>
+        <td class="bsq_reportheadercol">Client IP</td>
+        <td class="bsq_reportheadercol">Date</td>
+    </tr>
+    <tr class="bsq_reportrow">
+        <td class="bsq_reportcol"><a target="_blank" href="index2.php?option=com_bsq_sitestats&act=iplookup&ip="></a><a href="index2.php?option=com_bsq_sitestats&act=scrubstats&task=deleteip&ip=">&nbsp;[X]</a></td>
+    </tr>
+</table>

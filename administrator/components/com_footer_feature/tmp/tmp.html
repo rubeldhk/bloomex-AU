@@ -1,0 +1,97 @@
+</form>
+<link href='http://fonts.googleapis.com/css?family=Lobster|Muli|Open+Sans:400italic,400,600,700|Open+Sans+Condensed:700|Pathway+Gothic+One&subset=latin,latin-ext' rel='stylesheet' type='text/css'/>
+<form id="form_{LINE}" action="" enctype="multipart/form-data" method="post">
+<table>
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0" class="presentation">
+                <tr>
+                    <td align="center" class="ptitle">
+                    <div id='ptitle_{LINE}'>{ATITLE_{LINE}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" class="psubtitle">
+                    <div id='psubtitle_{LINE}'>{ASUBTITLE_{LINE}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" class="ptext">
+                    <div id='ptext_{LINE}'>{ATEXT_{LINE}}</div>
+                    </td>
+                </tr>
+            </table>
+       </td>
+       <td>
+            <table>
+                <tr>
+                    <td>
+                        Title:
+                    </td>
+                    <td>
+                        <textarea name="title_{LINE}" onkeyup="presentation('title','{LINE}');">{TITLE_{LINE}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        SubTitle:
+                    </td>
+                   <td>
+                       <textarea name="subtitle_{LINE}" onkeyup="presentation('subtitle','{LINE}');">{SUBTITLE_{LINE}}</textarea>
+                   </td>
+                </tr>
+                <tr>
+                    <td>
+                        Text:
+                    </td>
+                   <td>
+                       <textarea name="text_{LINE}" onkeyup="presentation('text','{LINE}');">{TEXT_{LINE}}</textarea>
+                   </td>
+                </tr>
+                <tr>
+                    <td>
+                        Save Form:
+                    </td>
+                   <td>
+                        <input type="button" value="Save Form" id="save-{LINE}" onclick="saveForm('{LINE}')">
+                   </td>
+                </tr>
+            </table>
+       </td>
+       <td>
+            <table>
+                <tr>
+                    <td>
+                        {SLIDE_{LINE}_0}
+                        <input type="hidden" id="hidden-{LINE}-0" value="" />
+                        <input type="file" name="userfile_{LINE}_0" id="file-{LINE}-0" onchange="upload('{LINE}', 0);" style="display:none" />
+                    </td>
+                    <td>
+                        {SLIDE_{LINE}_1}
+                        <input type="hidden" id="hidden-{LINE}-1" value="" />
+                        <input type="file" name="userfile_{LINE}_1" id="file-{LINE}-1" onchange="upload('{LINE}', 1);" style="display:none" />
+                    </td>
+                    <td>
+                        {SLIDE_{LINE}_2}
+                        <input type="hidden" id="hidden-{LINE}-2" value="" />
+                        <input type="file" name="userfile_{LINE}_2" id="file-{LINE}-2" onchange="upload('{LINE}', 2);" style="display:none" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="href_{LINE}_0" value="{HREF_0}" />
+                    </td>
+                    <td>
+                        <input type="text" name="href_{LINE}_1" value="{HREF_1}" />
+                    </td>
+                    <td>
+                        <input type="text" name="href_{LINE}_2" value="{HREF_2}" />
+                    </td>
+                </tr>
+            </table>
+       </td>
+    </tr>
+</table>
+    <input type="hidden" name="line" value="{LINE}" />
+    </form>
+<form>

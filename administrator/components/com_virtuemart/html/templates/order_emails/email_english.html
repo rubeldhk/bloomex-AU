@@ -1,0 +1,241 @@
+<html>
+<head>
+    <title>confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body style="font: normal 12px Tahoma, Verdana;" bgcolor="#FFFFFF">
+
+
+<div style="font-weight: bold;">
+    <table cellspacing="0" cellpadding="0">
+        <tr>
+            <td>
+                <a href="https://bloomex.com.au"><img style="width: 70%;" src="https://bloomex.com.au/images_upload/com_edit_email_banner/email_banner_0.jpg"></a>
+                <a  href="https://bloomex.com.au/chat/" style='text-align:center;float:right;width: 25%;'>
+                    <img src="https://bloomex.com.au/images/topLiveChat.jpg">
+                <p>If you need to contact us regarding this order,
+                    please use Live Chat.</p>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Thank you for shopping with us.  Your order information follows
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width='100%' cellspacing='2' cellpadding='2'>
+                    <tr>
+                        <td>
+
+                            <table>
+                                <tr>
+                                    <td>Order Number:</td>
+                                    <td>{phpShopOrderNumber}</td>
+                                </tr>
+                                <tr>
+                                    <td>Order Date:</td>
+                                    <td>{phpShopOrderDate}</td>
+                                </tr>
+                                <tr>
+                                    <td>Order Status:</td>
+                                    <td>{phpShopOrderStatus}</td>
+                                </tr>
+                                <tr>
+                                    <td>Return Policy:</td>
+                                    <td><a href="https://bloomex.com.au/index.php?option=com_content&task=view&id=35&Itemid=230">Important Information</a></td>
+                                </tr>
+                            </table>
+
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <a href="https://bloomex.com.au/Birthday.html"><img src="https://bloomex.com.au/images_upload/com_edit_email_banner/email_banner_1.jpg"></a>
+                        </td>
+                    </tr>
+                    <!-- ####################################################################################################  -->
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!-- ####################################################################################################  -->
+                    <tr>
+                        <td>
+                            Customer Information: <br>
+                            <table>
+                                <tr>
+                                    <td>Company:</td>
+                                    <td>{phpShopBTCompany}</td>
+                                </tr>
+                                <tr>
+                                    <td>Full Name:</td>
+                                    <td>{phpShopBTName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address:</td>
+                                    <td>{phpShopBTStreet1}<br>
+                                        {phpShopBTStreet2}</td>
+                                </tr>
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{phpShopBTCity}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode:</td>
+                                    <td>{phpShopBTZip}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country:</td>
+                                    <td>{phpShopBTCountry}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone:</td>
+                                    <td>{phpShopBTPhone}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{phpShopBTEmail}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            Ship to: <br>
+                            <table>
+                                <tr>
+                                    <td>Company:</td>
+                                    <td>{phpShopSTCompany}</td>
+                                </tr>
+                                <tr>
+                                    <td>Full Name:</td>
+                                    <td>{phpShopSTName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address:</td>
+                                    <td>{phpShopSTStreet1}<br>
+                                        {phpShopSTStreet2}</td>
+                                </tr>
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{phpShopSTCity}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode:</td>
+                                    <td>{phpShopSTZip}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country:</td>
+                                    <td>{phpShopSTCountry}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone:</td>
+                                    <td>{phpShopSTPhone}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{phpShopSTEmail}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- ####################################################################################################  -->
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <!-- ####################################################################################################  -->
+                    <tr>
+                        <td  colspan="3">
+                            Order Details: <br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>{phpShopOrderItems}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table style="background-color: #CBDCED;float: right;width: 30%;text-align: center;">
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Sub Total</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{phpShopOrderSubtotal}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Coupon Discount:</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{phpShopCouponDiscount}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Delivery Fee:</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{phpShopOrderShipping}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Corporate Discount:</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{sDiscount}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Donated Price:</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{phpDonatedPrice}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border-bottom: 1px solid #fff;">Total</td>
+                                                <td style="border-left: 2px solid black;border-bottom: 1px solid #fff;">{phpShopOrderTotal}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <a style="float: right;" href="https://bloomex.com.au/get_customer_review.php?order_id={phpShopOrderNumber}&name={phpShopBTName}&email={phpShopBTEmail}&zip={phpShopSTZip}"><img src="https://bloomex.com.au/images_upload/com_edit_email_banner/Review_banner_R2.jpg"></a>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+    Customer Note:
+    <br>
+    {phpShopCustomerNote}
+    <br>
+    Signature:
+    <br>
+    {phpShopCustomerSignature}
+    <br>
+    Special Instructions & Comments:
+    <br>
+    {phpShopCustomerInstructions}
+    <br>
+    Delivery Information:
+    <br>
+    {SHIPPING_INFO_DETAILS}
+    <br>
+    Delivery Date
+    <br>
+    {phpShopDeliveryDate}
+    <br>
+    Special Instructions:
+    <br>
+    Bloomex Pty Ltd -- 9/12-18 Victoria Street East,Lidcombe,NSW,2141 -- ABN 27147609443
+    <br>
+
+    Thank you for your patronage.<br>
+    <br>
+    To view your order, click <a href="https://bloomex.com.au/index.php?page=account.index&amp;&amp;option=com_virtuemart&amp;Itemid=1&amp;lang=en">https://bloomex.com.au/index.php?page=account.index&amp;&amp;option=com_virtuemart&amp;Itemid=1&amp;lang=en</a><br>
+    <br>
+    
+    Return to top<br>
+    <br>
+    Questions? Problems? E-mail: <a title="open mailto:wecare@bloomex.com.au in a new window" class="link" href="mailto:wecare@bloomex.com.au">wecare@bloomex.com.au</a>
+    <br/><b> Please Note: Orders placed for deliveries outside of Sydney, Melbourne, Brisbane and Perth may be delayed. We will contact you via email if there is an issue.</b>
+</div>
+</body>
+</html>

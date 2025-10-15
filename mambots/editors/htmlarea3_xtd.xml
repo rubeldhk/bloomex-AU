@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall version="4.5.1" type="mambot" group="editors">
+	<name>HTMLArea3 XTD</name>
+	<author>Soeren Eberhardt, Bernhard Pfeifer</author>
+	<authorEmail>soeren@virtuemart.net</authorEmail>
+	<authorUrl>http://virtuemart.net</authorUrl>
+	<creationDate>November 2005</creationDate>
+	<copyright>© 2004 Bernhard Pfeifer</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<version>1.0 beta *VirtueMart Edition*</version>
+	<description>A highly extended WYSIWYG editor for Joomla and VirtueMart, including the ProductSnapshot Add-On</description>
+	<files>
+		<filename>htmlarea3_xtd/dialog.js</filename>
+	    <filename>htmlarea3_xtd/htmlarea.css</filename>
+	    <filename>htmlarea3_xtd/htmlarea_xtd.js</filename>
+	    <filename>htmlarea3_xtd/index.html</filename>
+	    <filename>htmlarea3_xtd/index.php</filename>
+	    <filename>htmlarea3_xtd/popupdiv.js</filename>
+	    <filename>htmlarea3_xtd/popupwin.js</filename>
+	    <filename>htmlarea3_xtd/lang/de.js</filename>
+	    <filename>htmlarea3_xtd/lang/en.js</filename>
+	    <filename>htmlarea3_xtd/plugins/index.php</filename>
+	    <filename>htmlarea3_xtd/popups/index.php</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/context-menu.js</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/menu.css</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/lang/de.js</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/lang/el.js</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/lang/en.js</filename>
+	    <filename>htmlarea3_xtd/plugins/ContextMenu/lang/nl.js</filename>
+	    <filename>htmlarea3_xtd/plugins/CSS/css.js</filename>
+	    <filename>htmlarea3_xtd/plugins/CSS/lang/de.js</filename>
+	    <filename>htmlarea3_xtd/plugins/CSS/lang/en.js</filename>
+	    <filename>htmlarea3_xtd/plugins/EnterParagraphs/enter-paragraphs.js</filename>
+	    <filename>htmlarea3_xtd/plugins/EnterParagraphs/lang/en.js</filename>
+	    <filename>htmlarea3_xtd/plugins/InsertSmiley/insert-smiley.js</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/lang/de.js</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/lang/en.js</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/popups/insert_smiley.html</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/table-operations.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/cz.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/da.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/de.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/el.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/en.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/fi.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/hu.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/it.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/nl.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/no.js</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/lang/ro.js</filename>
+	    <filename>htmlarea3_xtd/popups/auth.php</filename>
+	    <filename>htmlarea3_xtd/popups/fullscreen.html</filename>
+	    <filename>htmlarea3_xtd/popups/help_de.html</filename>
+	    <filename>htmlarea3_xtd/popups/help_en.html</filename>
+	    <filename>htmlarea3_xtd/popups/insert_image_de.php</filename>
+	    <filename>htmlarea3_xtd/popups/insert_image_en.php</filename>
+	    <filename>htmlarea3_xtd/popups/insert_table_de.html</filename>
+	    <filename>htmlarea3_xtd/popups/insert_table_en.html</filename>
+	    <filename>htmlarea3_xtd/popups/internal_link_de.php</filename>
+	    <filename>htmlarea3_xtd/popups/internal_link_en.php</filename>
+	    <filename>htmlarea3_xtd/popups/mozilla_prefs_de.html</filename>
+	    <filename>htmlarea3_xtd/popups/mozilla_prefs_en.html</filename>
+	    <filename>htmlarea3_xtd/popups/popup.js</filename>
+	    <filename>htmlarea3_xtd/popups/product_snapshot.php</filename>
+	    <filename>htmlarea3_xtd/popups/select_character_de.html</filename>
+	    <filename>htmlarea3_xtd/popups/select_character_en.html</filename>
+	    <filename>htmlarea3_xtd/popups/select_color_de.html</filename>
+	    <filename>htmlarea3_xtd/popups/select_color_en.html</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/config.inc.php</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/images.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/auth.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/config.inc.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/files.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/insert_file.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/css/sortabletable.css</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/js/sortabletable.js</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/lang/lang-de.php</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/lang/lang-en.php</filename>
+	    <filename>htmlarea3_xtd/images/ed_about.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_align_center.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_align_justify.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_align_left.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_align_right.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_anchor.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_blank.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_charmap.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_clean_word.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_color_bg.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_color_fg.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_copy.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_custom.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_cut.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_delete.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_bold.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_italic.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_strike.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_sub.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_sup.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_format_underline.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_help.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_hr.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_html.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_image.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_indent_less.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_indent_more.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_insert_image.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_left_to_right.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_linktofile.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_list_bullet.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_list_num.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_mos_image.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_mos_internallink.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_mos_pagebreak.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_paste.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_productsnap.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_redo.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_remove_format.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_right_to_left.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_save.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_show_0_border.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_splitcel.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_tableshowborders.gif</filename>
+	    <filename>htmlarea3_xtd/images/ed_undo.gif</filename>
+	    <filename>htmlarea3_xtd/images/frost.gif</filename>
+	    <filename>htmlarea3_xtd/images/fullscreen_maximize.gif</filename>
+	    <filename>htmlarea3_xtd/images/fullscreen_minimize.gif</filename>
+	    <filename>htmlarea3_xtd/images/insert_table.gif</filename>
+	    <filename>htmlarea3_xtd/images/silver.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_biggrin.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_confused.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_cool.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_cry.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_eek.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_evil.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_lol.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_mad.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_neutral.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_razz.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_redface.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_rolleyes.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_smile.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_twisted.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/emoticons/icon_wink.gif</filename>
+		<filename>htmlarea3_xtd/plugins/InsertSmiley/img/insert-smiley.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-delete.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-insert-after.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-insert-before.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-merge.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-prop.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/cell-split.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/col-delete.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/col-insert-after.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/col-insert-before.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/col-split.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/row-delete.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/row-insert-above.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/row-insert-under.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/row-prop.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/row-split.gif</filename>
+	    <filename>htmlarea3_xtd/plugins/TableOperations/img/table-prop.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/auth.php</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/bannerfolder.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/btnBack.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/btnFolderNew.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/btnFolderUp.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/dots.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/edit_trash.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/folder.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/locked.gif</filename>
+	    <filename>htmlarea3_xtd/popups/ImageManager/unlocked.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/bannerfolder.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/blank.png</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/btnBack.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/btnFolderNew.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/btnFolderUp.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/dots.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/downsimple.png</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/edit_active.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/edit_trash.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/locked.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/unlocked.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/upsimple.png</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/blue_folder.png</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/def_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/doc_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/folder_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/gif_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/gz_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/html_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/jpg_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/mov_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/pdf_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/png_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/ppt_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/rar_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/txt_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/xls_small.gif</filename>
+	    <filename>htmlarea3_xtd/popups/InsertFile/images/ext/zip_small.gif</filename>
+	    <filename mambot="htmlarea3_xtd">htmlarea3_xtd.php</filename>
+	</files>
+	<params>
+		<param name="insertsmiley" type="radio" default="1" label="Smiley Plugin" description="If set to yes, this will allow Smilies to be inserted into the edited content.">
+			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+		</param>
+		<param name="tableoperations" type="radio" default="1" label="Table Operations Plugin" description="If set to yes, this will activate advanced table/row/cell formatting options.">
+			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+		</param>
+		<param name="enterparagraphs" type="radio" default="1" label="Enter Paragraphs Plugin" description="This only has effect on Mozilla browsers. Have a line break when pressing SHIFT + ENTER and a paragraph when pressing ENTER.">
+			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+		</param>
+		<param name="contextmenu" type="radio" default="1" label="Context Menu Plugin" description="If set to yes, have a context menu on right click and edit table/image/link properties, cut, copy, paste, remove HTML elements">
+			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+		</param>
+		<param name="css" type="radio" default="1" label="CSS Plugin" description="If set to yes, a dropdown menu with CSS styles will be activated.">
+			<option value="0">No</option> 
+			<option value="1">Yes</option> 
+		</param>
+		<param name="language" type="list" default="en" label="Select Language" description="Select the language HTMLArea3 XTD should use">
+			<option value="en">English</option> 
+			<option value="de">Deutsch</option> 
+		</param>
+	</params>
+</mosinstall>

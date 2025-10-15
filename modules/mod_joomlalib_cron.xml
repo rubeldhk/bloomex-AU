@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+	<name>JoomlaLib Cron</name>
+	<creationDate>23/04/2006</creationDate>
+	<author>Brent Stolle / Michiel Bijland</author>
+	<creationDate>4/10/2006</creationDate>
+	<copyright>Brent Stolle / Michiel Bijland</copyright>
+	<license>This module is released under the GNU/GPL License</license>
+	<authorEmail>contact-joomlalib@4theweb.nl</authorEmail>
+	<authorUrl>http://joomlalib.4theweb.nl</authorUrl>
+	<version>1.0.0</version>
+	<description>This module </description>
+	<files>
+		<filename module="mod_joomlalib_cron">mod_joomlalib_cron.php</filename>
+	</files>
+	<params>
+		<param name="cronprobability" type="text" default="100" size="3" label="Cron Probability" description="What percentage of hits should we check for a cron job on? Set this to 100 to check with every hit.">
+		</param>
+		<param name="debugzend" type="radio" default="0" label="Debug Cron with Zend" description="Notify a Zend-enabled server that we want to debug the cron handler">
+			<option value="1">Yes</option>
+			<option value="0">No</option>
+		</param>
+	</params>
+</mosinstall>

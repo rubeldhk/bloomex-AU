@@ -1,0 +1,266 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::import('jllog');
+JLCoreApi::import('jltime');
+
+/**
+ * A class for creating cron jobs 
+ * 
+ * @package JL
+ * @subpackage JLCron
+ */
+class JLCron
+{
+	/** @var object JLLog Logging object */
+	var $_jllog = null;
+	
+	/**
+	 * Standard constructor
+	 *
+	 * @param JLLog Logging object to log with
+	 *
+	 */
+	function JLCron($jlLog = null)
+	{
+		if(!$jlLog) {
+			$jlLog = new JLLog('jl');
+		}
+		$this->_jllog = $jlLog;
+	}
+	
+	/**
+	 * Queue a cron event to be executed. Crons are executed by including a file. and
+	 * invoking a callback function within it. The function should take no parameters
+	 * and should return a status code that is one of the following:
+	 *
+	 * -1  = Don't requeue me.
+	 *  0  = Requeue me for the same interval as last time (for recurring events)
+	 * >0  = Requeue me for N seconds from now, where N is the number >0
+	 * 
+	 * Put the following code in front of your cron script to make sure nobody loads 
+	 * it directly from a web browser:
+	 *
+	 * defined('_JOOMLALIB') or die('Direct access is not allowed');
+	 *
+	 * @param string fileName Filename to include to execute this cron job (absolute path)
+	 * @param string funcName Function name to execute within this file. 
+	 * @param integer Unix timestamp of first time to invoke this. If this is 0, then $interval MUST
+	 *                be set, and this will be set to NOW + interval
+	 * @param boolean Complain if the event already exists. 
+	 * @param boolean Is this a recurring event or not? If so, it will be executed every $interval seconds. 
+	 * @param integer How many seconds should we wait between running this cron job.
+	 *
+	 * @return mixed true on success. Error message string on failure.
+	 *
+	 */
+	function queue($fileName, $funcName='', $execAt=0, $complainIfExists, $isRecurring=false, $interval=86400)
+	{
+		global $database;
+		
+		if(!$fileName) {
+			return $this->_jllog->l(10, "Missing filename parameter for %s::%s", __CLASS__, __FUNCTION__);
+		}
+		
+		if(!$execAt && !$interval) {
+			return $this->_jllog->l(10, "Bad time parameters for %s::%s", __CLASS__, __FUNCTION__);
+		}
+		
+		if($this->eventExists($fileName, $funcName)) {
+			if($complainIfExists) {
+				$this->_jllog->l(10, "Can't queue duplicate event '%s' '%s'", $fileName, $funcName);
+			}
+			return true;
+		}
+		
+		$isRecurring = $isRecurring ? 'y' : 'n';
+		
+		if(!$execAt) {
+			$execAt = JLTime::sTime() + $interval;
+		}
+		
+		$query = "INSERT INTO #__jl_cron VALUES ('','$fileName', '$funcName', '$execAt', '$isRecurring', '$interval', '', '')";
+		$database->setQuery($query);
+		if(!$database->query()) {
+			$this->_jllog->w(15,__FILE__,__LINE__,$database->getErrorMsg());
+			return 'Database error. See event log';
+		}
+
+		return true;
+	}
+	
+	/**
+	 * See if a cron exists, given its filename and function name
+	 *
+	 * @param string Filename to search for
+	 * @param string Function name to search for
+	 *
+	 * @return boolean true if it exists. False if it doesn't
+	 */
+	function eventExists($fileName, $funcName)
+	{
+		global $database;
+		
+		$query = "SELECT COUNT(cronid) FROM #__jl_cron WHERE filename='$fileName' AND func='$funcName'";
+		$database->setQuery($query);
+		$numEvents = intval($database->loadResult());
+		
+		return $numEvents ? true : false;
+	}
+	
+	/**
+	 * Dequeue a cron job, given its id
+	 * 
+	 * @param integer Primary key of the cron job to dequeue
+	 *
+	 * @return true if deleted. False on error (check event log)
+	 */
+	function dequeue($cronid)
+	{
+		global $database;
+		
+		$query = "DELETE FROM #__jl_cron WHERE cronid='$cronid'";
+		$database->setQuery($query);
+		if(!$database->query()) {
+			$this->_jllog->w(10,__FILE__,__LINE__,$database->getErrorMsg());
+			return false;
+		}
+		
+		$this->_jllog->l(5, "dequeued cron %d", $cronid);
+		return true;
+	}
+	
+	/**
+	 * Try and lock and execute a single cron job.
+	 * 
+	 * @return mixed true on success. Error string on failure
+	 * @todo getAffecttedRows is a nono on Mambo
+	 */
+	function exec()
+	{
+		global $database;
+		
+		$now = JLTime::sTime();
+		$expireTime = 300; /* 5 minute lock expiration. very generous */
+		$lockerid = getmypid();
+		
+		/* Heal any expired locks */
+		$query = "UPDATE #__jl_cron SET locktime='0', lockerid='0' ".
+		         'WHERE locktime > 0 AND locktime < \''.($now - $expireTime).'\'';
+		$database->setQuery($query);
+		$database->query();
+		
+		$affected = $database->getAffectedRows();
+		if($affected > 0) {
+			$this->_jllog->l(15, "Healed %d expired cron locks.", $affected);
+		}
+		
+		/* Try to lock a single cron job */
+		$query = "UPDATE #__jl_cron SET locktime='$now', lockerid='$lockerid' ".
+		         "WHERE locktime='0' AND execat < '$now' LIMIT 1";
+		$database->setQuery($query);
+		$database->query();
+		
+		$affected = $database->getAffectedRows();
+		if($affected <= 0) {
+			$this->_jllog->l(5, "No cron jobs pending");
+			return true; /* Nothing to do */
+		}
+		
+		$query = "SELECT * FROM #__jl_cron ".
+		         "WHERE locktime='$now' AND lockerid='$lockerid'";
+		$database->setQuery($query, 0, 1); /* Only return one row since we only locked one */
+		$cron = new stdClass();
+		$database->loadObject($cron);
+		
+		if(!$cron) {
+			$this->_jllog->l(15, "Unable to get locked cron time %d, lockerid %d.", $now, $lockerid);
+			return 'Cron error. See event log.';
+		}
+		/* DELETE CRON JOB ON ERROR AFTER HERE */
+		
+		if(!file_exists($cron->filename)) {
+			$this->_jllog->l(15, "Invalid filename for cron job: %s. Deleting", $cron->filename);
+			$this->dequeue($cron->cronid);
+			return 'Cron Error. See event log.';
+		}
+		
+		require_once($cron->filename);
+		
+		if(!function_exists($cron->func)) {
+			$this->_jllog->l(15, "Function %s does not exist in %s", $cron->func, $cron->filename);
+			$this->dequeue($cron->cronid);
+			return 'Cron Error. See event log.';
+		}
+		
+		$nextTime = 0;
+		
+		/* Call the cron function */
+		$st = call_user_func($cron->func);
+		if($st == -1) {
+			$this->dequeue($cron->cronid);
+			return true;
+		}
+		else if(!$st) {
+			$nextTime = (int)$cron->execat + (int)$cron->interval;
+		}
+		else if($st > 0) {
+			$nextTime = (int)$cron->execat + $st;
+		}
+		else {
+			$this->_jllog->l(15, "Invalid return code '%s' from callback %s in %s", 
+			                 $st, $cron->filename, $cron->func);
+			$this->dequeue($cron->cronid);
+			return 'Cron Error. See event log.';
+		}
+		
+		$query = "UPDATE #__jl_cron SET execat='$nextTime', locktime='0', lockerid='0' ".
+		         'WHERE cronid=\''.$cron->cronid.'\'';
+		$database->setQuery($query);
+		if(!$database->query()) {
+			$this->_jllog->w(10,__FILE__,__LINE__,$database->getErrorMsg());
+			$this->dequeue($cron->cronid);
+			return 'Cron Error. See event log.';
+		}
+		
+		$this->_jllog->l(5, "Finished cron id %d, st %d", $cron->cronid, $st);
+		return true;
+	}
+	
+	/**
+	 * Installer for this class
+	 *
+	 * @static
+	 */
+	function install()
+	{
+		global $database;
+		
+		/* JLCron depends on JLLog */
+		JLLog::install();
+		
+		$query = 
+			"CREATE TABLE IF NOT EXISTS `#__jl_cron` (
+			 `cronid` int(11) NOT NULL auto_increment,
+			 `filename` varchar(255) NOT NULL default '',
+			 `func` varchar(64) default NULL,
+			 `execat` int(11) NOT NULL default '0',
+			 `isrecurring` enum('y','n') NOT NULL default 'n',
+			 `interval` int(11) NOT NULL default '0',
+			 `locktime` int(11) default '0',
+			 `lockerid` int(11) default '0',
+			 PRIMARY KEY  (`cronid`),
+			 KEY `execat` (`execat`),
+			 KEY `locktime` (`locktime`)
+			) TYPE=MyISAM AUTO_INCREMENT=1 ;";
+		
+		$database->setQuery($query);
+		$database->query();
+	}
+}
+
+?>

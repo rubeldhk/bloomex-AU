@@ -1,0 +1,147 @@
+<mos:comment>@version $Id: list.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:link src="newCheckAll" />
+<mos:link src="reportCSS" />
+<mos:link src="reportSubmitButton" />
+<mos:link src="reportHeading" />
+
+<div id="datacell">
+	<h3>{SITENAME}</h3>
+	<fieldset>
+		<legend>
+			<mos:var name="META_NAME" modifier="Translate" /> &bull; <mos:time format="d-M-Y H:i:s"/>
+		</legend>
+
+		<div>
+			<div>
+				<mos:Translate>Search</mos:Translate>:
+				<mos:link src="list-search" />
+			</div>
+			<div class="clr"></div>
+		</div>
+
+		<table class="adminlist">
+			<thead>
+			<tr>
+				<th width="10">
+					<input type="checkbox" name="toggle" value="" onclick="checkAll(this, 'cid' )" />
+				</th>
+				<th class="title">
+					<a href="#reorder" onclick="submitbutton('reorder', 'title')" class="col_ordering">
+						<mos:Translate>Item Title</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=title" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th class="title" width="100">
+					<a href="#reorder" onclick="submitbutton('reorder', 'state')" class="col_ordering">
+						<mos:Translate>Published</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=state" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th class="title" width="10%">
+					<a href="#reorder" onclick="submitbutton('reorder', 'owner')" class="col_ordering">
+						<mos:Translate>Owner</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=owner" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th class="title" width="10%">
+					<a href="#reorder" onclick="submitbutton('reorder', 'created')" class="col_ordering">
+						<mos:Translate>Created</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=created" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th class="title" width="10%">
+					<a href="#reorder" onclick="submitbutton('reorder', 'modified')" class="col_ordering">
+						<mos:Translate>Last Modified</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=modified" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+				<th class="title" width="5%">
+					<a href="#reorder" onclick="submitbutton('reorder', 'hits')" class="col_ordering">
+						<mos:Translate>Hits</mos:Translate>
+						<mos:tmpl type="simplecondition" requiredvars="ordercol=hits" varscope="body">
+							<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+						</mos:tmpl></a>
+				</th>
+			</tr>
+			</thead>
+	
+			<tfoot>
+				<mos:link src="list-navigation" />
+			</tfoot>
+	
+			<tbody>
+			<mos:tmpl name="list-items" type="simplecondition" requiredvars="item_title" varscope="body" addsystemvars="integer">
+				<tr class="row{PAT_IS_EVEN}">
+				    <td>
+				    	<mos:link src="item-select-box-nco" />
+					</td>
+					<td>
+						<a href="index.php?option=com_content&amp;task=view&amp;id={ITEM_ID}" target="_new" title="{ITEM_SECTION_NAME} // {ITEM_CATEGORY_NAME}">
+							{ITEM_TITLE}</a>
+					</td>
+					<td align="center">
+						{ITEM_STATE|stateToString}
+					</td>
+					<td>
+						{ITEM_OWNER}
+					</td>
+					<td>
+						{ITEM_CREATED|toAge} days ago
+					</td>
+					<td>
+						{ITEM_MODIFIED|toAge} days ago
+					</td>
+					<td align="right">
+						{ITEM_HITS}
+					</td>
+				</tr>
+			</mos:tmpl>
+			</tbody>
+		</table>
+	</fieldset>
+
+	<fieldset>
+		<legend>
+			<mos:Translate>Mail Owners</mos:Translate>
+		</legend>
+
+		<div style="float:right">
+			<button onclick="submitbutton('mail');return false;" class="button">
+				<mos:Translate>Send Mail</mos:Translate></button>
+		</div>
+
+		<div>
+			<label for="mail_subject">
+				<mos:Translate>Subject</mos:Translate>
+			</label>
+			<br/>
+			<input type="text" name="mail_subject" id="mail_subject" class="inputbox" value="Update Content" />
+		</div>
+
+		<div>
+			<label for="mail_body">
+				<mos:Translate>Message</mos:Translate>
+			</label>
+			<br/>
+			<textarea name="mail_body" id="mail_body" rows="5" cols="50" class="inputbox">Hi [NAME].
+Please update this content item: [TITLE].</textarea>
+		</div>
+
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="run" />
+<input type="hidden" name="report" value="{REPORT_ID}" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />
+<input type="hidden" name="boxchecked" value="0" />
+<input type="hidden" name="{CAPTCHA}" value="1" />
+<input type="hidden" name="report_id" value="{REPORT_ID}" />
+<input type="hidden" name="Itemid" value="{ITEMID}" />

@@ -1,0 +1,9 @@
+@page {
+    size: auto;
+    margin: 0;
+    padding:0;
+}
+@media print {
+    .label	{ display: block; page-break-after: always; }
+}
+

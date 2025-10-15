@@ -1,0 +1,100 @@
+
+.labels {
+    display: none;
+    border: 1px solid black;
+    overflow: hidden;
+    color: black;
+    width: 6in;
+    height: 4in;
+    box-sizing: border-box;
+    margin: 20px auto;
+}
+.sticker_logo img {
+    max-width: 100%;
+}
+.sticker {
+    margin-bottom: 20px;
+    padding: 0;
+}
+.sticker img {
+    max-width: 100%;
+}
+.barcode {
+    padding: 10px;
+    text-align: center;
+}
+.line{
+    position: relative;
+    width: 6in;
+    font-size: 1.3em;
+    text-align: left;
+}
+.sticker_logo {
+    position: absolute;
+    float: right;
+    width: calc(2.5in - 42px);
+    top: 10px;
+    right: 10px;
+}
+.address_to,.barcode {
+    width: 3.5in;
+    padding: 20px 10px;
+}
+
+hr{
+    width: 100%;
+    height: 2px;
+    background: black;
+    margin: 0;
+}
+.address_to {
+    border-right: 2px solid;
+}
+.barcode_text {
+    font-size: 1.4em;
+    letter-spacing: 0.5em;
+    font-weight: bold;
+}
+.zone {
+    border: 1px solid;
+    top: 0px;
+    left: 0px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    font-size: 20px;
+}
+.zone_name {
+    text-align: right;
+    float: right;
+}
+.address_title
+{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+@media print {
+    @page {
+        size: 6in 4in;
+        margin: 0;
+        padding: 0;
+    }
+    @Page CompanyLetterHead {
+        display: none;
+    }
+    body {
+        width: 6in !important;
+        min-width: 6in !important;
+        margin: 0 !important;
+    }
+    .labels {
+        width: 6in !important;
+        min-width: 6in !important;
+        margin: 0px !important;
+    }
+    .label {
+        page-break-after: always;
+
+    }
+}

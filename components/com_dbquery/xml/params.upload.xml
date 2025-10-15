@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Variable Parameter File</name>
+	<creationDate>August 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Database Query is a Mambo query manager.</description>
+	<params>
+		<param name="DEFAULT_UPLOAD_DIRECTORY" type="text" default="" label="Upload Directory" description="Location where files will be uploaded.  The base directory will be Joomla's absolute path."/>
+		<param name="MAXIMUM_FILE_SIZE" type="text" default="" label="Maximum File Size" description="The maximum size of files that will be accepted for upload"/>
+		<param name="FILE_ACCEPT" type="text" default="" label="MIME Type of File" description="The media type that should be accepted by the client browser"/>
+		<param name="FILE_UPLOAD_REGEX" type="text" size="60" default="" label="File Regular Expression" description="The regular expression that will be used to filter file names"/>
+		<param name="FILES_ABSOLUTE_PATH" type="list" default="" label="Directory Root" description="Indicates if files are to be found under the Joomla root directory">
+			<option value="">Use Global</option>
+			<option value="0">Webserver</option>
+			<option value="1">Joomla</option>
+		</param>
+		<param name="EXISTING_FILE" type="list" default="UNIQUE" label="Existing File" description="Determine how to resolve conflicts of name">
+			<option value="UNIQUE">Unique</option>
+			<option value="REMOVE">Remove</option>
+		</param>
+		<param name="ESCAPE_OVERRIDE" type="list" default="" label="Escape Override" description="Do not escape the replacement value that will be used in the query">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="VARIABLE_TEMPLATE_ID" type="text" size="3" default="1" label="Variable Template ID" description="Template ID for the variable's template file."/>
+	</params>
+</mosparams>

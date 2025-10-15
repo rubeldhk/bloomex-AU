@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Field Variable Parameter File</name>
+	<creationDate>April 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Database Query is a Mambo query manager.</description>
+	<params>
+		<param name="ACCESS_LEVEL" type="list" default="0" label="Access Level of User" description="The access level required to view this field.  This is a feature of DBQ Professional.">
+			<option value="0">Unregistered</option>
+			<option value="1">Registered</option>
+			<option value="2">Special</option>
+		</param>
+		<param name="HIDE_FIELD" type="list" default="0" label="Hide Field" description="Hide the field in the display.  This is useful if you want to retrieve and use data but not actually show it.  This is a feature of DBQ Professional.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="Next Query" description="The Next Query feature enables linking between one form to another using field vairalbes.  This is a feature of DBQ Professional." />
+		<param name="NEXT_QUERY_ENABLE" type="list" default="0" label="Enable Next Query" description="Enable a link to the next query, if enabled on the query.  This is a feature of DBQ Professional.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="NEXT_QUERY_ID" type="text" default="" label="Next Query ID" description="Query ID for the next query.  This is a feature of DBQ Professional."/>
+		<param name="NEXT_QUERY_TEXT" type="text" default="" label="Next Query Text" description="Description tag for the link to the next query.  This is a feature of DBQ Professional."/>
+		<param name="NEXT_QUERY_TASK" type="list" default="PrepareQuery" label="Next Query Task" description="Toggle the task to be performed by the next query.  This is a feature of DBQ Professional.">
+			<option value="PrepareQuery">Prepare Query</option>
+			<option value="ExecuteQuery">Execute Query</option>
+		</param>
+		<param name="NEXT_QUERY_UNIQUE_WINDOW" type="list" default="0" label="Unique Window" description="If enabled, a new window will always be created.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="NEXT_QUERY_TARGET_VARIABLE" type="text" default="" label="Next Query Target Variable" description="Name of the variable to which the current field will be passed.  This is a feature of DBQ Professional."/>
+		<param name="NEXT_QUERY_CONFIRMATION_MESSAGE" type="textarea" rows="5" cols="60" default="" label="Confirmation Message" description="A message that will appear within a confirmation dialog box."/>
+		<param name="NEXT_QUERY_TARGET_WINDOW" type="text" default="" label="Target Window" description="The name of the target window, blank if you want the next query to appear in the current window.  This is a feature of DBQ Professional."/>
+		<param name="NEXT_QUERY_TARGET_JAVASCRIPT" type="text" default="" label="Target Window Javascript" description="This is a feature of DBQ Professional."/>
+		<param name="@spacer" type="spacer" default="" label="Grid Display" description="When query results are displayed as a grid, a field can offer special functionality to sort, constrain, and hide the data.  This is a feature of DBQ Professional." />
+		<param name="DATA_TYPE" type="list" default="String" label="Data Type" description="The type of data that the field represents.">
+			<option value="Boolean">Boolean</option>
+			<option value="Date">Date</option>
+			<option value="Float">Float</option>
+			<option value="Int">Integer</option>
+			<option value="String">String</option>
+			<option value="StringInsensitive">String Insensitive</option>
+			<option value="Time">Time</option>
+			<option value="BooleanTF">True or False</option>
+			<option value="TimestampLocale">Unix Time Stamp</option>
+			<option value="TimestampMMDDYYYY">UNIX timestamp (value displayed in MM/DD/YYYY)</option>
+			<option value="TimestampDDMMYYYY">UNIX timestamp (value displayed in DD/MM/YYYY)</option>
+			<option value="TimestampYYYYMMDD">UNIX timestamp (value displayed in YYYY/MM/DD)</option>
+		</param>
+		<param name="ZP_GRID_FILTER_TYPE" type="list" default="" label="Grid Filtering" description="Enable filtering of the column data when using a grid to present data.">
+			<option value="">None</option>
+			<option value="SELECTION">Selection</option>
+			<option value="RANGER">Range</option>
+		</param>
+	</params>
+</mosparams>

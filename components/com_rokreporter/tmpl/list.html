@@ -1,0 +1,86 @@
+<mos:comment>@version $Id: list.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:link src="reportCSS" />
+
+<script language="javascript" type="text/javascript">
+	function submitbutton( task, param ) {
+		frm = document.adminForm;
+		if (task == 'reorder') {
+			if (frm.orderCol.value == param) {
+				frm.orderDirn.value = 1 - frm.orderDirn.value;
+			} else {
+				frm.orderDirn.value = 0;
+			}
+			frm.orderCol.value = param;
+		}
+		frm.task.value = task;
+		frm.submit();
+	}
+</script>
+
+<div id="datacell">
+	<fieldset>
+		<legend>
+			<mos:Translate>Reports</mos:Translate>
+		</legend>
+
+		<table class="adminfilters" width="100%" >
+		<tr>
+			<td>
+				<mos:Translate>Search</mos:Translate>:
+				<mos:link src="list-search" />
+			</td>
+		</tr>
+		</table>
+
+		<table class="adminlist">
+		<thead>
+		<tr>
+			<th class="title">
+				<a href="#reorder" onclick="submitbutton('reorder', 'name')" class="col_ordering">
+					<mos:Translate>Title</mos:Translate>
+					<mos:tmpl type="simplecondition" requiredvars="ordercol=name" varscope="body">
+						<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+					</mos:tmpl></a>
+			</th>
+			<th nowrap="true" width="60%" class="center">
+				<mos:Translate>Description</mos:Translate>
+			</th>
+		</tr>
+		</thead>
+
+		<tfoot>
+			<mos:link src="list-navigation" />
+		</tfoot>
+
+		<tbody>
+		<mos:tmpl name="list-items" type="simplecondition" requiredvars="item_name" varscope="body" addsystemvars="integer">
+			<tr class="row{PAT_IS_EVEN}">
+				<td>
+					<a href="index2.php?option={OPTION}&amp;task=run&amp;report={ITEM_ID}" target="_blank" class="editlink" title="Open in new window">
+						<img src="{SITEURL}/components/{OPTION}/assets/images/external.png" border="0" /></a>
+					<a href="{SELF}?option={OPTION}&amp;task=run&amp;report={ITEM_ID}" class="editlink">
+						{ITEM_NAME}</a>
+				</td>
+				<td>
+					{ITEM_DESCRIPTION}
+				</td>
+			</tr>
+		</mos:tmpl>
+		</tbody>
+		</table>
+	</fieldset>
+
+	<div class="about">
+		<a href="{SELF}?option={OPTION}&amp;task=about&amp;Itemid={ITEMID}">
+			About RokReporter</a>
+	</div> 
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />
+<input type="hidden" name="boxchecked" value="0" />
+
+<mos:link src="include-tooltips" />

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="component">
+	<name>JoomlaLib</name>
+	<creationDate>7/3/2006</creationDate>
+	<author>Brent Stolle / Michiel Bijland</author>
+    <copyright>Brent Stolle and Michiel Bijland</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>contact-joomlalib@4theweb.nl</authorEmail>
+    <authorUrl>http://joomlalib.4theweb.nl/wiki/</authorUrl>
+    <version>1.2.2 Beta</version>
+    <description>JoomlaLib, JoomlaLib is a series of development libraries for Joomla 1.0.x and 1.5.x which was created to encourage code reuse among Joomla Third Party Developers</description>
+    <files>
+    	<filename>jlcoreapi.inc</filename>
+    	<filename>LICENSE</filename>
+    	<!-- cache directory -->
+    	<filename>cache/index.html</filename>
+    	<!-- cfg directory -->
+    	<filename>cfg/index.html</filename>
+    	<filename>cfg/config.joomlalib.php</filename>
+    	<!-- classes directory -->
+    	<filename>classes/index.html</filename>
+    	<filename>classes/jlapp.class</filename>
+    	<filename>classes/jlcache.class</filename>
+    	<filename>classes/jlconf.class</filename>
+    	<filename>classes/jlcoreapi.class</filename>
+    	<filename>classes/jlcron.class</filename>
+    	<!--<filename>classes/jlextractor.class</filename>-->
+    	<filename>classes/jlfilelocking.class</filename>
+    	<filename>classes/jlfiletransfer.class</filename>
+    	<filename>classes/jlgraph.class</filename>
+		<!--<filename>classes/jlinstaller.class</filename>-->
+    	<filename>classes/jlip.class</filename>
+    	<filename>classes/jllog.class</filename>
+    	<filename>classes/jlplatform.class</filename>
+    	<filename>classes/jlprogressbar.class</filename>
+    	<filename>classes/jltime.class</filename>
+    	<!--classes/helper/ directory -->
+    	<filename>classes/helper/jlgraphhelperadvance.inc</filename>
+    	<!-- css directory -->
+    	<filename>css/index.html</filename>
+    	<!-- examples directory
+		<filename>examples/index.html</filename>
+		<filename>examples/configuration_1.php</filename>
+		<filename>examples/configuration_2.php</filename>
+		<filename>examples/configuration_3.php</filename>
+		<filename>examples/jlgraph.php</filename>
+		<filename>examples/jllog.php</filename>
+		<filename>examples/jllog_track.php</filename>
+		<filename>examples/jlcron.php</filename>
+		<filename>examples/jlcronreceiver.php</filename>
+		<filename>examples/jlip.php</filename>
+		-->
+		<!-- graphs directory -->
+		<filename>graphs/index.html</filename>
+		<!-- html directory -->
+		<filename>html/index.html</filename>
+    	<filename>html/jlprogressbar.html</filename>
+    	<filename>html/jlprogressbarDual.html</filename>
+    	<!-- internal directory -->
+    	<filename>internal/index.html</filename>
+		<filename>internal/jlcfg.class</filename>
+		<!-- lock directory -->
+		<filename>lock/index.html</filename>
+    	<!-- swf directory -->
+    	<filename>swf/index.html</filename>
+    	<filename>swf/area.swf</filename>
+    	<filename>swf/bar.swf</filename>
+    	<filename>swf/column.swf</filename>
+    	<filename>swf/line.swf</filename>
+    	<filename>swf/pie.swf</filename>
+    	<filename>swf/pipe.swf</filename>
+		<!-- standalone directory -->
+		<filename>standalone/index.html</filename>
+		<filename>standalone/stubjambo.php</filename>
+		<filename>standalone/jlcron.php</filename>
+    </files>
+    <installfile>install.joomlalib.php</installfile>
+    <uninstallfile>uninstall.joomlalib.php</uninstallfile>
+	<administration>
+		<menu>JoomlaLib</menu>
+		<submenu>
+		  <menu act="jlconf">Configuration Manager</menu>
+		  <menu act="jlapp">Application Manager</menu>
+		  <menu act="jllog">Log Files</menu>
+		  <menu act="about">About</menu>
+		</submenu>
+		<files>
+	         <filename>admin.joomlalib.php</filename>
+	         <filename>admin.joomlalib.html.php</filename>
+	         <filename>admin.joomlalib.css</filename>
+	         <filename>toolbar.joomlalib.php</filename>
+	         <filename>toolbar.joomlalib.html.php</filename>
+	         <filename>jlcoreapi.inc</filename>
+	         <filename>uninstall.joomlalib.php</filename>	
+	    </files>
+	    <images>
+        	<filename>images/logo44x44.png</filename>
+        	<filename>images/logo44x44bg.png</filename>
+        	<filename>images/fullsize.png</filename>
+        </images>
+	</administration>
+</mosinstall>

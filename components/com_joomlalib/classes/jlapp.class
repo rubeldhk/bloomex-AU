@@ -1,0 +1,261 @@
+<?php
+/**
+ * Static class for managing JoomlaLib application handles
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+
+/**
+ * Static class for managing JoomlaLib application handles
+ * 
+ * @package JL
+ * @subpackage JLApp 
+ */
+class JLApp
+{
+	/**
+	 * Install the database tables needed for JLApp
+	 *
+	 * @static 
+	 */
+	function install()
+	{
+		global $database;
+		
+		$query = 	"CREATE TABLE IF NOT EXISTS `#__jl_app` (
+  						`jlappid` int(11) NOT NULL auto_increment,
+  						`apphandle` varchar(50) NOT NULL default '',
+  						`appdescshort` varchar(50) NOT NULL default '',
+  						`appdesclong` varchar(255) default NULL,
+  						PRIMARY KEY  (`jlappid`),
+  						INDEX `apphandle` (`apphandle`)
+					) TYPE=MyISAM AUTO_INCREMENT=100;";
+		
+		$database->setQuery($query);
+		$database->query();
+		/* add reserved id's to application database */
+		/**
+		 * 1-19 	internal
+		 * 20-69	Joomla reserved
+		 * 70-99	Example data
+		 */
+		$reserved = array();
+		$reserved[1] = array('JL', 'JL Internal', 'JL Internal Reporting.');
+		$reserved[70] = array('JLExamples', 'JL Examples', 'JL Example Data');
+		
+		
+		/* insert reserved list */
+		foreach($reserved as $id => $info){  
+			list($appHandle, $appDesc, $appDescLong) = $info;
+			$appHandle = strtolower($appHandle);
+			$query = "INSERT IGNORE INTO #__jl_app VALUES ($id, '$appHandle', '$appDesc', '$appDescLong')";
+			$database->setQuery($query);
+			$database->query();
+		}
+	}
+	
+	/**
+	 * Get an application's ID, based on its handle. Create it if it doesn't exist already
+	 *
+	 * @param string Unique handle for your application. Consider using your component/module name. Must be database safe
+	 *
+	 * @return integer Identifier of the application that was found/allocated
+	 *
+	 * @static
+	 */
+	function getId($appHandle)
+	{
+		global $database;
+		static $apps = array();
+		
+		$descShort = $appHandle;
+		$appHandle = strtolower($appHandle);
+		
+		if(isset($apps[$appHandle])){
+			return $apps[$appHandle];
+		}
+		
+		$query = "SELECT jlappid FROM #__jl_app WHERE apphandle='$appHandle'";
+		$database->setQuery($query);
+		$result = $database->loadResult();
+		
+		if($result !== null) {
+			$apps[$appHandle] = intval($result);
+		} else {
+			$query = "INSERT INTO #__jl_app VALUES ('','$appHandle','$descShort','')";
+			$database->setQuery($query);
+			$database->query();
+			$apps[$appHandle] = $database->insertid();
+		}
+		return $apps[$appHandle];
+	}
+	
+	/**
+	 * Set the description for an application. This could appear in a combo box
+	 *
+	 * @param integer Application ID (use getId to get it) of the application to set the description for
+	 * @param string New description text
+	 *
+	 * @static
+	 */
+	function setDesc($appId, $descShort='', $descLong ='')
+	{
+		global $database;
+		
+		$safeDescShort = trim($database->getEscaped($descShort));
+		$safeDescLong  = trim($database->getEscaped($descLong));
+		
+		if (empty($descShort) && empty($descLong)) {
+			return false;
+		} else if(!empty($descShort) && empty($descLong)){
+			$query = "UPDATE #__jl_app SET appdescshort='$safeDescShort' WHERE jlappid='$appId'";
+		} else if(empty($descShort) && !empty($descLong)){
+			$query = "UPDATE #__jl_app SET appdesclong='$safeDescLong' WHERE jlappid='$appId'";
+		} else {
+			$query = "UPDATE #__jl_app SET appdescshort='$safeDescShort', appdesclong='$safeDescLong' WHERE jlappid='$appId'";
+		}
+		$database->setQuery($query);
+		$ret = $database->query();
+		return ($ret) ? true: false;
+	}
+	
+	/**
+	 * Get's the apphandle for a given id
+	 *
+	 * @param integer $appId
+	 * @param string optional apphandle, appdescshort, appdesclong
+	 * @return mixed, bool false on failure, string on use of key, array if appId is only given.
+	 */
+	function getAppInfo($appId, $key=null){
+		/* rebuild */
+		global $database;
+		static $apps;
+		
+		if(isset($apps[$appId])){
+			if($key){
+				return $apps[$appId][$key];
+			}
+			return $apps[$appId];
+		}
+		
+		$query = "SELECT apphandle, appdescshort, appdesclong FROM #__jl_app WHERE jlappid='$appId'";
+		$database->setQuery($query);
+		$row = $database->loadRow();
+		if(null === $row) {
+			return false;
+		}
+		$apps[$appId] = array('apphandle' => $row[0], 'appdescshort' => $row[1], 'appdesclong' => $row[2]);
+		
+		if($key){
+			return $apps[$appId][$key];
+		}
+		return $apps[$appId];
+	}
+	
+	/**
+	 * Get an array of all registered applications as an array of objects. The key will be the (integer) jlappid
+	 *
+	 * @param string Optional field to sort by
+	 *
+	 * @return array Array of registered application objects. False on failure
+	 *
+	 * @static
+	 * @todo order by statement used in this function useless, we always order by jlappid
+	 */
+	function getApps($orderBy='jlappid')
+	{
+		global $database;
+		
+		$query = "SELECT jlappid, apphandle, appdescshort, appdesclong FROM #__jl_app ORDER BY $orderBy";
+		$database->setQuery($query);
+		
+		$objList = $database->loadObjectList();
+		if(null === $objList) {
+			return false;
+		}
+		
+		$objList2 = array(); /* Make another array with integer keys */
+		
+		foreach ($objList as $key=>$value) {
+			$value->jlappid = intval($value->jlappid);
+			
+			$objList2[$value->jlappid] = $value;
+		}
+		
+		return $objList2;
+	}
+	
+	/**
+	 * Register a Component handle with description
+	 *
+	 * @param string unique handle used internally by developer
+	 * @param string short one word description to be used in select boxes, etc
+	 * @param string long description, max size is 255 characters
+	 * @return boolean
+	 */
+	function register($appHandle, $descShort=null, $descLong=null){
+		$appId = JLApp::getId($appHandle);
+		if(!empty($descShort) && !empty($descLong)){
+			return JLApp::setDesc($appId, $descShort, $descLong);
+		}
+		return true;
+	}
+	
+	/**
+	 * Get a combo box for the available applications
+	 *
+	 * @param string Optional Database field to show as the text in the combo box
+	 * @param string Optional Database field to be the key in the combo box (will be passed in forms)
+	 * @param string Optional Selected application key (same format as $selectedKey)
+	 * @param string Optional Javascript code to insert for the onChange() event of this combo box
+	 *
+	 * @return string HTML for the combo box. False on error.
+	 *
+	 * @static
+	 */
+	function getAppsComboBox($elementName, $textField='appdescshort', $keyField='jlappid', $selectedKey=NULL, $onChange='')
+	{
+		$apps = JLApp::getApps($textField);
+		if($apps === false) {
+			return false;
+		}
+		
+		$keyValOptions = array();	
+		$keyValOptions[] = mosHTML::makeOption( 0, '- Select Application  - ');
+		foreach ($apps as $app) {
+			$keyValOptions[] = mosHTML::makeOption($app->$keyField, $app->$textField);
+		}
+		
+		$fieldHtml = mosHTML::selectList( $keyValOptions, $elementName, "class=\"inputbox\" size=\"1\" $onChange", 'value', 'text', $selectedKey);
+		return $fieldHtml;
+	}	
+	
+	/**
+	 * Removes a Application entry
+	 *
+	 * @param integer $id
+	 * @return bool
+	 * 
+	 * @static
+	 */
+	function removeApp ($id){
+		global $database;
+		$ret =true;
+		
+		$query[] = "DELETE FROM #__jl_app WHERE jlappid=$id";
+		/* clean other databases the need this id */
+		$query[] = "DELETE FROM #__jl_log NATURAL JOIN #__jl_log_entry WHERE appid=$id";
+		$query[] = "DELETE FROM #__jl_conf WHERE jlappid=$id";
+		
+		foreach ($query as $sql){
+			$database->setQuery($sql);
+			if(!$database->query()){
+				$ret =false;
+			}
+		}
+		return $ret;
+	}
+}
+
+?>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+				<orders version="1.0.0"><order>
+							<partner_order_id>0004</partner_order_id> 
+							<partner_name>tester10</partner_name>
+							<order_id>7</order_id> 
+							<delivery_date>08-26-2010 00:00:00</delivery_date>							
+							<modify_date>08-13-2010 05:24:56</modify_date>							
+							<order_status>Pending</order_status> 	
+						</order><order>
+							<partner_order_id>0005</partner_order_id> 
+							<partner_name>tester10</partner_name>
+							<order_id>8</order_id> 
+							<delivery_date>08-16-2010 00:00:00</delivery_date>							
+							<modify_date>08-13-2010 05:24:56</modify_date>							
+							<order_status>Pending</order_status> 	
+						</order><order>
+							<partner_order_id>0003</partner_order_id> 
+							<partner_name>tester10</partner_name>
+							<order_id>6</order_id> 
+							<delivery_date>08-26-2010 00:00:00</delivery_date>							
+							<modify_date>08-13-2010 05:16:37</modify_date>							
+							<order_status>Pending</order_status> 	
+						</order><order>
+							<partner_order_id>0002</partner_order_id> 
+							<partner_name>tester10</partner_name>
+							<order_id>5</order_id> 
+							<delivery_date>08-16-2010 00:00:00</delivery_date>							
+							<modify_date>08-13-2010 05:08:34</modify_date>							
+							<order_status>Pending</order_status> 	
+						</order></orders>

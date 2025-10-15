@@ -1,0 +1,519 @@
+<?php
+/**
+ * @package DBQ
+ */
+
+/**
+ * Prevent Direct Access
+ */
+defined('_VALID_MOS') or die('Direct access is not permitted to this file');
+// Include the file for the base class
+//DBQ_Settings::includeClassFileForType('DBQ_query');
+global $mosConfig_absolute_path;
+require_once($mosConfig_absolute_path.'/components/com_dbquery/classes/DBQ/query.class.php');
+require_once($mosConfig_absolute_path.'/administrator/components/com_dbquery/classes/DBQ/admin/common.class.php');
+
+/**
+ * Represents queries stored in the database in the mos_dbquery table
+ *
+ * @subpackage DBQ_admin_query DBQ class representing queries
+ */
+class DBQ_admin_query extends DBQ_admin_common {
+	
+
+		
+	function DBQ_admin_query() {
+		$this->_identifier = $this->_identifiers['query'];
+		$this->_additional_select = array ( 'catid' => array (' c.title AS category, c.access AS category_access ', ' LEFT JOIN '._DBQ_CATEGORIES_TABLE.' c ON c.id = t.catid '), 'access' => array (' g.name AS groupname ', ' LEFT JOIN '._DBQ_GROUPS_TABLE.' g ON g.id = t.access'));
+		$this->_search_fields = array ('id', 'name', 'catid', 'db_id', 'template');
+		$this->_parent_tbl = _DBQ_DATABASES_TABLE;
+		$this->_parent_tbl_idx = 'db_id';
+		$this->_child_tbl = _DBQ_VARIABLES_TABLE;
+		$this->_child_tbl_idx = 'query_id';
+		parent::DBQ_admin_common(_DBQ_QUERIES_TABLE);
+	} // end DBQ_admin_query
+	
+	function field($field, $i) {
+
+		
+		$obj =& $this->getObject();
+		
+		switch ($field) {
+			case 'category' :
+				$url = $this->getUrl('category');
+				switch ($obj->category_access) {
+					case 2:
+						$color_access = 'color: black;';
+						break;
+					case 1:
+						$color_access = 'color: red;';
+						break;
+					case 0:
+						$color_access = 'color: green;';
+						break;
+					default:
+						// That should get our attention!
+						$color_access = 'color: pink;';
+						break;
+				}
+				parent :: fieldLink($url, $field,NULL,NULL,$color_access);
+				break;
+			case 'reparse' :
+				$url = $this->getUrl('query').'&task=reparse&qid='.$obj->id;
+				parent :: fieldLink($url, NULL, _LANG_UPDATE);
+				break;
+			case 'template' :
+				$url = $this->getUrl('template').'&task=show&clean=1&tid='.$obj->template;
+				parent :: fieldLink($url, $field);
+				break;
+			case 'preview' :
+				$url = $this->getUrl('preview')."&task=preview&clean=1&qid=$obj->id";
+				parent :: fieldLink($url, NULL, _LANG_PREVIEW);
+				break;
+			case 'published' :
+				$html = new mosCommonHTML();
+				if (method_exists($html, 'PublishedProcessing')) {
+					$published = $html->PublishedProcessing($obj, $i);
+				} else {
+					$published = $obj->published ? _LANG_YES : _LANG_NO;
+				}
+				echo '<td align="center">'.$published.'</td>';
+				break;
+			case 'access' :
+				$html = new mosCommonHTML();
+				if (method_exists($html, 'AccessProcessing')) {
+					$href = $html->AccessProcessing($obj, $i);
+				} else {
+
+					if (!$obj->access) {
+						$color_access = 'style="color: green;"';
+						$task_access = 'accessregistered';
+					} else
+						if ($obj->access == 1) {
+							$color_access = 'style="color: red;"';
+							$task_access = 'accessspecial';
+						} else {
+							$color_access = 'style="color: black;"';
+							$task_access = 'accesspublic';
+						}
+
+					$href = '
+															<a href="javascript: void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$task_access.'\')" '.$color_access.'>
+															'.$obj->groupname.'
+															</a>';
+
+				}
+				echo '<td align="center">'.$href.'</td>';
+				break;
+			case 'parent' :
+				$url = $this->getUrl('database').'&task=show&clean=1&dbid='.$obj->db_id;
+				parent :: fieldLink($url, $field);
+				break;
+			case 'uses_vars' :
+				$url = $this->getUrl('variable').'&task=show&clean=1&qid='.$obj->id;
+				if ($obj->uses_vars) {
+					parent :: fieldLink($url, NULL, _LANG_YES);
+				} else {
+					parent :: field(NULL, $i, _LANG_NO);
+				}
+				break;
+			case 'stats' :
+				$url = $this->getUrl('stats').'&task=show&qid='.$obj->id;
+				if ($obj->stats) {
+					parent :: fieldLink($url, NULL, _LANG_YES);
+				} else {
+					parent :: field(NULL, $i, _LANG_NO);
+				}
+				break;
+			default :
+				parent :: field($field, $i);
+		}
+	} // end field()
+
+
+	/**
+	 * Store the requested access level 
+	 * 
+	 * @param integer $id ID of the element
+	 * @param integer $access Access code to be stored
+	 * @return boolean True if the access code was stored in the requested element
+	 * @since 1.1
+	 * @access public
+	 */
+	function adminAccessMenu($id, $access) {
+		
+		$obj =& $this->getInstance();
+		
+		$obj->load($id);
+		$obj->access = $access;
+		if ($obj->check() && $obj->store())
+			return true;
+		echo $obj->getError();
+		return false;
+	} // end adminAccessMenu()
+	
+	/**
+	* Compiles information to add or edit
+	* @param integer The unique id of the record to edit (0 if new)
+	*/
+	function adminEdit($id) {
+		global $globals, $my, $dbq_xhtml_path;
+		$act = $globals->act;
+		
+		// Make an object
+		$obj =& $this->getInstance();
+
+		
+		// Load and checkout
+		if ( $id and ! $this->loadAndCheckOut($id))
+			return false;
+
+		// Create form elements
+		$databases[''] = _LANG_SELECT._LANG_DB;
+		$databases += $this->listAllParentRecordsShort();
+		$selectBoxes['db_id'] = & $databases;
+
+		$categories[''] = _LANG_SELECT._LANG_CATEGORY;
+		$categories += $this->listCategories();
+		$selectBoxes['catid'] = & $categories;
+
+		$groups[''] = _LANG_SELECT._LANG_GROUP;
+		$groups += $this->listAccessGroups();
+		$selectBoxes['access'] = & $groups;
+
+		$display_regex[''] = _LANG_SELECT._LANG_DISPLAY_REGEX;
+		$display_regex += $this->listDisplayRegex();
+		$selectBoxes['display_regex'] = & $display_regex;
+
+		$templates[''] = _LANG_SELECT._LANG_TEMPLATE;
+		$templates += $this->listTemplates();
+		$selectBoxes['template'] = & $templates;
+
+		$countSQL = $this->listCountSQL();
+		$selectBoxes['count_sql'] = & $countSQL;
+
+		// Create a fake attribute for displaying the parse tree
+		$columnInfo = $this->getTableInformation();
+		if (@ $obj->parse) {
+			ob_start();
+			print_r(unserialize($obj->parse));
+			$result = ob_get_contents();
+			ob_end_clean();
+			$obj->_Parse_Dump = $result;
+		}
+		$columnInfo['_Parse_Dump']->Disabled = true;
+		$columnInfo['_Parse_Dump']->Required = false;
+		$columnInfo['_Parse_Dump']->Size = 2048;
+		$columnInfo['_Parse_Dump']->Null = false;
+	
+		$visibilityObjects = array ();
+		$colsToSkipInDisplay = array ('id', 'ordering', 'checked_out', 'checked_out_time');
+		$colsToHideInDisplay = array ();
+		$colsToDisplay = array (
+			_LANG_DETAILS_CONFIG => array ('name', 'display_name', 'db_id', 'sql', 'catid', 'template', 'expect_rows', 'count_sql', 'access', 'display_regex'), 
+			//_LANG_DETAILS_ATTRIBUTES => array ('published', 'page_navigation', 'rotate_results', 'use_confirmation',  'stats', 'archived',  'debug', 'comment'), 
+			_LANG_DETAILS_ATTRIBUTES => array ('published', 'page_navigation', 'rotate_results', 'stats', 'debug', 'comment'),
+			_LANG_DETAILS_NOTIFICATION => array ('use_notification', 'notification_emails', 'notification_subject', 'notification_message'), 
+			_LANG_DETAILS_PARSE => array ('_Parse_Dump'),
+			_LANG_DETAILS_TEXT => array ('description')
+			);
+		$displaytask = ($globals->task == 'new' ? _LANG_ADD : _LANG_EDIT).' '._LANG_QUERY;
+
+		include_once ($dbq_xhtml_path.'details.html.php');
+		return true;
+	} // end adminEdit()
+	
+	/**
+	 * List all groups from the Joomla groups table
+	 * @access public
+	 * @return array List of groups
+	 */
+	function listAccessGroups() {
+		$sql = 'SELECT id, name FROM '._DBQ_GROUPS_TABLE;
+		$this->_db->setQuery($sql);
+		return $this->mashRows($this->_db->loadRowList());
+	} // end listAccessGroups()
+	
+	/**
+	 * List the id and title categories available to DBQ
+	 * @access public
+	 * @return array category information
+	 */
+	function listCategories() {
+		$sql = 'SELECT id, title FROM '._DBQ_CATEGORIES_TABLE.' WHERE section=\''._DBQ_COMPONENT_NAME.'\' ORDER BY ordering';
+		$this->_db->setQuery($sql);
+		return $this->mashRows($this->_db->loadRowList());
+	} // end listCategories()
+
+		
+	/**
+	 * List a summary of Count SQL elements
+	 * @access public
+	 * @return array Configuration elements for Count SQL
+	 */
+	function listCountSQL() {
+		return $this->mashRows2($this->_config['COUNTSQL']);
+	} // end listCountSQL()
+
+	/**
+	 * List the id and name of options for displaying regular expressions
+	 * @access public
+	 * @return array Regex display options
+	 * @since 1.0
+	 */
+	function listDisplayRegex() {
+		return $this->mashRows2($this->_settings->getDisplayRegex());
+	} // end listDisplayRegex()
+
+	/**
+	 * List available templates
+	 *
+	 * At the moment, this function simply returns a list of subdirectories available.
+	 * Future versions of this function will return template configurations stored in 
+	 *  a xml data file located in each directory.
+	 * 
+	 * This function was moved from the common class to the query class for version 1.2 .
+	 * 
+	 * @since 1.0
+	 * @access public
+	 * @return array Directory listing
+	 */
+	function listTemplates() {
+		global $mosConfig_absolute_path, $option;
+
+		// Open the directory and return a list of all non-hidden subdirectories
+		$dirs = array ();
+		$templatedir = $this->getTemplateBaseDir();
+		if ($d = opendir($templatedir)) {
+			while ($file = readdir($d)) {
+				if (is_dir($templatedir.$file) && !ereg('^\.', $file)) {
+					$dirs[$file] = ucfirst($file);
+				}
+			}
+			closedir($d);
+			return $dirs;
+		}
+		return false;
+	} // end listTemplates()
+		
+	/**
+	 * Parse a query for a given element and create the parse screen for the
+	 *  user to save the information
+	 * 
+	 * @param Integer $qid Query ID to parse
+	 * @return Boolean True if the parse screen was generated
+	 * @access public
+	 * @since 1.0
+	 */
+	function adminParseQuery($id) {
+		global $globals, $dbq_xhtml_path, $mainframe;
+
+		$obj =& $this->getInstance();
+		
+		// Make the Query object
+		$obj->load($id);
+		$obj->initialize(true);
+
+		// Build the display
+		$display = $obj->buildDisplayOfVariables(true);
+
+		$act = $globals->act;
+		$option = $globals->option;
+		$columnInfo = $this->retrieveTableInformation(_DBQ_VARIABLES_TABLE);
+
+
+		$type = array ('' => _LANG_SELECT._LANG_TYPE);
+		$type += $this->listSupportedVariableTypes();
+		$selectBoxes['type'] = & $type;
+
+		// Display our columns
+		include_once ($dbq_xhtml_path.'parse.html.php');
+		return true;
+	} // end adminParseQuery()
+
+	/**
+	 * Load the query and variables, then save the parse structure.
+	 * 
+	 * Used for when variable names have been changed and the serialized parse
+	 * structure needs to be updated
+	 * 
+	 * @access protected
+	 * @since 1.3
+	 * @return Boolean True if the new parse structure has been saved
+	 */
+	function adminParseQueryUpdate($qid) {
+		
+		$obj =& $this->getInstance();
+		
+		if ($obj->load($qid)) {
+			return ($obj->initialize(true) && $obj->parseSerialize() && $obj->store());
+		} else {
+			return $this->logApplicationError("Cannot load query identified by qid '$qid'");
+		}
+	} // end adminParseQueryUpdate
+	
+	/**
+	* Publishes or Unpublishes one or more records
+	* @param array An array of unique category id numbers
+	* @param integer 0 if unpublishing, 1 if publishing
+	* @param string The current url option
+	*/
+	function adminPublish($cid = null, $publish = 1) {
+		global $my;
+
+		if (!is_array($cid) || count($cid) < 1) {
+			echo _LANG_ERROR._LANG_SELECT_ITEM;
+			return false;
+		}
+
+		//echo "cid is $cid, pub is $publish, id is $my->id<BR>";
+		if (!$this->publish($cid, $publish, $my->id)) {
+			echo _LANG_ERROR._LANG_COULDNOT_PUBLISH;
+			return false;
+		}
+	} // end adminPublish()
+	
+	/**
+	 * Save the results of the Parce Screen
+	 * 
+	 * This function stores
+	 * 1) The parse string
+	 * 2) A number of variables, if applicable
+	 * 3) A number of substitutions, if applicable
+	 * 
+	 * @param integer $qid Query ID
+	 * @param array $cid List of variable attributes
+	 * @return boolean true if all elements are stored
+	 * @since 1.0
+	 */
+	function adminSaveParse($qid, $cid) {
+
+		if (!$qid || !$cid)
+			return $this->logApplicationError("Cannot save parsed information without all required data");
+
+		// Load the query object
+		$obj =& $this->getInstance();
+		$obj->load($qid);
+		
+		$dbvs = array ();
+		$ok = true;
+
+		// Iterate through the ids and load each variable
+		//DBQ_Settings::includeClassFileForType('DBQ_variable');
+		global $mosConfig_absolute_path;
+		require_once($mosConfig_absolute_path.'/components/com_dbquery/classes/DBQ/variable.class.php');
+		foreach ($cid as $vid => $var) {
+
+			if ($obj->debug()) 
+				$obj->debugWrite('var id is '.$vid);
+	
+			// If $vid is a series of 0s, then this is a new variable
+			if ($vid == 0)
+				$var['id'] = NULL;
+
+			//  load the variable only if it exists by a positive vid
+			$dbv = intval($vid) ? DBQ_variable::getInstance($vid) : new DBQ_variable();
+			$dbv->bind($var);
+			$dbv->active = true;
+			//$dbv->initialize();
+			
+			// Check the variable for proper settings
+			if ( $dbv->check() ) {
+				$dbvs[$vid] = $dbv;
+			} else {
+				// Set $ok to false
+				$ok = $this->logUserError("Variable '$dbv->name' ($dbv->id) did not pass check()");
+			}
+		} // end load and check
+
+		// Terminate if there were errors
+		if ( ! $ok ) 
+			return $this->logApplicationError("The new data for '$obj->name' ($obj->id) could not be saved");
+
+		// Store the variables.  Return to the parse screen if the store fails
+		foreach ($dbvs as $vid => $dbv) {
+			if ( ! $dbv->store() ) 
+				return $this->logApplicationError("Variable '$dbv->name' ($dbv->id) cannot be saved");
+		} // end store
+
+		// Save a new parse of the query
+		return $this->adminParseQueryUpdate($qid);
+	} // end adminSaveParse()
+	
+
+	/**
+	* List queries to display
+	* 
+	* @since 1.0
+	* @param integer $id The identifier for a specific record to display
+	*/
+	function adminShow($id = NULL) {
+		global $mainframe, $globals, $mosConfig_absolute_path, $dbq_xhtml_path;
+
+		// Define useful variables
+		$option = $globals->option;
+		$dbIdentifier = $this->getIdentifierForObjectType('database');
+		$catIdentifier = $this->getIdentifierForObjectType('category');
+		$templateIdentifier = $this->getIdentifierForObjectType('template');
+		$catid = $this->getUserStateFromRequest("$catIdentifier{$option}", $catIdentifier);
+		$dbid = $this->getUserStateFromRequest("$dbIdentifier{$option}", $dbIdentifier);
+		$tid = $this->getUserStateFromRequest("$templateIdentifier{$option}", $templateIdentifier);
+		$search = $this->getUserStateFromRequest("searchq{$option}", 'searchq');
+		$limit = $globals->limit;
+		$limitstart = $globals->limitstart;
+
+		// Get rows and calculate results
+		$total = $id ? 1 : $this->getCountOfAllRecords($search, $catid, $dbid);
+		if ($total <= $limitstart)
+			$limitstart = 0;
+		$rows = $this->listAllRecords($limit, $limitstart, $id, $search, $catid, $dbid);
+		require_once (_DBQ_ADMIN_PAGENAV_PATH);
+		$pageNav = new mosPageNav($total, $limitstart, $limit);
+
+		// Make lists of all search fields
+		$lists = array ();
+
+		// Search by name
+		$lists[_LANG_NAME] = & $this->makeSearchField('searchq', $search);
+
+		// Search by categories
+		$categories[] = mosHTML :: makeOption('', _LANG_SELECT._LANG_CATEGORY);
+		$categories[] = mosHTML :: makeOption('', _LANG_ALL._LANG_CATEGORIES);
+		foreach ($this->listCategories() as $k => $v) {
+			$categories[] = mosHTML :: makeOption($k, $v);
+		}
+		$lists[_LANG_CATEGORY] = mosHTML :: selectList($categories, $catIdentifier, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $catid);
+
+		// Search for database
+		$databases[] = mosHTML :: makeOption('', _LANG_SELECT._LANG_DB);
+		$databases[] = mosHTML :: makeOption('', _LANG_ALL._LANG_DBS);
+		foreach ($this->listAllParentRecordsInUseShort() as $k => $v) {
+			$databases[] = mosHTML :: makeOption($k, $v);
+		}
+		$lists[_LANG_DB] = mosHTML :: selectList($databases, $dbIdentifier, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $dbid);
+
+		$templates[''] = _LANG_SELECT._LANG_TEMPLATE;
+		$templates += $this->listTemplates();
+
+		// Search by categories
+		/*
+		$templates[] = mosHTML :: makeOption('', _LANG_SELECT._LANG_TEMPLATE);
+		$templates[] = mosHTML :: makeOption('', _LANG_ALL._LANG_TEMPLATE);
+		foreach ($this->listTemplates() as $k => $v) {
+			$templates[] = mosHTML :: makeOption($k, $v);
+		}
+		$lists[_LANG_TEMPLATE] = mosHTML :: selectList($templates, $templateIdentifier, 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $tid);
+		*/
+
+		// Determine which rows to display
+		$headers = array ('name' => _LANG_NAME, 'hits' => _LANG_HITS, 'category' => _LANG_CATEGORY, 'parent' => _LANG_DB, 'template' => _LANG_TEMPLATE, 'uses_vars' => _LANG_USES_VARIABLES, 'reparse' => _LANG_PARSE, 'preview' => _LANG_PREVIEW, 'stats' => _LANG_STATS, 'editor' => _LANG_CHECKED_OUT, 'access' => _LANG_ACCESS, 'published' => _LANG_PUBLISHED);
+		$screenName = _LANG_QUERY.' '._LANG_CONFIGURATIONS;
+
+		// Generate a sample object
+		$obj =& $this->getInstance();
+		
+		require ($dbq_xhtml_path.'summary.html.php');
+	} // end adminShow()
+}	
+
+?>

@@ -1,0 +1,65 @@
+
+td.calendar-day-np { 
+	background:#E8E8E8; 
+	min-height:10px; 
+	height:45px;
+	margin:0px 0px 0px 0px;	
+} 
+
+td.calendar-day{ 
+	min-height:10px; 
+	background:none;
+	height:45px;
+	margin:0px 0px 0px 0px;
+} 
+
+div.content-header div.header-navi img.logo {
+	border: none;
+	margin: 18px 0px 0px 234px;
+}
+div.back-walmart {
+	float:left;
+	border: none;	
+	width: 150px;
+	text-align:left;
+	margin: 38px 0px 0px 40px;
+}
+div.content-header div.header-navi div.box-menu-header {
+	float:right;
+	width: 395px;
+	margin: 75px 5px 0px 0px;
+}
+
+td.left-top-menu-space {
+	width:28px;
+}
+
+
+td.top-lang a img{
+	margin-left:20px;	
+}
+
+td.top-lang div{
+	margin-right:10px;	
+}
+
+td.left-img-chat{
+	padding-left:3px;	
+	width:350px;
+}
+
+td.right-img-menu{
+	padding-right:3px;	
+	width:385px;
+}
+
+td.top-lang div.delivery-intro a {
+	padding:0px;
+	margin:0px;
+	width:20px;
+}
+
+
+
+
+

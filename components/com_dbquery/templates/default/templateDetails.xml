@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="dbq_template" version="4.5.2">
+	<name>Default DBQ Template</name>
+	<creationDate>1 July 2006</creationDate>
+	<author>Toby Patterson</author>
+	<copyright>GNU/GPL</copyright>
+	<authorEmail>tcp@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>A default template for display information in a database.</description>
+	<files>
+    <filename>Custom.Code.php</filename>
+    <filename>DisplayResults.SQL.html.php</filename>        
+    <filename>ExecuteQuery.Failure.html.php</filename>
+    <filename>ExecuteQuery.InvalidInput.html.php</filename>
+    <filename>ExecuteQuery.Results.html.php</filename>
+    <filename>ExecuteQuery.no.Results.html.php</filename>
+    <filename>ExecuteQuery.wo.Results.html.php</filename>
+    <filename>index.html</filename>
+    <filename>PageNavigation.html.php</filename>
+    <filename>PrepareQuery.html.php</filename>
+    <filename>Print.Page.html.php</filename>    
+    <filename>SelectQuery.html.php</filename>
+    <filename>templateDetails.xml</filename>
+    <filename>language/english.php</filename>
+	</files>
+	<images>
+	</images>
+	<css>
+	<filename>template.css</filename>
+	</css>
+</mosinstall>

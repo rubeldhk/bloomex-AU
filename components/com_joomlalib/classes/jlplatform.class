@@ -1,0 +1,131 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+
+/**
+ * Platform related functions
+ *
+ * @package JL
+ * @subpackage JLPlatform
+ */
+class JLPlatform {
+    
+    /**
+     * Checks if a php function can be used
+     *
+     * @param string $functionName
+     * @return bool
+     * @static
+     */
+    function isPhpFunctionSupported($functionName) {
+		if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName)) {
+		    return false;
+		} else {
+		    return true;
+		}
+    }
+
+    
+    /**
+     * Check if a binary is available
+     *
+     * @param string, $binaryName
+     * @return bool
+     * @static
+     */
+    function isBinaryAvailable($binaryName) {
+		$binaryPath = JLPlatform::getBinaryPath($binaryName);
+		return !empty($binaryPath);
+    }
+
+    /**
+     * Returns the path to a binary or false if not available
+     *
+     * @param string, $binaryName
+     * @return mixed, false or path to binary file
+     * @static
+     */
+    function getBinaryPath($binaryName) {
+    	if (!JLPlatform::isPhpFunctionSupported('exec')) {
+	    	return false;
+		}
+
+		/* First try 'which' */
+		$ret = array();
+		exec('which ' . $binaryName, $ret);
+		if (strpos(join(' ',$ret), $binaryName) !== false && is_executable(join('',$ret))) {
+		    return $binaryName; // it's in the path
+		}
+	
+		/* Try a bunch of likely seeming paths to see if any of them work. */
+		$paths = array();
+		if (!strncasecmp(PHP_OS, 'win', 3)) {
+		    $separator = ';';
+		    $slash = "\\";
+		    $extension = '.exe';
+		    $paths[] = "C:\\Program Files\\$binaryName\\";
+		    $paths[] = "C:\\apps\$binaryName\\";
+		    $paths[] = "C:\\$binaryName\\";
+		} else {
+		    $separator = ':';
+		    $slash = "/";
+		    $extension = '';
+		    $paths[] = '/usr/bin/';
+		    $paths[] = '/usr/local/bin/';
+		    $paths[] = '/bin/';
+		    $paths[] = '/sw/bin/';
+		}
+		$paths[] = './';
+	
+		foreach (explode($separator, getenv('PATH')) as $path) {
+		    $path = trim($path);
+		    if (empty($path)) {
+				continue;
+		    }
+		    if ($path{strlen($path)-1} != $slash) {
+				$path .= $slash;
+		    }
+		    $paths[] = $path;
+		}
+	
+		/* Now try each path in turn to see which ones work */
+		foreach ($paths as $path) {
+		    $execPath = $path . $binaryName . $extension;
+		    if (file_exists($execPath) && is_executable($execPath)) {
+				return $execPath;
+		    }
+		}
+	
+		return false;
+    }
+
+    /**
+     * Checks if we can write to this directory
+     *
+     * @param string $path
+     * @return boolean
+     * @static
+     */
+    function isDirectoryWritable($path=false) {
+    	if($path){
+    		return is_writable(dirname($path));
+    	}
+		return is_writable(dirname(__FILE__));
+    }
+
+    /**
+     * Extend Time Limit
+     * @static
+     */
+    function extendTimeLimit() {
+    	if (function_exists('apache_reset_timeout')) {
+    	    @apache_reset_timeout();
+    	}
+    	@set_time_limit(600);
+    }
+}
+?>

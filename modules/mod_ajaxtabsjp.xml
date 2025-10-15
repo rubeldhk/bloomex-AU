@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module" version="1.0.0">
+	<name>Ajaxtabs JP 1.6</name>
+	<author>JoomlaProdigy Guy</author>
+	<creationDate>March 2007</creationDate>
+	<copyright>(C) 2007 JoomlaProdigy.com. All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>admin@joomlaprodigy.com</authorEmail>
+	<authorUrl>www.joomlaprodigy.com</authorUrl>
+	<version>1.6</version>
+	<description><![CDATA[
+<div style="padding:0px 8px 8px 0px;">
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #cccccc;"><a target="_blank" title="Visit the website!" href="http://www.joomlaprodigy.com">THE "AJAXTABS JP" MODULE</a></h1>
+  <a title="Visit JoomlaProdigy.com!" href="http://www.joomlaprodigy.com"><img style="float:right;background:#fff;border:1px solid #ccc;padding:2px;margin:0px 0px 2px 8px;" src="../modules/mod_ajaxtabsjp/module.png" border="0" alt="Module" /></a>The "AJAXTABS JP" Module for Joomla 1.0.x dynamically displays, with cool ajax effect, the latest one content item intro text from as many categories as you want. The display is similar to the tabs seen on new yahoo page<br />
+  <br />
+  The module is based on Dynamic Drive's <a target="_blank" href=http://www.dynamicdrive.com/dynamicindex17/ajaxtabscontent/index.htm">Ajax Tabs Content script</a>. You can see the script in action at Dynamic Drive website <a target="_blank" href="Ajax Tabs Content script">HERE</a>. Have fun!
+  
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #505050;">Use Guidance</h1>
+  1) You have to define atleast one category or it may give you weired error!<br />
+  <br />
+  2) Mambots will not be executed inside the content, wish I was an expert!.<br />
+  <br />
+  3) Most of the html tags should be executed normally like Images,tables, weird characters etc.<br />
+  <br />
+  4) The images in intro content inserted without using mosimage tag are displyed normally without being affected whether you choose custum image parameter or last image parameter.!  
+  
+  <h1 style="clear:both;font-size:17px;border-bottom:1px dotted #cccccc;">FOR INFO, UPDATES, REQUESTS feel free to contact me</h1>
+  I have one more module at present which is a modification of flexcontent module with lots of parameter added. you can download it from members page of <a href=://www.joomlaprodigy.com>JoomlaProdigy.com</a><br/>You can also post comments, requests or discuss the module on the website.<br />
+  <br />
+  Please show your support by rating or commenting on this module at the official Joomla Extensions page <a href="http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,1037/Itemid,35/">HERE</a>.<br />
+  <br />
+  <b>Thank you</b><br />
+  <br />
+  change log 1.6 : It should now support UTF-8 encoding so should render non english characters correctly.<br/>
+  <i>(Last update: March 12th, 2007 - version 1.6)</i><br />
+  <br />
+</div>
+		]]>
+	</description>
+	<files>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp.php</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/module.png</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/index.html</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/ajaxtabs/ajaxtabs.js</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/ajaxtabs/ajaxtabs.css</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/ajaxtabs/loading.gif</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/ajaxtabs/shade.gif</filename>
+		<filename module="mod_ajaxtabsjp">mod_ajaxtabsjp/ajaxtabs/shadeactive.gif</filename>
+	</files>
+	<params>
+                <param name="cache" type="radio" default="0" label="Enable Cache" description="Select whether to cache the content of this module">
+		<option value="0">No</option> 
+		<option value="1">Yes</option> 
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="source" type="list" default="category" label="Source" description="Whether content items should be fetched from category or section.">
+			<option value="section">Section</option>
+			<option value="category">Category</option>
+			<option value="item">ITEM</option>
+		</param>
+		<param name="sourceid" type="text" default="" label="Source IDs" description="Specify one or more sections/categories/items -using their IDs- whose content items will be displayed. Simply write the specified section/category IDs, seperated by a comma (e.g. 1,3,4)." />
+		<param name="tabsname_default" type="text" default="" label="Name of default tab" description="Specify the name of the tab that will be used for the first tab.(why? You will understand it as you go down" />
+		<param name="tabsname" type="text" default="" label="Name of tabs" description="Specify rest of the tabs name. The number of names here will be one less than the total number of categories choosen for tabs because we have already specified the first tab name above. Simply write the tabs names seperated by a comma." />
+		<param name="count" type="text" default="1" label="Item Count" description="The number of content items to be presented (default 1)" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		
+		<param name="linkedsource" type="radio" default="1" label="Display Link to Section/Category choosen as source" description="This will make a link at the top of content item intro to go to the table display (if source is section) or blog display (if source category) of all the content items in the section/category. You want people to enjoy full show, don't you?)">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="linkedtitle" type="radio" default="1" label="Linked Title" description="Make the content title linked or not?">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="timeformat" type="radio" default="artistic" label="Time Format" description="Whether you want time display to be artistic or classic way?">
+			<option value="artistic">Artistic</option>
+			<option value="classic">Classic</option>
+			<option value="no time">No Time</option>
+		</param>
+		<param name="linkedimg" type="radio" default="0" label="Linked Image" description="Make the image linked to the full content item, or not">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="lastimage" type="radio" default="0" label="Show Last Image" description="Grab the last image set in the article. How it works is that you choose an image for mosimage tag but dont click insert image in content for the image. if you have n images to show with mosimage you should have n-1 mosimage tags in content. SO the one extra image will appear in tab with content intro but not in full text">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+			
+		<param name="custumimage" type="text" default="" label="Custom image you want to use." description="Custom image to be inserted by the side of item. Image should be in stories folder and only provide image name. if you want the item displayed from a category (tab) to always have same image displayed for each intro, this is the option. Remember this option will be over rulled if you choose to display image by checking lastimage trick above" />
+		<param name="align" type="list" default="left" label="Align" description="Choose where to align the image. Left or Right? works for both lastimage and custum image">
+			<option value="left">Left</option>
+			<option value="right">Right</option>
+		</param>
+		<param name="width" type="text" default="" label="Image width" description="Width of custum image in px." />
+		<param name="height" type="text" default="" label="Image height" description="Height of custum image in px." />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="textheight" type="text" default="" label="Height of tab box" description="If you want to avoid the flickering associated with loading of a tab specify the height of tab box here like (150px)." />
+		
+		<param name="chars" type="text" default="" label="Character Count" description="Character limitation for retrieved content item. Leave blank means no limit" />
+		<param name="words" type="text" default="" label="Word Count" description="Word limitation for retrieved content item. Leave blank means no limit" />
+		<param name="readmore" type="radio" default="1" label="Read More" description="Show read more link below retrieved content item or not?">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="custumtext" type="textarea" default="" label="HTML" description="Ok this is what took me so much time to implement. You can write
+		any html code in this box, please keep it simple as I have not tested it much, and this html will become the content of your first tab. Cool isn't it? And if you don't
+		write anything here the first category content will become the content of first tab. Useful if you want it to show some flashnews. once you think the news is not important just delete it and tabs will shift back so that Ist cat item becomes first tab" cols="50" rows="10" />
+		
+	</params>
+</mosinstall>

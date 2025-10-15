@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<mosinstall type="component">
+    <name>Letterman</name>
+    <creationDate>28.02.2006</creationDate>
+    <author><![CDATA[S&ouml;ren Eberhardt]]></author>
+    <copyright><![CDATA[Copyright &copy; 2006 S&ouml;ren Eberhardt]]></copyright>
+    <authorEmail>soeren@virtuemart.net</authorEmail>
+    <authorUrl>http://developer.joomla.org/sf/sfmain/do/viewProject/projects.letterman</authorUrl>
+    <version>1.2.2</version>
+    <description>Create HTML newsletters to send to your website users.</description>
+    <files>
+        <filename>letterman.php</filename>
+        <filename>letterman.class.php</filename>
+        <filename>letterman.html.php</filename>
+    </files>
+    <images>
+        <filename>images/delete.png</filename>
+        <filename>images/mail_send.png</filename>
+        <filename>images/subscribe.png</filename>
+        <filename>images/unsubscribe.png</filename>
+        <filename>images/user.png</filename>
+        <filename>images/user_f2.png</filename>
+        <filename>images/validate.gif</filename>
+        <filename>images/validate_f2.gif</filename>
+    </images>
+    <install>
+      <queries>
+        <query>CREATE TABLE `#__letterman` (
+          `id` int(11) NOT NULL auto_increment,
+          `subject` varchar(50) NOT NULL default '',
+          `headers` text NOT NULL,
+          `message` text NOT NULL,
+          `html_message` text NOT NULL,
+          `published` tinyint(1) NOT NULL default '0',
+          `checked_out` int(11) NOT NULL default '0',
+          `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
+          `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+          `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `send` datetime NOT NULL default '0000-00-00 00:00:00',
+          `hits` int(11) NOT NULL default '0',
+          `access` int(11) unsigned NOT NULL default '0',
+          PRIMARY KEY  (`id`)
+        ) TYPE=MyISAM COMMENT='Used to store all newsletters for Letterman.';
+        </query>
+        <query><![CDATA[INSERT INTO `#__letterman` VALUES (1, 'Sample Newsletter', '', 'Hello [NAME],\r\n\r\nthis is a nice sample Newsletter *Text Edition* from your guys at the newsletter team!.\r\n\r\nAfter having set up this newsletter component you can easily delete or modify this Newsletter.\r\n\r\nNow please enjoy Letterman!\r\n\r\nRegards, XXX\r\n', 
+              '\r\n<p style="font-family: verdana,arial,helvetica,sans-serif;">Hello [NAME],<img vspace="5" hspace="3" border="0" align="right" src="components/com_letterman/letterman.gif" /></p><p style="font-family: verdana,arial,helvetica,sans-serif;">this is a nice sample Newsletter <span style="font-weight: bold;">with Graphics</span> from your guys at the newsletter team!.</p><p style="font-weight: bold;"><br /></p><p style="font-family: verdana,arial,helvetica,sans-serif;">After having set up this newsletter component you can easily delete or modify this Newsletter.<br /></p><p style="font-weight: bold;"><span style="font-weight: normal; font-family: verdana,arial,helvetica,sans-serif;">Now please enjoy Letterman!</span><br /></p><p style="font-weight: bold;">Regards, XXX<br /></p>', 1, 0, '0000-00-00 00:00:00', '2005-02-04 00:00:00', '2007-02-23 00:00:00', '2005-02-01 15:26:02', '2005-02-07 15:42:13', 6, 0);
+        ]]></query>
+        <query>CREATE TABLE `#__letterman_subscribers` (
+          `subscriber_id` int(11) NOT NULL auto_increment,
+          `user_id` int(11) NOT NULL default '0',
+          `subscriber_name` varchar(64) NOT NULL default '',
+          `subscriber_email` varchar(64) NOT NULL default '',
+          `confirmed` tinyint(1) NOT NULL default '0',
+          `subscribe_date` datetime NOT NULL default '0000-00-00 00:00:00',
+          PRIMARY KEY  (`subscriber_id`),
+          UNIQUE KEY `subscriber_email` (`subscriber_email`)
+        ) TYPE=MyISAM COMMENT='Subscribers for Letterman are stored here.';</query>
+      </queries>
+    </install>
+    <uninstall>
+      <queries>
+        <query>DROP TABLE `#__letterman`</query>
+        <query>DROP TABLE `#__letterman_subscribers`</query>
+      </queries>
+    </uninstall>
+	<installfile>install.letterman.php</installfile>
+    <administration>
+        <menu>Letterman</menu>
+        <submenu>
+          <menu >Newsletter Management</menu>
+          <menu task="subscribers">Subscriber Management</menu>
+          <menu task="config">Configuration</menu>
+        </submenu>
+        <files>
+		<filename>admin.letterman.php</filename>
+		<filename>admin.letterman.html.php</filename>
+		<filename>CHANGELOG.txt</filename>
+		<filename>letterman.gif</filename>
+		<filename>letterman.js</filename>
+		<filename>LICENSE.txt</filename>
+		<filename>README.txt</filename>
+		<filename>toolbar.letterman.php</filename>
+		<filename>toolbar.letterman.html.php</filename>
+		<filename>language/brazilian_portuguese.messages.php</filename>
+		<filename>language/dutch.messages.php</filename>
+		<filename>language/english.messages.php</filename>
+		<filename>language/french.messages.php</filename>
+		<filename>language/german.messages.php</filename>
+		<filename>language/germani.messages.php</filename>
+		<filename>language/germanf.messages.php</filename>
+		<filename>language/greek.messages.php</filename>
+		<filename>language/hungarian.messages.php</filename>
+		<filename>language/italian.messages.php</filename>
+		<filename>language/portuguese.messages.php</filename>
+		<filename>language/spanish2.messages.php</filename>
+		<filename>language/spanish.messages.php</filename>
+		<filename>includes/contentRenderer.class.php</filename>
+		<filename>includes/email_validation.php</filename>
+		<filename>includes/sef.php</filename>
+        </files>
+    </administration>
+	<params>
+		<param name="extended_email_validation" type="radio" default="1" label="Extended email address validation?" description="Only for non-windows systems. Checks if the domain in the email address is a valid mail exchange server and ready to receive mail.">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="embed_images" type="radio" default="1" label="Embed images into the email?" description="Here you can decide wether local images shall be included into the mail message or not. The message will have a bigger size, but its recipients will definitely see the embedded images, while remote images are often blocked by mail clients." >
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="personalized_mails_per_pageload" type="text" default="100" label="Number of personalizable mails to send per step?" description="This number defines the default amount of mails per step for those mails that contain the &lt;strong&gt;[NAME]&lt;/strong&gt; tag." />
+		<param name="normal_mails_per_pageload" type="text" default="500" label="Number of mails to send per step?" description="This number defines the default amount of mails per step for those mails that do &lt;strong&gt;NOT&lt;/strong&gt; contain the &lt;strong&gt;[NAME]&lt;/strong&gt; tag." />
+		<param name="attachment_dir" type="text" default="/media" label="File attachment directory" description="The directory in your site holding files you want to use as attachments for mails." />
+		<param name="newsletter_css" type="textarea" cols="50" rows="20" default="" label="The CSS styles which are used to style the HTML newsletter." />
+	</params>
+</mosinstall>

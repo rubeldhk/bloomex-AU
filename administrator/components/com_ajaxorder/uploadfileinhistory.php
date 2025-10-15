@@ -1,0 +1,125 @@
+<?php
+
+include "../../../configuration.php";
+$db = new mysqli($mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db);
+if ($db->connect_errno > 0) {
+    die('Unable to connect to database [' . $db->connect_error . ']');
+}
+
+function reArrayFiles(&$file_post) {
+    $file_ary = array();
+    $file_count = count($file_post['name']);
+    $file_keys = array_keys($file_post);
+
+    for ($i = 0; $i < $file_count; $i++) {
+        foreach ($file_keys as $key) {
+            $file_ary[$i][$key] = $file_post[$key][$i];
+        }
+    }
+
+
+    if (count($file_post['size']) == 1 && $file_post['size'][0] == 0) {
+        $file_ary = array();
+    }
+    return $file_ary;
+}
+
+$order_id = $_REQUEST['uploadfilehidden'];
+$username = $_REQUEST['username'];
+$order_status_code = $_REQUEST['order_status_code'];
+$dir = "/bloomex.com.au/order_history_images/" . $order_id;
+$file_ary = reArrayFiles($_FILES['fileUploadHistory']);
+if ($file_ary) {
+    $mysqlDatetime = date("Y-m-d G:i:s");
+    $query = "Select order_status_history_id from jos_vm_order_history where order_id = '$order_id' order by order_status_history_id desc limit 1";
+
+
+    if (!$result = $db->query($query)) {
+        die('There was an error running the select query [' . $db->error . ']');
+    }
+
+    $res = $result->fetch_assoc();
+    $history_id = $res["order_status_history_id"];
+
+    foreach ($file_ary as $img) {
+        if (isset($img['name']) && !empty($img['name'])) {
+
+
+
+            if ((($img["type"] == "image/gif") || ($img["type"] == "image/jpeg") || ($img["type"] == "image/jpg") || ($img["type"] == "image/pjpeg") || ($img["type"] == "image/x-png") || ($img["type"] == "image/png")) && ($img["size"] < 10000000)) {
+
+                if ($img["error"] > 0) {
+                    exit('error');
+                } else {
+                    $image_name = time() . $img["name"];
+                    $image_link = $dir . "/" . $image_name;
+                    $query = "INSERT INTO jos_vm_order_history_images(history_id,image_link)
+				VALUES ('$history_id','" . $image_link . "')";
+
+                    if (!$result = $db->query($query)) {
+                        die('There was an error running the select query [' . $db->error . ']');
+                    }
+
+
+                    ftp_move_file($mosConfig_email_sender_ftp_host, $mosConfig_email_sender_ftp_login, $mosConfig_email_sender_ftp_pass, $img["tmp_name"], $dir . "/" . $image_name, $dir);
+                    echo "Uploaded file " . $img["tmp_name"], $dir . "/" . $image_name . "<br/>";
+                }
+            } else {
+                exit($img["name"] . "  Invalid file. Choose another image ");
+            }
+        }
+    }
+} else {
+    echo "Error uploading file, wrong filename?";
+}
+
+function ftp_is_dir($ftp, $dir) {
+    $pushd = ftp_pwd($ftp);
+
+    if ($pushd !== false && @ftp_chdir($ftp, $dir)) {
+        ftp_chdir($ftp, $pushd);
+        return true;
+    }
+
+    return false;
+}
+
+function ftp_move_file($mosConfig_email_sender_ftp_host, $mosConfig_email_sender_ftp_login, $mosConfig_email_sender_ftp_pass, $photo, $filename, $dir) {
+    $ftp = ftp_connect($mosConfig_email_sender_ftp_host);
+
+    if (ftp_login($ftp, $mosConfig_email_sender_ftp_login, $mosConfig_email_sender_ftp_pass)) {
+        ftp_pasv($ftp, true);
+
+
+        if (!ftp_is_dir($ftp, $dir)) {
+            if (!ftp_mkdir($ftp, $dir)) {
+
+                exit("There was a problem while creating $dir\n");
+            }
+        }
+
+
+        $trackErrors = ini_get('track_errors');
+        ini_set('track_errors', 1);
+
+        $res = ftp_size($ftp, $filename);
+        if ($res == -1) {
+
+            if (!@ftp_put($ftp, $filename, $photo, FTP_BINARY)) {
+
+                die("error while uploading file");
+            } else {
+                "done: " . $filename;
+            }
+        } else {
+            echo "res -1";
+            return false;
+        }
+    } else {
+        die("Could not login to FTP account");
+    }
+
+
+
+    ftp_close($ftp);
+}

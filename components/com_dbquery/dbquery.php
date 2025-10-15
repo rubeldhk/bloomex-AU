@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * 
+ * @package Database Query
+ * @Copyright (C) Toby Patterson
+ * @ All rights reserved
+ * @ DBQuery is Free Software
+ * @ Released under GNU/GPL License : http://www.gnu.org/copyleft/gpl.html
+ *
+ * $Rev::                 $
+ * $Author::              $
+ * $Date::                $
+ *
+ * This file is the control file for the user frontend interface
+ *
+ */
+
+defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
+
+global $database, $my, $mainframe, $dbq_class_path;
+$dbqUserPath = $mosConfig_absolute_path.'/components/com_dbquery/';
+
+
+// Include the most important class
+global $dbq;
+require_once ($mosConfig_absolute_path.'/components/com_dbquery/classes/DBQ/settings.class.php');
+DBQ_Settings::init();
+
+
+require_once ($mosConfig_absolute_path.'/components/com_dbquery/dbquery.def.php');
+if ( file_exists( $dbqUserPath.'classes/DBQ/professional.class.php') ) {
+	require_once ($dbqUserPath.'classes/DBQ/professional.class.php');
+	$dbq = new DBQ_professional();
+} else {
+	require_once ($dbqUserPath.'classes/DBQ/frontend.class.php');
+	$dbq = new DBQ_frontend();
+}
+
+// Create a div where messages are displaye
+if ( $dbq->supportsXHTMLOutput() ) {
+	echo '<div id="DBQMessages" style="width: 80%;"></div>';
+	// Create div where debug messages are displayed
+	// TODO move to the bottom of the page
+	echo '<div id="DBQDebug" style="width: 80%;"></div>';
+	DBQ_common::debugInit();
+}
+
+
+$dbq->setGID($my->gid);
+
+// Default caller
+if (!@ $source)
+	$source = _DBQ_SOURCE_COMPONENT;
+$dbq->setSource($source);
+
+// First, check for input
+$category = mosGetParam($_GET, 'category');
+$task = mosGetParam($_GET, 'task');
+$qid = mosGetParam($_GET, 'qid');
+$qname = mosGetParam($_GET, 'qname');
+$template = NULL;
+
+
+// Check for menu parameters that may override the arguments in the GET request
+// New in J!1.0.9
+//$menu = $mainframe->get( 'menu' );
+global $Itemid;
+$menu =new  mosMenu($database);
+$menu->load($Itemid);
+
+$params = new mosParameters($menu->params);
+if ( $params ) {
+  // From the Joomla Menu
+
+
+
+	if (@ !$category)
+		$category = $params->get('category');
+	if (@ !$task)
+		$task = $params->get('task');
+	if (@ !$qid)
+		$qid = $params->get('qid');
+	if (@ !$qname)
+		$qname = $params->get('qname');
+	$template = $params->get('template');
+}
+
+
+// Finally, since Query Name preceeds QID, determine the qid if we have a qname
+//if (@ $qname && !@ $qid)
+if (@ $qname && ! $qid) 
+	$qid = $dbq->getQIDByQueryName($qname);
+
+// If there is no query ID, just display a listing of categories and exit
+if ( ! $qid) {
+	// Begin the query processing
+	$dbq->loadCSSFile();
+	$dbq->loadTemplateLanguageFile();
+	$dbq->selectQuery($category, $template);
+	return true;
+}
+
+// We have a query ID, so continue
+// Check if the qid is legit or not
+if (!preg_match('/^[0-9]+$/', $qid)) 
+  return $dbq->writeConsoleMessage(_LANG_INVALID_INPUT);
+
+// Confirm that the user can execute this query
+if (!$dbq->accessToQueryPermitted($qid, $source)) 
+  return $dbq->writeConsoleMessage(_LANG_ACCESS_DENIED);
+
+// Load the query, noting any failure
+if ( ! ($dbq->load($qid) && $dbq->initialize() ) ) {
+	$dbq->writeConsoleMessage(_LANG_GENERAL_ERROR);
+	return $dbq->logApplicationError(_LANG_COULD_NOT_LOAD.':'.$dbq->getLastErrorMsg());
+}
+
+// Make a default task if there is no task or the task is 'preview' (from the admin screen)
+if (!$task || $task == 'preview' )
+  $task = $dbq->usesInputForms() ? 'PrepareQuery' : 'ExecuteQuery';
+
+
+// Begin the query processing
+$dbq->loadCSSFile();
+$dbq->loadTemplateLanguageFile();
+$dbq->loadCustomCodeFile();
+
+if ( $dbq->supportsXHTMLOutput() )
+	$dbq->showPrintPage();
+
+
+// Select the appropriate file to handle the request
+switch ($task) {
+	case 'PrepareQuery' :
+		$dbq->prepareQuery();
+		break;
+		
+	case 'ExecuteQuery' :
+		if (! $dbq->executeQuery($qid) )
+		  // Something went wrong -- go back if possible
+		  $dbq->usesInputForms() ? $dbq->prepareQuery() : $dbq->selectQuery();
+		break;
+}
+
+// Finished !
+
+?>

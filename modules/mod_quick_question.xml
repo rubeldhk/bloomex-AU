@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="module">
+	<name>Quick Question</name>
+	<author>Mambo Project</author>
+	<creationDate>Oct 2004</creationDate>
+	<copyright>(C) 2000 - 2004 Miro International Pty Ltd</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>myportal@ffkijkenr.com</authorEmail>
+	<authorUrl>www.sneleensite.com</authorUrl>
+	<version>4.5.1</version>
+	<description>Simple, small one line question box</description>
+	<files>
+		<filename module="mod_quick_question">mod_quick_question.php</filename>
+		<filename>mod_quick_question_sendform.php</filename>
+	</files>
+	<params>
+		<param name="pretext" type="text" default="" label="Text-top" description="Text above box" />
+		<param name="posttext" type="text" default="" label="Text-bottom" description="Text below box" />
+		<param name="cols" type="text" default="30" label="Number of colls" description="Size of textarea" />
+		<param name="rows" type="text" default="5" label="Number of rows" description="Size of textarea" />
+		<param name="buttontext" type="text" default="OK" label="Button Text" description="Button Text" />
+		<param name="thanks" type="text" default="Email is sent" label="Email confirmation" description="Alert text after submitting" />
+		<param name="sendto" type="text" default="" label="valid email address" description="email address question is send to" />
+		<param name="cssclass" type="text" default="quickquestion" label="Module Class Suffix" description="CSS class for text area, this allows individual module styling" />
+	</params>
+</mosinstall>
+

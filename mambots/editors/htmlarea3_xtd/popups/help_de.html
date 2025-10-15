@@ -1,0 +1,471 @@
+<html style="height: 100%">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Texteditor Hilfe</title>
+<script type="text/javascript" src="popup.js"></script>
+<style type="text/css">
+html, body {
+  background: ButtonFace;
+  color: ButtonText;
+  font: 11px Tahoma,Verdana,sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+body { padding: 5px; }
+table {
+  font: 11px Tahoma,Verdana,sans-serif;
+}
+select, input, button { font: 11px Tahoma,Verdana,sans-serif; }
+button { width: 70px; }
+table .label { text-align: right; width: 8em; }
+
+.title { background: none; color: #000; font-weight: bold; font-size: 120%; padding: 3px 10px; margin-bottom: 10px;
+border-bottom: 1px solid black; letter-spacing: 2px;
+}
+
+#buttons {
+      margin-top: 1em; border-top: 1px solid black;
+      padding: 2px; text-align: center;
+}
+</style>
+</HEAD>
+
+<BODY scroll="yes" onLoad="self.focus();" onUnLoad="opener.focus();">
+
+<div class="title">Texteditor Hilfe</div>
+
+<P>
+Hinweis: Um einen einfachen Zeilenumbruch zu bewirken drücken Sie bitte &lt;Grossschreibtaste + Enter&gt; anstatt nur &lt;Enter&gt;.
+<br />Für einen Absatz drücken Sie bitte &lt;Enter&gt;.
+</P>
+<P>
+Falls Sie entweder Mozilla, Firefox oder Netscape benutzen, werden Sie unter Umständen Probleme haben, wenn Sie von der HTML-Ansicht
+zurück in den Layout-Modus schalten oder wenn Sie zwischen den Kartenreitern &quot;Content&quot;, &quot;Images&quot;, &quot;Publishing&quot; and &quot;Metadata&quot;.
+hin und her schalten. Falls Sie den Inhalt des Editors nicht mehr bearbeiten können, schalten Sie in den HTML-Modus und zurück zur Layout-Ansicht.
+Dies ist leider ein bekannter Fehler in allen Mozilla-basierenden Browsern.
+</P>
+
+<b>Kurzerklärungen:</b>
+
+<P>
+<table width="100%" border="1" cellspacing="0" cellpadding="5" bordercolor="#333333">
+<TR>
+<TH>Icon</TH>
+<TH>Beschreibung</Th>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Link erstellen" src="../images/ed_mos_internallink.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Erstellen/bearbeiten eines externen oder internen Hyperlinks.</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="{mospagebreak} Seitenwechsel hinzufügen" src="../images/ed_mos_pagebreak.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Seitenwechsel im Artikel einfügen durch Textmarke {mospagebreak}
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="{mosimage} Bild hinzufügen" src="../images/ed_mos_image.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Bild mittels Textmarke {mosimage} einfügen. Bitte vergewissern Sie sich, dass Sie zuvor Bilder über den Kartenreiter "Images" ausgewählt haben.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="HTML Modus" src="../images/ed_html.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Schaltet um zwischen Layout- und HTML-Ansicht.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="left">
+<select><option>Heading 1</option><option>Heading 2</option><option>Heading 3</option></select></TD>
+<TD VALIGN="TOP">
+Wählen Sie die Art der Überschrift bzw. PRE, um den Text beliebig mit Leerzeichen einzurücken
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="left">
+<select><option>Arial</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet</option></select></TD>
+<TD VALIGN="TOP">
+Bestimmen der Schriftart des markierten Textes
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="left">
+<select><option>1 (8pt)</option><option>2 (10pt)</option><option>3 (12pt)</option></select></TD>
+<TD VALIGN="TOP">
+Bestimmen der Grösse des markierten Textes
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Textfarbe" src="../images/ed_color_fg.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Bestimmen der Vordergrundfarbe des markierten Textes
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Hintergrundfarbe" src="../images/ed_color_bg.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Bestimmen der Hintergrundfarbe des markierten Textes
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Formatierung entfernen" src="../images/ed_remove_format.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Textformatierung entfernen (funktioniert mit Mozilla/Netscape nur, wenn in den Browser-Einstellungen unter &quot;Composer&quot; die Option &quot;Use CSS&quot; deaktiviert ist)
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Fett" src="../images/ed_format_bold.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text fett hervorheben
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Kursiv" src="../images/ed_format_italic.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text kursiv stellen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Unterstrichen" src="../images/ed_format_underline.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text unterstreichen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Durchgestrichen" src="../images/ed_format_strike.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text durchstreichen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Hochstellen" src="../images/ed_format_sup.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text hochstellen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Tiefstellen" src="../images/ed_format_sub.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text tiefstellen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Linksb&uuml;ndig" src="../images/ed_align_left.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text linksbündig ausrichten
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zentriert" src="../images/ed_align_center.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text zentriert ausrichten
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Rechtsb&uuml;ndig" src="../images/ed_align_right.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text rechtsbündig ausrichten
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Blocksatz" src="../images/ed_align_justify.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Text als Blocksatz formatieren
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Geordnete Liste" src="../images/ed_list_bullet.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Ungeordnete Liste aus markiertem Text erstellen/zurücksetzen: jeder Absatz durch einfaches Betätigen der Enter - Taste bewirkt einen neuen Punkt in der Liste.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Ungeordnete Liste" src="../images/ed_list_num.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Geordnete Liste aus markiertem Text erstellen/zurücksetzen: jeder Absatz durch einfaches Betätigen der Enter - Taste bewirkt einen neuen Punkt in der Liste.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Einzug verkleinern" src="../images/ed_indent_less.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Den Einzug der markierten Schrift verkleinern.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Einzug vergr&ouml;ssern" src="../images/ed_indent_more.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Den Einzug der markierten Schrift vergrössern.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Horizontale Linie" src="../images/ed_hr.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Einfügen einer horizontalen Linie.
+</TD>
+</TR>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Sonderzeichen einfügen" src="../images/ed_charmap.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Sonderzeichen einfügen
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Bild einfügen" src="../images/ed_insert_image.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Öffnet den Bilder-Browser zum Einfügen/Bearbeiten von Bildern.
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Tabelle erstellen" src="../images/insert_table.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Erstellen/bearbeiten einer Tabelle<br><br>
+In diesem Dialog können Sie die wichtigsten Kriterien für eine Tabelle wie z.B. Anzahl Zeilen/Spalten Breite und Höhe bestimmen.
+
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Tabelle erstellen" src="../images/ed_show_0_border.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Tabellenrahmen ein-/ausblenden<br>
+Diese Funktion ist hilfreich, um bei einer Tabelle mit Rahmenstärke 0 Pixel, den unsichtbaren Rahmen einzublenden.
+
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Ausschneiden" src="../images/ed_cut.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Bereich ausschneiden
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Kopieren" src="../images/ed_copy.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Markierten Bereich kopieren
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Einfügen" src="../images/ed_paste.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Inhalt der Zwischenablage einfügen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Word Text aufräumen" src="../images/ed_clean_word.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Word Text aufräumen.<br />Diese Funktion sollte verwendet werden, wenn Sie den Inhalt eines Word-Dokumentes
+in den Editor eingefügt haben, da Word fehlerhaftes HTML erzeugt.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Popup Editor" src="../images/fullscreen_maximize.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Editor in einem neuen Fenster öffnen
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Popup Editor" src="../images/fullscreen_minimize.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Schliesst den Popup Editor und übergibt den Inhalt an den Haupt-Editor
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Tabelleneigenschaften" src="../plugins/TableOperations/img/table-prop.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Eigenschaften einer vorhandenen Tabelle anzeigen<br><br>
+In diesem Dialog können Sie erweiterte Einstellungen für eine Tabelle wie z.B. Anzahl Zeilen/Spalten Breite und Höhe bestimmen.
+
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zeile einf&uuml;gen" src="../plugins/TableOperations/img/row-insert-under.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Einfügen einer neuen Zeile in einer bestehenden Tabelle unter der Zeile in dem sich aktuell der Cursor befindet
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zeile l&ouml;schen" src="../plugins/TableOperations/img/row-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Löschen der Zeile einer bestehenden Tabelle in dem sich aktuell der Cursor befindet
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Spalte einf&uuml;gen" src="../plugins/TableOperations/img/col-insert-after.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Einfügen einer neuen Spalte in einer bestehenden Tabelle rechts neben der Spalte in dem sich aktuell der Cursor befindet
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Spalte l&ouml;schen" src="../plugins/TableOperations/img/col-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Löschen der Spalte einer bestehenden Tabelle in dem sich aktuell der Cursor befindet
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zelle einf&uuml;gen" src="../plugins/TableOperations/img/cell-insert-after.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Einfügen einer neuen Zelle in einer bestehenden Tabelle rechts neben der Spalte in dem sich aktuell der Cursor befindet. Achtung die Tabellenstruktur wird möglicherweise fehlerhaft durch diesen Vorgang
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zelle l&ouml;schen" src="../plugins/TableOperations/img/cell-delete.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Löschen der Zelle einer bestehenden Tabelle in dem sich aktuell der Cursor befindet. Achtung die Tabellenstruktur wird möglicherweise fehlerhaft durch diesen Vorgang
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zellen verbinden" src="../plugins/TableOperations/img/cell-merge.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Verbinden einer Zelle mit der rechts benachbarten Zelle von der Cursorposition aus.
+</TD>
+</TR>
+
+<TR>
+<TD ALIGN="center">
+  <img alt="Zellen teilen" src="../plugins/TableOperations/img/cell-split.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Teilen einer Zelle in zwei Zellen von der Cursorposition aus.
+</TD>
+</TR>
+<TR>
+<TD ALIGN="center">
+  <img alt="Hilfe" src="../images/ed_help.gif" align="absMiddle" width="18" height="18">
+</TD>
+<TD VALIGN="TOP">
+Zeigt die hier angezeigte Hilfe.
+</TD>
+</TR>
+
+
+</TABLE>
+</P>
+<form>
+<div id="buttons">
+  <button type="button" name="cancel" onclick="self.close();">OK</button><br />
+  &copy 2004 Bernhard Pfeifer
+</div>
+</form>
+
+</BODY>
+
+</HTML>

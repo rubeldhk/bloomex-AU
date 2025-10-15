@@ -1,0 +1,26 @@
+<?php
+/**
+* $Id: controlpanel_left.html.php 16 2007-04-15 12:18:46Z eaxs $
+* @package   Project Fork
+* @copyright Copyright (C) 2006-2007 Tobias Kuhn. All rights reserved.
+* @license   http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+*
+*
+* Project Fork is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+**/
+
+defined ( '_VALID_MOS' ) OR DIE( 'Direct access is not allowed' );
+
+global $hydra_template,$protect;
+
+switch($protect->current_command)
+{
+	default:
+		
+		break;
+}
+?>

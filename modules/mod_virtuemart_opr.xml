@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<mosinstall type="module">
+    <name>VirtueMart Order Product Relation Module</name>
+    <creationDate>26.06.2006</creationDate>
+    <author>Marty Tennison</author>
+    <copyright>VirtueMart is released under GNU/GPLicense</copyright>
+    <authorEmail>marty@freeison.com</authorEmail>
+    <authorUrl>http://www.virtuemart.net</authorUrl>
+    <version>0.1</version>
+    <description>Before you use this module you will have to manually create a table. See the "SPECIAL NOTES" section of mod_virtuemart_opr-help.txt file or Vist the virtuemart forms for more help.  This module builds a list of related items based on their order_id.  This is normaly used as a "Customers who bought this item also bought" type of thing.  This module ONLY works if it is called from the flypage.  To do that, you'll need to modify your site template and insert some code that identifies the flypage. 
+     </description>
+     <files>
+         <filename module="mod_virtuemart_opr">mod_virtuemart_opr.php</filename>
+         <filename module="mod_virtuemart_opr">mod_virtuemart_opr-help.txt</filename>
+     </files>
+     <install>
+         <queries>
+            <query>DROP TABLE IF EXISTS `#__{vm}_order_product_relations`;</query>
+            <query>CREATE TABLE `#__{vm}_order_product_relations` ( `product_id` int(11) NOT NULL default '0', `related_products` text collate utf8_unicode_ci, `last_build_time` int(12) NOT NULL default '1'  PRIMARY KEY  (`product_id`) ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores ordered product data';</query>
+         </queries>
+     </install>
+     <uninstall>
+       <queries>
+           <query>DROP TABLE IF EXISTS `#__{vm}_order_product_relations`;</query>
+       </queries>
+     </uninstall>
+     <params>
+        <param name="build_interval" type="text" default="86400" label="Seconds between builds" description="This defines how often (in seconds) that the list will be built.  86400 = build once every 24 hours. 0 = build always." />
+        <param name="order_history_limit" type="text" default="100" label="Number of orders to read" description="This determines how many orders should be scanned when building the list.  The orders are scanned in reverse chronological order.  The higher the number, the further back in time the result reflect. Default = 100." />
+        
+		<param name="num_id_save" type="text" default="25" label="Number of items to save" description="This setting determines how many items (rows) should be saved in the database.  You can set this higher than displayed products if you want." />
+		<param name="num_id_display" type="text" default="5" label="Number of items to display" description="This setting determines how many items (rows) should be displayed." />
+		
+		<param name="image_path" type="textarea" default="/components/com_virtuemart/shop_image/product" rows="2" cols="50" label="Relative Image Path" description="The path to your images directory.  This is relative to http root." />
+		<param name="pre_content_template" type="textarea" default="" label="Pre Content Template" rows="10" cols="50" description="This text is appended just BEFORE the items are displayed. Common uses would be HTML marked for display formating. ie. div, ol, ul etc." />
+		<param name="content_template" type="textarea" default="&lt;img style=&quot;float: left;&quot; src=&quot;{image_path}/{thumb_image}&quot; />&lt;a href=&quot;{link_url}&quot;>{name}&lt;/a> &lt;br style=&quot;clear: both;&quot; />" label="Content Template" rows="10" cols="50" description="This is where the formating of the output occurs. Use any HTML code you wish.  The following variables are replaced with actual values during runtime. {link_url}, {image_path}, {full_image}, {thumb_image}, {name}, {s_desc}.  If you loose the default value or mess it up just delete all contents of this field to get it back. "/>
+		<param name="post_content_template" type="textarea" default="" label="Post Content Template" rows="10" cols="50" description="This text is appended just AFTER the items are displayed. Common uses would be HTML marked for display formating.  ie. /div, /ol, /ul etc." />
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="A suffix to be applied to the css class of the module (table.moduletable), this allows individual module styling" />
+		
+     </params>
+</mosinstall>
+

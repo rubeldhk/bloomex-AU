@@ -1,0 +1,62 @@
+<mos:comment>@version $Id: list.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:link src="newCheckAll" />
+<mos:link src="reportCSS" />
+<mos:link src="reportSubmitButton" />
+<mos:link src="reportHeading" />
+
+<div id="datacell">
+	<h3>{SITENAME}</h3>
+	<fieldset>
+		<legend>
+			<mos:var name="META_NAME" modifier="Translate" /> &bull; <mos:time format="d-M-Y H:i:s"/>
+		</legend>
+
+		<div class="clr"></div>
+
+		<table class="adminlist">
+			<thead>
+				<tr>
+					<th class="title">
+						<a href="#reorder" onclick="submitbutton('reorder', 'search_term')" class="col_ordering">
+							<mos:Translate>Search Text</mos:Translate>
+							<mos:tmpl type="simplecondition" requiredvars="ordercol=search_term" varscope="body">
+								<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+							</mos:tmpl></a>
+					</th>
+					<th class="title">
+						<a href="#reorder" onclick="submitbutton('reorder', 'hits')" class="col_ordering">
+							<mos:Translate>Times Requested</mos:Translate>
+							<mos:tmpl type="simplecondition" requiredvars="ordercol=hits" varscope="body">
+								<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+							</mos:tmpl></a>
+					</th>
+				</tr>
+			</thead>
+	
+			<tfoot>
+				<mos:link src="list-navigation" />
+			</tfoot>
+	
+			<tbody>
+			<mos:tmpl name="list-items" type="simplecondition" requiredvars="item_search_term" varscope="body" addsystemvars="integer">
+				<tr class="row{PAT_IS_EVEN}">
+					<td>
+						{ITEM_SEARCH_TERM}
+					</td>
+					<td align="center">
+						{ITEM_HITS}
+					</td>
+				</tr>
+			</mos:tmpl>
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="run" />
+<input type="hidden" name="report" value="{REPORT_ID}" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />
+<input type="hidden" name="boxchecked" value="0" />

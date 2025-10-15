@@ -1,0 +1,22 @@
+<graph caption='Domain Frequencies' subcaption='Graphs by JoomlaLib' showValues='1' animation='0' showCanvas='1' formatNumber='0' formatNumberScale='0' decimalSeparator='.' thousandSeparator=','>
+	<set name="google.ca" value="160664" color="0099CC" />
+	<set name="google.com" value="65208" color="FF0000" />
+	<set name="baskets.bloomex.ca" value="25924" color="006F00" />
+	<set name="vitamine.networldmedia.net" value="9934" color="FF66CC" />
+	<set name="google.fr" value="8603" color="996600" />
+	<set name="search.yahoo.com" value="5998" color="FF9933" />
+	<set name="google.co.uk" value="4890" color="9900FF" />
+	<set name="search.sympatico.msn.ca" value="4340" color="999999" />
+	<set name="magasiner.sympatico.msn.ca" value="3800" color="CCCC00" />
+	<set name="yyzflowers.com" value="3780" color="0372AB" />
+	<set name="toile.com" value="3612" color="0099CC" />
+	<set name="ca.search.yahoo.com" value="3150" color="FF0000" />
+	<set name="shopping.sympatico.msn.ca" value="2819" color="006F00" />
+	<set name="ask.com" value="1962" color="FF66CC" />
+	<set name="christmas.bloomex.ca" value="1375" color="996600" />
+	<set name="search.live.com" value="1323" color="FF9933" />
+	<set name="cf.search.yahoo.com" value="990" color="9900FF" />
+	<set name="flowers-canada.net" value="952" color="999999" />
+	<set name="fleurlivraison.com" value="907" color="CCCC00" />
+	<set name="google.com.au" value="902" color="0372AB" />
+</graph>

@@ -1,0 +1,178 @@
+<?php
+/**
+ * Enter description here...
+ *
+ * @package JL
+ */
+defined('_JOOMLALIB') or die( 'Direct Access to this location is not allowed.' );
+JLCoreApi::loadConfig();
+
+/**
+ * Enter description here...
+ *
+ */
+define('_JL_TIME_T_SYSTEM', 0);
+/**
+ * Enter description here...
+ *
+ */
+define('_JL_TIME_T_JOOMLA', 1);
+/**
+ * Enter description here...
+ *
+ */
+define('_JL_TIME_T_REPORT', 2);
+
+/**
+ * Date and Time management class for JoomlaLib
+ * 
+ * @package JL
+ * @subpackage JLTime
+ */
+class JLTime
+{
+	/**
+	 * Get the offset in seconds for a certain time type
+	 *
+	 * @param integer Time type to get the offset of
+	 *
+	 * @return integer Offset in seconds from this time type to server time
+	 *
+	 * @static
+	 */
+	function getOffset($timeType)
+	{	
+		global $JL;
+		
+		if($timeType == _JL_TIME_T_JOOMLA) {
+			return $JL->timeOffsetJoomla; 
+		}
+		else if($timeType == _JL_TIME_T_REPORT) {
+			return $JL->timeOffsetReporting;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * Get Server time in seconds since 1970
+	 *
+	 * @return integer Seconds since 1970 in server time
+	 *
+	 * @static
+	 */
+	function sTime()
+	{
+		return time() + JLTime::getOffset(_JL_TIME_T_SYSTEM);
+	}
+	
+	/**
+	 * Get Joomla time in seconds since 1970. This offset is set in configuration.php
+	 *
+	 * @param integer System time to convert to Joomla time
+	 *
+	 * @return integer Seconds since 1970 in Joomla time
+	 *
+	 * @static
+	 */
+	function jTime($timestamp = 0)
+	{
+		if(!$timestamp) {
+			$timestamp = time();
+		}
+		
+		return $timestamp + JLTime::getOffset(_JL_TIME_T_JOOMLA);
+	}
+	
+	/**
+	 * Get Reporting time in seconds since 1970. This will be different than server time
+	 * when the server is in a different timezone than the user base. For instance, if someone
+	 * from CST runs a web server in central Europe for users in central time, this offset would
+	 * be -7 x 3600, since
+	 *
+	 * @param integer System timestamp to convert to reporting time
+	 *
+	 * @return integer Seconds since 1970 in Reporting time
+	 *
+	 * @static 
+	 */
+	function rTime($timestamp=0)
+	{	
+		if(!$timestamp) {
+			$timestamp = time();
+		}
+		
+		return $timestamp + JLTime::getOffset(_JL_TIME_T_REPORT);
+	}
+	
+	/**
+	 * Get the timestamp start of today for a certain time type in another time offset type. This is
+	 * useful if your database is in a different time base than your reporting time. Timestamp types
+	 * should be a _JL_TIME_T_??? type.
+	 *
+	 * @param integer Return timestamp format
+	 * @param integer Timestamp to reference midnight from
+	 *
+	 * @return integer Midnight in $returnType time for $midnightType's midnight of today
+	 *
+	 * @static 
+	 */
+	function startOfToday($returnType, $midnightType)
+	{
+		$now = time();
+		
+		$midnightOffset = JLTime::getOffset($midnightType);
+		$timestamp = $now + $midnightOffset;
+		$timeArr = localtime($timestamp, true);
+		$sinceMidnight = $timeArr['tm_sec'] + (60 * $timeArr['tm_min']) + (3600 * $timeArr['tm_hour']);
+		$midnightTime = $timestamp - $sinceMidnight;
+		
+		$returnOffset = JLTime::getOffset($returnType);
+		
+		return $midnightTime + ($returnOffset - $midnightOffset);
+	}
+	
+	/**
+	 * Get a string for a timestamp in JoomlaLib's date format
+	 *
+	 * @param integer Seconds since 1970 to convert to a date string
+	 *
+	 * @return string Formatted date
+	 */
+	function formatAsDate($timestamp)
+	{
+		global $JL;
+		
+		$str = date($JL->dateFormat, $timestamp);
+		return $str;
+	}
+	
+	/**
+	 * Get a string for a timestamp in JoomlaLib's time format
+	 *
+	 * @param integer Seconds since 1970 to convert to a time string
+	 *
+	 * @return string Formatted time
+	 */
+	function formatAsTime($timestamp)
+	{
+		global $JL;
+		
+		$str = date($JL->timeFormat, $timestamp);
+		return $str;
+	}
+	
+	/**
+	 * Get the hour since 1970 for a unix timestamp
+	 *
+	 * @param integer Second since 1970 to convert to an hour since 1970
+	 *
+	 * @return integer Hour since 1970
+	 */
+	function hourSince1970($timestamp)
+	{
+		return intval($timestamp/3600);
+	}
+}
+?>

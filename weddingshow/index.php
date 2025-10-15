@@ -1,0 +1,1 @@
+<?php header('Location:http://bloomex.ca/wedding/index.php?option=com_content&task=view&id=88&utm_source=WeddingShow&utm_medium=Offline&utm_campaign=Presentation');?>

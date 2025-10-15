@@ -1,0 +1,20 @@
+body {
+    background-color: #A40001 !important;
+}
+#footerLineProducts #product-top-headers{
+    background: url('/images/footer_products_fon_christmas.png') no-repeat 100% 100%  !important;
+
+}
+#new-main-banner-menu,#ddmenu-rbm li,#footer-table-content-title,#ddmenu-rbm-mobile li{
+    background: #bd302e !important;
+}
+#ddmenu-rbm li:hover{
+    background: #390310  !important;
+}
+.footer-products{
+   color: #A40001 !important;
+}
+.sectiontableheader {
+    background: #d09fa2 !important;
+    color: white !important;
+}

@@ -1,0 +1,70 @@
+<mos:link src="newCheckAll" />
+<mos:link src="reportCSS" />
+<mos:link src="reportSubmitButton" />
+<mos:link src="reportHeading" />
+
+<div id="datacell">
+  <h3>{SITENAME}</h3>
+  <fieldset>
+    <legend>
+      {META_NAME} &bull; <mos:time format="d-M-Y H:i:s"/>
+    </legend>
+
+    <div class="clr"></div>
+
+    <table class="adminlist">
+      <thead>
+        <tr>
+          <th class="title">
+            <a href="#reorder" onclick="submitbutton('reorder', 'name')" class="col_ordering">
+              <mos:Translate>Name</mos:Translate>
+              <mos:tmpl type="simplecondition" requiredvars="ordercol=name" varscope="body">
+                <img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+              </mos:tmpl></a>
+          </th>
+          <th class="title">
+            <a href="#reorder" onclick="submitbutton('reorder', 'lastvisitDate')" class="col_ordering">
+              <mos:Translate>Last Visit</mos:Translate>
+              <mos:tmpl type="simplecondition" requiredvars="ordercol=lastvisitDate" varscope="body">
+                <img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+              </mos:tmpl></a>
+          </th>
+          <th class="title">
+            <a href="#reorder" onclick="submitbutton('reorder', 'content_items')" class="col_ordering">
+<mos:Translate>Content Items</mos:Translate>
+              <mos:tmpl type="simplecondition" requiredvars="ordercol=content_items" varscope="body">
+                <img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+              </mos:tmpl></a>
+          </th>
+        </tr>
+      </thead>
+  
+      <tfoot>
+        <mos:link src="list-navigation" />
+      </tfoot>
+  
+      <tbody>
+      <mos:tmpl name="list-items" type="simplecondition" requiredvars="item_id" varscope="body" addsystemvars="integer">
+        <tr class="row{PAT_IS_EVEN}">
+          <td>
+            {ITEM_NAME}
+          </td>
+          <td>
+            {ITEM_LASTVISITDATE}
+          </td>
+          <td>
+            {ITEM_CONTENT_ITEMS}
+          </td>
+        </tr>
+      </mos:tmpl>
+      </tbody>
+    </table>
+  </fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="run" />
+<input type="hidden" name="report" value="{REPORT_ID}" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />
+<input type="hidden" name="boxchecked" value="0" />

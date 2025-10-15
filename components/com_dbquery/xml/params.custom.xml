@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Keyword Variable Parameter File</name>
+	<creationDate>April 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Database Query is a Mambo query manager.</description>
+	<params>
+		<param name="TEXT_AREA_HEIGHT" type="text" default="50" label="Text Area Height" description="Height of a textarea input box"/>
+		<param name="TEXT_AREA_WIDTH" type="text" default="4" label="Text Area Width" description="Width of a textarea input box"/>
+		<param name="ESCAPE_OVERRIDE" type="list" default="" label="Escape Override" description="Do not escape the replacement value that will be used in the query">
+			<option value="">Use Global</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+</mosparams>

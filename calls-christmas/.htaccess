@@ -1,0 +1,22 @@
+#AuthType Basic
+#AuthName "Ext. Zone"
+#AuthBasicProvider file
+#AuthUserFile /etc/apache2/.htpasswd
+#Require user letmein prog
+#Order allow,deny
+##order deny,allow
+##deny from all
+#allow from 80.72.16.99
+#allow from 176.106.132.63
+#allow from 91.230.136.2
+#allow from 70.52.119.113
+#allow from 70.52.119.114
+#allow from 80.72.16.99		# Tgn 1
+#allow from 54.244.112.77	# media.bloomex.ca
+#allow from 70.52.119.113	# Office Ottawa 1
+#allow from 70.52.119.114	# Office Ottawa 2
+#allow from 178.76.209.178	# Tgn 2
+#allow from 176.106.132.63	# RnD 1
+#allow from 91.230.136.2		# RnD 2
+#allow from 195.222.178.246	# RnD 3
+#Satisfy any

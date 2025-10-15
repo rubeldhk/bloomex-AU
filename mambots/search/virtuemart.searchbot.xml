@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="mambot" group="search">
+	<name>ProductSearchBot</name>
+	<author>Soeren, Mark</author>
+	<creationDate>July 2006</creationDate>
+	<copyright>soeren</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>soeren@virtuemart.net</authorEmail>
+	<authorUrl>virtuemart.net</authorUrl>
+	<version>1.0.6</version>
+	<description>Performs a Product Search</description>
+	<files>
+		<filename mambot="virtuemart.searchbot">virtuemart.searchbot.php</filename>
+	</files>
+</mosinstall>

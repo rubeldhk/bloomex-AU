@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<mosparams type="dbquery" version="4.5.2">
+	<name>Query Descriptions Parameter File</name>
+	<creationDate>June 2006</creationDate>
+	<author>Green Mountain Information Technology Consulting</author>
+	<copyright>This component is released under the GNU/GPL License</copyright>
+	<authorEmail>consulting@gmitc.biz</authorEmail>
+	<authorUrl>http://www.gmitc.biz</authorUrl>
+	<version>1.4</version>
+	<description>Description definitions for a query object.</description>
+	<params>
+		<param name="@spacer" type="spacer" default="" label="General Language Settings" description="These settings determine what and how descriptions will appear on the various DBQ screens." />
+		<param name="GENERAL_DESCRIPTION" type="textarea" rows="5" cols="60" default="" label="General Description" description="A description of the query that will appear on most pages."/>
+		<param name="DEFAULT_LANGUAGE" type="text" default="" label="Default Language" description="The language in which these descriptions are written.  If no value is specified, the Joomla default is used."/>
+		<param name="GENERAL_DESCRIPTION_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_GENERAL_DESCRIPTION" label="General Description Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="DISPLAY_NAME_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_QUERY_DISPLAY_NAME" label="Display Name Language Code" description="This language code will be used to display the name of the query when the user's language is not the query's language."/>
+		<param name="@spacer" type="spacer" default="" label="Query Form Descriptions" description="Descriptions that will appear on the Query From." />
+		<param name="PREPARE_DESCRIPTION_ABOVE" type="textarea" rows="5" cols="60" default="" label="Form Page, Top" description="Text that will appear above the form."/>
+		<param name="PREPARE_DESCRIPTION_ABOVE_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_PREPARE_DESCRIPTION_ABOVE" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="PREPARE_DESCRIPTION_BELOW" type="textarea" rows="5" cols="60" default="" label="Form Page, Bottom" description="Text that will appear below the form."/>
+		<param name="PREPARE_DESCRIPTION_BELOW_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_PREPARE_DESCRIPTION_BELOW" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		
+		<param name="@spacer" type="spacer" default="" label="Query Results Descriptions" description="Descriptions that will appear on the Query Results view." />
+		<param name="EXECUTE_DESCRIPTION_ABOVE" type="textarea" rows="5" cols="60" default="" label="Result Page, Top" description="Text that will appear above a listing of results."/>
+		<param name="EXECUTE_DESCRIPTION_ABOVE_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_EXECUTE_DESCRIPTION_ABOVE" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="EXECUTE_DESCRIPTION_BELOW" type="textarea" rows="5" cols="60" default="" label="Result Page, Bottom" description="Text that will appear below a listing of results."/>
+		<param name="EXECUTE_DESCRIPTION_BELOW_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_EXECUTE_DESCRIPTION_BELOW" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="EXECUTE_DESCRIPTION_NO_RESULTS" type="textarea" rows="5" cols="60" default="" label="No Results Found Page" description="Text displayed when results are expected but none are found."/>
+		<param name="EXECUTE_DESCRIPTION_NO_RESULTS_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_EXECUTE_DESCRIPTION_NO_RESULTS" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="EXECUTE_DESCRIPTION_WO_RESULTS" type="textarea" rows="5" cols="60" default="" label="No Results Expected Page" description="Text displayed when no results are expected."/>
+		<param name="EXECUTE_DESCRIPTION_WO_RESULTS_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_EXECUTE_DESCRIPTION_WO_RESULTS" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+		<param name="EXECUTE_DESCRIPTION_ERROR" type="textarea" rows="5" cols="60" default="" label="Error Page" description="Text that is displayed when an error occurs."/>
+		<param name="EXECUTE_DESCRIPTION_ERROR_LANG_CODE" type="text" size="50" default="_LANG_TEMPLATE_EXECUTE_DESCRIPTION_ERROR" label="Language Code" description="This language code will be used when the user's language is not the language defined above."/>
+	</params>
+</mosparams>

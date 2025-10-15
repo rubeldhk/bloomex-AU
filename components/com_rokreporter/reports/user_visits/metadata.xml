@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<report>
+	<name>Last User Visit and Content Count</name>
+	<author>Andrew Eddie</author>
+	<authorEmail>andrew.eddie@newlifeinit.com</authorEmail>
+	<copyright>2005 - 2007 New Life in IT Pty Ltd. All rights reserved</copyright>
+	<description>
+       Reports a list of user with their last visit dates and a count
+       of the content items they have authored
+     </description>
+</report>

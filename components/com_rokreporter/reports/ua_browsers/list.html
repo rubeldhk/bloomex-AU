@@ -1,0 +1,75 @@
+<mos:comment>@version $Id: list.html 9 2007-04-13 04:08:48Z eddieajau $</mos:comment>
+
+<mos:link src="reportCSS" />
+<mos:link src="reportSubmitButton" />
+<mos:link src="reportHeading" />
+
+<div id="datacell">
+	<h3>{SITENAME}</h3>
+	<fieldset>
+		<legend>
+			<mos:var name="META_NAME" modifier="Translate" /> &bull; <mos:time format="d-M-Y H:i:s"/>
+		</legend>
+
+		<div class="clr"></div>
+
+		<table class="adminlist">
+			<thead>
+				<tr>
+					<th class="title">
+						<a href="#reorder" onclick="submitbutton('reorder', 'agent')" class="col_ordering">
+							<mos:Translate>Browser Name</mos:Translate>
+							<mos:tmpl type="simplecondition" requiredvars="ordercol=agent" varscope="body">
+								<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+							</mos:tmpl></a>
+					</th>
+					<th class="title" width="50">
+						<a href="#reorder" onclick="submitbutton('reorder', 'hits')" class="col_ordering">
+							<mos:Translate>Hits</mos:Translate>
+							<mos:tmpl type="simplecondition" requiredvars="ordercol=hits" varscope="body">
+								<img src="{SITEURL}/images/M_images/sort{ORDERDIRN}.png" alt="" border="0" />
+							</mos:tmpl></a>
+					</th>
+					<th class="title" width="50">
+						&nbsp;
+					</th>
+					<th class="title" width="50%">
+						&nbsp;
+					</th>
+				</tr>
+			</thead>
+	
+			<tfoot>
+				<mos:link src="list-navigation" />
+			</tfoot>
+
+			<tbody>
+			<mos:tmpl name="list-items" type="modulo" varscope="body" modulo="5" addsystemvars="integer">
+				<mos:sub condition="__default">
+				<tr class="row{PAT_IS_EVEN}">
+					<td>
+						{ITEM_AGENT}
+					</td>
+					<td align="right">
+						{ITEM_HITS}
+					</td>
+					<td align="right">
+						{ITEM_PERCENT}%
+					</td>
+					<td>
+						<img src="{SITEURL}/images/blank.png" class="bar_{PAT_MODULO}" height="6" width="{ITEM_PERCENT}%" hspace="0" vspace="0" border="0"/>
+					</td>
+				</tr>
+				</mos:sub>
+			</mos:tmpl>
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<input type="hidden" name="option" value="{OPTION}" />
+<input type="hidden" name="task" value="run" />
+<input type="hidden" name="report" value="{REPORT_ID}" />
+<input type="hidden" name="orderCol" value="{ORDERCOL}" />
+<input type="hidden" name="orderDirn" value="{ORDERDIRN}" />
+<input type="hidden" name="boxchecked" value="0" />

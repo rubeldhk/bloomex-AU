@@ -1,0 +1,1711 @@
+/*
+Style Sheet for Online Hosting MASTER GRAY 2006 New Colors + Dept Navigation
+*/
+
+/* Begin General Site Styles */
+
+
+/****************************************************************************************************************************
+ 														UNIVERSAL TAGS
+ ****************************************************************************************************************************/
+ 
+ /* used in guest and update item detail image */ 
+ #detailimage {
+ 	max-width: 175px;
+ width: expression(this.width > 175 ? 175: true);
+ 
+ }
+ 
+ /* used in guest and update for the thumbnail image */
+ #thumbimg {
+ 	max-width: 55px;
+ width: expression(this.width > 55 ? 55: true);
+ 
+}
+
+/* used in guest and update for the large view image */
+#commonlargeimage {
+	max-width: 500px;
+width: expression(this.width > 500 ? 500: true);
+
+}
+
+a {
+	text-decoration:none;
+}
+
+a:hover {
+	color:#990000;
+	text-decoration:underline;
+}
+
+body {
+	margin-left:0;
+	margin-top:0;
+	margin-right:0;
+	margin:0;
+	background:#FFFFFF;  /* for hosting retailer change the background only*/
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	color:#000000;
+}
+
+p {
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:normal;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	letter-spacing:0.02em;
+	color:#000000;
+}
+
+i {
+	font-style:italic;
+}
+
+span {
+color:#000000;
+font-family:"Verdana","Arial","Helvetica",sans-serif;
+font-size:11px;
+font-style:normal;
+font-weight:normal;
+letter-spacing:0.02em;
+}
+
+/******************************************
+ ALIGNMENT STYLES
+ ******************************************/
+
+#right { text-align:right; }
+
+#top { vertical-align:top; }
+
+#middle { vertical-align:middle; }
+
+#center { text-align:center; }
+
+#bottomRight {
+	text-align:right;
+	vertical-align:bottom;
+}
+
+#centerTable {
+	text-align:center;
+	vertical-align:middle;
+}
+
+#topR {
+	text-align:right;
+	vertical-align:top;
+}
+
+#topC {
+	text-align:center;
+	vertical-align:top;
+}
+
+#bottom {
+	vertical-align:bottom;
+}
+
+
+/******************************************
+ BACKGROUND COLORS
+ ******************************************/
+
+ /* (_bkg color of T.C.01) */
+.white {
+	background:#FFFFFF;
+}
+.black {
+	background:#000000;
+}
+
+
+/******************************************
+ FORM STYLES
+ ******************************************/
+
+select {
+	font-size:10px;
+	line-height:12px;
+	color:#333333;
+	text-indent:3px;
+}
+
+select.required {
+	background:#b6b4ae;
+	color:#000000;
+}
+
+select.error {
+	background:#990000;
+	color:#CCCCCC;
+	font-weight:bold;
+}
+
+input {
+	text-indent:3px;
+	font-size:10px;
+	line-height:12px;
+	color:#333333;
+	border-bottom:#CCCCCC 1px solid;
+	border-left:#CCCCCC 1px solid;
+	border-right:#CCCCCC 1px solid;
+	border-top:#CCCCCC 1px solid;
+}
+
+input.required {
+	background:#b6b4ae;
+	color:#000000;
+}
+
+input.error {
+	background:#990000;
+	color:#FFFFCC;
+	font-weight:bold;
+}
+
+input.quantity {
+	color:#990000;
+	font-weight:bold;
+}
+
+textarea {
+	text-indent:3px;
+	font-size:14px;
+	line-height:16px;
+	color:#333333;
+}
+
+
+/****************************************************************************************************************************
+ 														BASIC LAYOUT STYLES
+ ****************************************************************************************************************************/
+
+/*************** TOP BANNER ***************/
+ /* (_top banner T.A) */
+.c01a {
+	background:#FFFFFF;
+}
+
+ /* (_top banner T.A : % area) */
+.c01f {
+	background:#F3F1E8;
+}
+
+ /* (_top banner T.A : right cell to logo) */
+.sideLogo {
+	background:#FFFFFF;
+}
+
+
+/******************************************
+HOSTING  TOP BANNER TEXT STYLE
+ ******************************************/
+
+/* Tags for Headers */
+.storeName {
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	text-decoration:none;
+	font-size:20px;
+	line-height:20px;
+	font-style:normal;
+	text-align:center;
+	font-weight:normal;
+	color:#666666;
+}
+
+
+/************** TOP NAVIGATION **************/
+ /* (_top navigation T.B) */
+.c02 {
+	background:#999999;
+}
+
+ /* (_top navigation T.B : % area) */
+.c02c {
+	background:#F3F1E8;
+}
+
+ /* (_top navigation T.B subNav) */
+.c01b {
+	background:#CCCCCC;
+}
+
+ /* (_top navigation T.B subNav : % area) */
+.c01g {
+	background:#F3F1E8;
+}
+
+/************** CENTRAL AREA **************/
+ /* (_central area T.C bkg) */
+.c01c {
+	width:740px;
+	background:#FFFFFF;
+}
+ /* (_central area HOSTING T.C bkg) */
+.retailerBlock {
+	background:#FFFFFF;
+}
+
+ /* (_central area T.C : % area) [ remove image-link if you don't want one ]*/
+td.bgImg {
+	background:#F3F1E8 url(./images/);
+}
+ /* (_central area T.C bkg_closingRow) */
+.c01d {
+	background:#FFFFFF;
+}
+
+ /* (_central area T.C bkg_closingRow : % area) */
+.c01e {
+	background:#F3F1E8;
+}
+
+/************** FOOTER ***************/
+ /* (_footer area T.D) */
+.c02b {
+	background:#999999;
+}
+
+ /* (_footer area T.D : % area) */
+.c02d {
+	background:#F3F1E8;
+}
+
+ /* (_bkg color TD left cell) */
+.footerLS {
+	background:#999999;
+}
+
+ /* (_bkg color TD right cell) */
+.footerRS {
+	background:#999999;
+}
+
+
+/******************************************
+ STROKE COLORS
+ ******************************************/
+
+/****** CENTRAL > LEFT AREA > FRAME STROKE ********/
+/* (_central area T.C.01 stroke_topHorizontal) [ often same color for .c05a .c05e .c05  ]*/
+.c05a {
+	background:#999999;
+}
+
+ /* (_central area T.C.01 stroke_dotsHorizontal) */
+.c05e {
+	background:#999999;
+}
+
+ /* (_central area T.C.01 stroke_rightVertical) */
+.c05 {
+	background:#999999;
+}
+
+ /* (_central area T.C.01 stroke_leftVertical) [ often same as .white ] */
+.c05f {
+	background:#FFFFFF;
+}
+
+/***** CENTRAL > GUTTER AREA > FRAME STROKE ******/
+/* (_central area T.C.gutter(1) stroke_topH) [ often same as .c01c ]*/
+.c05b {
+	background:#FFFFFF;
+}
+
+/* (_central area T.C.gutter(2) stroke_topH) [ often same as .c01c ]*/
+.c05d {
+	background:#FFFFFF;
+}
+
+ /******* CENTRAL > RIGHT AREA > FRAME STROKE ******/
+ /* (_central areaRIGHT T.C.02 bkg) */
+.c01h {
+	background:#F3F1E8;
+}
+
+ /* (_central areaRIGHT T.C.02 stroke_topH) [ often same as .c02a ] */
+.c05c {
+	background:#999999;
+}
+
+ /* (_central areaRIGHT T.C.02 stroke_bottomHV) [ often same as .c05c ]*/
+.c02a {
+	background:#999999;
+}
+
+
+/******************************************
+ ERROR MESSAGE BOX
+ ******************************************/
+/* background color */
+.c10 {
+	background:#990000;
+}
+
+/* text color */
+.errorTop {
+	font-weight:bold;
+	color:#FFFFFF;
+	text-indent:3px;
+	letter-spacing:0.00em;
+}
+
+
+/****************************************************************************************************************************
+ 														BASIC TEXT STYLES
+ ****************************************************************************************************************************/
+
+/* page headers + silo links  */
+.pageHD {
+	font-size:11px;
+	font-weight:bold;
+	color:#666666;
+}
+
+/* silo headers  */
+.pageHD2 {
+	font-size:12px;
+	font-weight:bold;
+	color:#666633;
+}
+
+/* section headers  */
+.c02Txt {
+	color:#999999;
+}
+
+/* single product name */
+.itemTxtHD {
+	width: 211px;
+	word-wrap:break-word;
+	color:#999999;
+	font-weight:bold;
+}
+
+/* field names  */
+.fieldHD {
+	font-weight:bold;
+	color:666666;
+}
+
+/* info text + some links */
+.c07Txt {
+	color:#333333;
+	font-weight:normal;
+}
+
+/* special text links */
+.c08Txt {
+	color:#990000;
+}
+
+/* right box text + sku in "printer friendly page" */
+.c03Txt {
+	width: 161px;
+	word-wrap: break-word;
+	color:#666666;
+}
+
+/* registrants info in "printer friendly page" */
+.c06Txt {
+	color:#666666;
+}
+
+/* links in small text in forms */
+.utility {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	letter-spacing:0em;
+}
+/* links in footer */
+.utilityF {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	letter-spacing:0em;
+}
+/* hover Text */
+a.utilityF:hover {
+	text-decoration:underline;
+	color:#333333;
+}
+/* links in top banner */
+.utilityB {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	letter-spacing:0em;
+}
+/* hover Text */
+a.utilityB:hover {
+	text-decoration:underline;
+	color:#990000;
+}
+
+/* links in top banner */
+.languageB {
+	font-size:12px;
+	line-height:9px;
+	color:#990000;
+	font-weight:bold;
+	letter-spacing:0.01em;
+}
+/* hover Text */
+a.languageB:hover {
+	text-decoration:underline;
+	color:#666666;
+}
+
+/* personnel ID */
+.nameID {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	letter-spacing:0em;
+}
+
+/******************************************
+ REGISTRY LIST TABLE + ORDER CONFIRMATION
+ ******************************************/
+
+/* table text */
+.tab {
+	font-size:10px;
+	padding:1px;
+}
+
+/* product name -- + Ord Conf-- */
+.tabB {
+	width: 143px;
+	word-wrap: break-word;
+	font-size:10px;
+	font-weight:bold;
+	color:#333333;
+	padding:1px;
+}
+
+/* order ID link: Ord Conf */
+.tabBLink {
+	font-size:10px;
+	font-weight:bold;
+	color:#333333;
+	padding:1px;
+	text-decoration:underline;
+}
+
+/* table HD: Ord Conf */
+.tabHD {
+	font-size:10px;
+	padding:1px;
+	text-align:left;
+	text-transform:uppercase;
+}
+
+/* sku number */
+.tabSku {
+	font-size:10px;
+	color:#666666;
+	padding:1px;
+}
+
+/* sale price */
+.tabSale {
+	color:#990000;
+	font-size:10px;
+	font-weight:bold;
+	padding:1px;
+}
+
+/* Status CW */
+.status {
+	color:#333333;
+	font-size:10px;
+	font-weight:normal;
+	padding:1px;
+}
+
+/* limited quantity */
+.limited {
+	color:#990000;
+	font-size:10px;
+	font-weight:normal;
+	padding:1px;
+}
+
+/* divider lines */
+.c04 {
+	background:#CCCCCC;
+}
+
+ /* brand, pattern, collection row */
+.cRowBrand {
+	background:#F3F1E8;
+}
+ /* column title */
+.cColumnTitle {
+	background:#DCE1E7;
+}
+
+.fullyPurchased {
+	background:#999;
+	text-align:left;
+	font-weight:bold;
+	padding-left:50px
+}
+
+/****************************************************************************************************************************
+ 														ITEM SELECTION CLASSES
+ ****************************************************************************************************************************/
+
+/****** SIDE COLUMN NAVIGATION *******/
+
+ /* (_sideNavigation Table) background color */
+.sideColumnNavTable {
+	background:#F3F1E8;
+}
+
+ /* (department) */
+td.bgNavDeptOFF {
+	background:#F3F1E8;
+}
+td.bgNavDeptON {
+	background:#CCCCCC;
+}
+.sideColumn01Txt {
+	font-size:11px;
+	font-weight:medium;
+	font-size:11px;
+	color:#333333;
+	text-decoration:none;
+}
+/* hover Text */
+a.sideColumn01Txt:hover {
+	text-decoration:underline;
+}
+.sideColumn01BTxt {
+	font-size:11px;
+	font-weight:bold;
+	color:#333333;
+	text-transform:uppercase;
+}
+/* hover Text */
+a.sideColumn01BTxt:hover {
+	text-decoration:underline;
+	color:#F3F1E8;
+}
+
+ /* (category) */
+td.bgNavCategOFF {
+	background:#CCCCCC;
+}
+td.bgNavCategON {
+	background:#CCCCCC;
+}
+.sideColumn02Txt {
+	font-size:11px;
+	font-weight:medium;
+	color:#333333;
+	text-decoration:none;
+	margin:6px;
+}
+/* hover Text */
+a.sideColumn02Txt:hover {
+	text-decoration:underline;
+}
+.sideColumn02BTxt {
+	font-size:11px;
+	font-weight:bold;
+	color:#333333;
+	text-decoration:none;
+	margin:6px;
+}
+/* hover Text */
+a.sideColumn02bTxt:hover {
+	text-decoration:underline;
+	color:#990000;
+}
+
+ /* (sub-category) */
+td.bgNavSubCategOFF {
+	background:#FFFFFF;
+}
+td.bgNavSubCategON {
+	background:#FFFFFF;
+}
+.sideColumn03Txt {
+	font-size:11px;
+	font-weight:medium;
+	color:#333333;
+	margin:10px;
+	text-decoration:none;
+}
+/* hover Text */
+a.sideColumn03Txt:hover {
+	text-decoration:underline;
+}
+.sideColumn03BTxt {
+	font-size:10px;
+	font-weight:bold;
+	color:#990000;
+	margin:10px;
+	text-decoration:none;
+}
+.keepWidth01 {
+	width: 368px;
+	word-wrap:break-word;
+}
+.keepWidth02 {
+	width: 212px;
+	word-wrap:break-word;
+}
+.keepWidth03 {
+	width: 176px;
+	word-wrap:break-word;
+}
+.keepWidth04 {
+	width: 176px;
+	word-wrap:break-word;
+}
+.keepWidth05 {
+	width: 200px;
+	word-wrap:break-word;
+}
+.keepWidth06 {
+	width: 120px;
+	word-wrap:break-word;
+}
+/****** BREAD-CRUMBS *******/
+.root01 {
+	color:#333333;
+	font-weight:normal;
+	font-size:10px;
+	line-height:14px;
+}
+.root01B {
+	color:#990000;
+	font-weight:bold;
+	font-size:10px;
+	line-height:14px;
+}
+.dividerLineSideColumn {
+	background:#FFFFFF;
+}
+
+/****** PAGE NUMBER *******/
+.pageNumberON {
+	font-size:10px;
+	line-height:12px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:bold;
+	color:#990000;
+	text-decoration:none;
+}
+.pageNumberOFF {
+	font-size:10px;
+	line-height:12px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:normal;
+	color:#333333;
+	text-decoration:none;
+}
+.pageNumberLine {
+	font-size:10px;
+	line-height:12px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:bold;
+	color:#999999;
+	text-decoration:none;
+}
+
+
+/****************************************************************************************************************************
+ 											COLLECTION SWATCHES CLASSES (right column)
+ ****************************************************************************************************************************/
+
+/* SIZE Box : START */
+.tableSIZE
+{
+	border:px solid #999999;
+	padding:2px;
+	font-size:10px;
+	font-weight:normal;
+	color:#666666;
+	background:#DCE1E7;
+}
+ /* pull-down menu row bkg */
+.rowColorSIZE {
+	background:#DCE1E7;
+}
+.selectSIZEoff
+{
+	width:150px;
+	font-size:10px;
+	line-height:24px;
+	color:#666666;
+	background:#DCE1E7;
+	font-weight:bold;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+}
+.selectSIZEon
+{
+	width:150px;
+	font-size:10px;
+	line-height:24px;
+	color:#666666;
+	background:#F3F1E8;
+	font-weight:bold;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+}
+.textHdSIZE {
+	font-size:10px;
+	line-height:10px;
+	color:#666666;
+	letter-spacing:0em;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+.textViewSIZE
+{
+	font-weight:bold;
+	color:#666666;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	text-decoration:underline;
+}
+/* hover Text */
+a.textViewSIZE:hover {
+	text-decoration:underline;
+	color:#990000;
+}
+/* SIZE Box : END */
+
+
+
+/* SWATCHES OUTside Box : START */
+.tableSWATCH
+{
+	border:1px solid #999999;
+	font-size:10px;
+	font-weight:normal;
+	color:#666666;
+	background:#FFFFFF;
+}
+ /* bkg color (usually same as above "rowColorSIZE") */
+.sideColorSWATCH {
+	background:#DCE1E7;
+}
+/* links in small text in forms */
+.textHdSWATCH {
+	font-size:10px;
+	line-height:10px;
+	color:#333333;
+	letter-spacing:0em;
+	text-transform:uppercase;
+	font-weight:bold;
+}
+.textViewSWATCH
+{
+	font-weight:bold;
+	color:#666666;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	text-decoration:underline;
+}
+/* hover Text */
+a.textViewSWATCH:hover {
+	text-decoration:underline;
+	color:#990000;
+}
+/* SWATCHES OUTsideBox : END */
+
+
+
+/* SWATCHES INside Box : START */
+.tableSWATCHin
+{
+	border:0px solid #999999;
+	padding:0px;
+	font-size:9px;
+	font-weight:normal;
+	color:#666666;
+	background:#FFFFFF;
+}
+ /* bkg selected swatch //don't use */
+td.cellColorSWATCHoff {
+	padding:2px;
+}
+ /* bkg selected swatch */
+.cellColorSWATCHon {
+	background:#DCE1E7;
+}
+/* links in small text in forms */
+.textSWATCH {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	padding:2px;
+}
+/* hover Text */
+a.textSWATCH:hover {
+	text-decoration:underline;
+	color:#FFFFFF;
+	background:#990000;
+}
+
+.textSWATCHon {
+	font-size:9px;
+	line-height:9px;
+	color:#FFFFFF;
+	letter-spacing:0em;
+	font-weight:bold;
+	background:#990000;
+	padding:2px;
+}
+
+/* SWATCHES INsideBox : END */
+
+
+/****************************************************************************************************************************
+ 													POP UP PRINTOUTS
+ ****************************************************************************************************************************/
+
+.grayL {
+	background:#CCCCCC;
+}
+ /* (profile) */
+.blockHD {
+	font-size:11px;
+	font-weight:bold;
+	color:#333333;
+	text-transform:uppercase;
+	letter-spacing:-0.03em;
+}
+.fieldHD {
+	font-size:10px;
+	line-height:11px;
+	color:#333333;
+	font-weight:bold;
+}
+.fieldTxt {
+	font-size:10px;
+	line-height:11px;
+	color:#000000;
+	font-weight:normal;
+}
+ /* (items) */
+.deptHD {
+	font-size:11px;
+	font-weight:bold;
+	color:#333333;
+	text-transform:uppercase;
+	letter-spacing:-0.03em;
+}
+.brandHD {
+	font-size:9px;
+	line-height:11px;
+	text-indent:10px;
+	color:#333333;
+	font-weight:bold;
+}
+.columnHD {
+	font-size:10px;
+	line-height:11px;
+	font-style:italic;
+	color:#000000;
+	font-weight:normal;
+	letter-spacing:0.02em;
+}
+.itemTxt {
+	font-size:10px;
+	line-height:11px;
+	color:#000000;
+	font-weight:normal;
+	padding:1px;
+}
+/* sale price printout */
+.saleTxt {
+	color:#990000;
+	font-size:10px;
+	line-height:11px;
+	font-weight:bold;
+	padding:1px;
+}
+.itemsTable {
+	background:#FFFFFF;
+}
+
+
+
+/****************************************************************************************************************************
+ 														REGISTRY MANAGER
+ ****************************************************************************************************************************/
+
+/* listing */
+ul {
+	list-style: outside;
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:normal;
+}
+
+/* personnel ID */
+.nameID {
+	font-size:9px;
+	line-height:9px;
+	color:#333333;
+	letter-spacing:0em;
+}
+/* HD Bkg */
+.bkgHD {
+	font-size:10px;
+	padding:1px;
+}
+
+/* time in notes */
+.time {
+	color:#333333;
+	font-weight:normal;
+	font-style:normal;
+}
+
+/******** QUICK SEARCH BOX (QSB) **********/
+ /* (stroke table) */
+.strokeSearch {
+	background:#999999;
+}
+ /* (background Quick Search box) */
+.fondoSearchQB {
+	background:#DCE1E7;
+}
+input.searchI {
+	background:#FFFFFF;
+	color:#333333;
+	font-weight:normal;
+}
+.advSearchTxt {
+	font-weight:bold;
+	color:#666666;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	text-decoration:underline;
+	text-indent:1px;
+}
+
+/*********** ADVANCED SEARCH (ASM) **************/
+
+/*========== Search Fields Table =============*/
+ /* bkg Table */
+.bkgTableFieldsAS {
+	background:#FFFFFF;
+}
+ /* bkg Bar Color */
+.bkgBarFieldsAS {
+	background:#CCCCCC;
+}
+ /* Bar HD */
+.HDbarAS {
+	font-size:10px;
+	padding:1px;
+	font-weight:bold;
+	color:#333333;
+}
+ /* Fields Title */
+.fieldTxtAS {
+	font-size:10px;
+	line-height:11px;
+	color:#000000;
+	font-weight:normal;
+}
+/*======= Search Results Fields Table =========*/
+ /* bkg Table 2 */
+.bkgTableFields2AS {
+	background:#FFFFFF;
+}
+ /* bkg Bar Color 2 */
+.bkgBarFields2AS {
+	background:#DCE1E7;
+}
+ /* Bar HD 2 */
+.HDbar2AS {
+	font-size:10px;
+	padding:1px;
+	font-weight:bold;
+	color:#333300;
+}
+ /* Results Info HD */
+.HDinfoAS {
+	font-size:10px;
+	line-height:11px;
+	color:#000000;
+	font-weight:normal;
+	font-weight:bold;
+}
+/* Results Info Txt */
+.infoTxtAS {
+	width: 343px;
+	word-wrap: break-word;
+	color:#333333;
+	font-weight:normal;
+	font-size:10px;
+	line-height:11px;
+}
+/* divider lines */
+.lineAS {
+	background:#CCCCCC;
+}
+
+
+/************ "OFF SYSTEM" SEARCH (OS)************/
+
+ /* bkg Table */
+.bkgTableFieldsOS {
+	background:#FFFFFF;
+}
+ /* bkg Bar Color */
+.bkgBarFieldsOS {
+	background:#CCCCCC;
+}
+ /* Bar HD */
+.HDbarOS {
+	font-size:10px;
+	padding:1px;
+	font-weight:bold;
+	color:#333333;
+}
+ /* Fields Title */
+.fieldTxtOS {
+	font-size:10px;
+	line-height:11px;
+	color:#000000;
+	font-weight:normal;
+}
+
+
+/******** ITEM INFO PAGE (c05RMii) *******/
+ /* (bkg input field) */
+input.noInput {
+	background:#FFFFFF;
+	color:#000000;
+	font-weight:normal;
+	border-bottom:#CCCCCC 1px solid;
+	border-left:#CCCCCC 1px solid;
+	border-right:#CCCCCC 1px solid;
+	border-top:#CCCCCC 1px solid;
+}
+ /* (bkg Cell No Input) */
+.noInput {
+	background:#F3F1E8;
+}
+/* no Input Text Fields */
+.noInputTxt {
+	color:#333333;
+	font-weight:normal;
+	font-size:10px;
+}
+
+
+/********* VIEW REGISTRY LIST (c07RM) *********/
+ /* (bkg input field) */
+input.sku {
+	text-indent:1px;
+	font-size:10px;
+	line-height:12px;
+	color:#333333;
+	background:#F3F1E8;
+	border-bottom:#CCCCCC 1px solid;
+	border-left:#CCCCCC 1px solid;
+	border-right:#CCCCCC 1px solid;
+	border-top:#CCCCCC 1px solid;
+}
+input.go {
+	text-indent:3px;
+	font-size:10px;
+	line-height:12px;
+	color:#990000;
+	border-bottom:#CCCCCC 1px solid;
+	border-left:#CCCCCC 1px solid;
+	border-right:#CCCCCC 1px solid;
+	border-top:#CCCCCC 1px solid;
+}
+
+
+/****** RIGHT AREA (usually same as SWATCHES) *******/
+
+ /* (background Registry Search box) */
+.fondoSearchReg {
+	background:#999966;
+}
+ /* (stroke table same as c02a) */
+.strokeSearchReg {
+	background:#666633;
+}
+/* right box text + sku in "printer friendly page" */
+.searchRegTxt {
+	font-size:10px;
+	font-weight:bold;
+	font-size:10px;
+	color:#FFFFFF;
+	text-decoration:none;
+	letter-spacing:0.02em;
+}
+/* hover */
+a.searchRegTxt:hover {
+	font-size:10px;
+	font-weight:bold;
+	font-size:10px;
+	color:#333300;
+	text-decoration:none;
+	letter-spacing:0.02em;
+}
+
+
+/*********** FIELDS *************/
+input.disabled {
+	background:#F3F1E8;
+	color:#333333;
+}
+
+/****************************************************************************************************************************
+ 														DATA WORKS
+ ****************************************************************************************************************************/
+
+ /****** SUB NAVIGATION *******/
+ /* (_divider line SubNAV Light) */
+.c01dw {
+	background:#F3F1E8;
+}
+
+ /* (_divider line : % area) */
+.c01Xdw {
+	background:#F3F1E8;
+}
+ /* (_divider line SubNav Dark) */
+.c02dw {
+	background:#999999;
+}
+
+ /* (_divider line : % area) */
+.c02Xdw {
+	background:#999999;
+}
+
+
+ /********* HP SECTIONS **********/
+ /* (bkg Table) */
+.bgSectTB {
+	background:#F3F1E8;
+}
+
+ /* (bkg HD) */
+.bgSectHD {
+	background:#CCCCCC;
+}
+
+ /* (bkg Icon) */
+.bgSectIC {
+	background:#CCCCCC;
+}
+
+ /* (shadow Line) */
+.bgSectSHD {
+	background:#999966;
+}
+
+
+/********* INFO PAGE *********/
+.infoBkg {
+	background:#CCCCCC;
+}
+ /* (Sections HDs) */
+.sectionHD {
+	font-size:10px;
+	font-weight:bold;
+	color:#333333;
+	letter-spacing:-0.03em;
+	text-transform:uppercase;
+	text-indent:3px;
+}
+
+textarea.dw {
+	text-indent:3px;
+	font-size:10px;
+	line-height:12px;
+	color:#333333;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+}
+
+
+/****** SIDE COLUMN ITEMS NAVIGATION *******/
+
+ /* (_sideNavigation Table) background color */
+.sideColumnNavTableDW {
+	background:#CCCCCC;
+}
+
+
+/*********** FIELDS *************/
+ /* (fake fields) */
+td.bgInputOFF {
+	background:#F3F1E8;
+	text-indent:3px;
+	font-size:10px;
+	line-height:12px;
+	color:#333333;
+	border-bottom:#F3F1E8 1px solid;
+	border-left:#F3F1E8 1px solid;
+	border-right:#F3F1E8 1px solid;
+	border-top:#F3F1E8 1px solid;
+}
+
+
+/********** SWATCHES ************/
+
+ /* (stroke table OFF) */
+.strokeSwatchOff {
+	background:#999999;
+}
+/* Swatch Bkg Table OFF */
+.swatchOff {
+	background:#FFFFFF;
+}
+
+ /* (stroke table ON) */
+.strokeSwatchOn {
+	background:#999999;
+}
+/* Swatch Bkg Table ON */
+.swatchOn {
+	background:#F3F1E8;
+}
+
+/* table header OFF */
+.swatchHD {
+	color:#666633;
+	font-weight:bold;
+	text-indent:3px;
+}
+/* table header ON */
+.swatchHDon {
+	color:#666666;
+	font-weight:bold;
+	text-indent:3px;
+}
+
+
+/****** RIGHT AREA (HIGHLITHED) *******/
+
+ /* (background Back To Collection box) */
+.fondoBox {
+	background:#990000;
+}
+/* right box text + sku in "printer friendly page" */
+.fondoBoxTxt {
+	font-size:10px;
+	font-weight:bold;
+	font-size:10px;
+	color:#FFFFFF;
+	text-decoration:none;
+	letter-spacing:0.02em;
+}
+a.fondoBoxTxt:hover {
+	text-decoration:underline;
+	color:#CCCCCC;
+}
+
+
+/****************************************************************************************************************************
+ 														CORPORATE IDENTITY SITE
+ ****************************************************************************************************************************/
+
+ /****** TOP BANNER *******************************************/
+  /* (same as Bkg Color: BODY) */
+.retailerColor {
+	background:#F3F1E8;
+}
+
+  /* (Color Table ) */
+.table_tb {
+	background:#FFFFFF;
+}
+
+ /* (First Color Row) */
+.row01_tb {
+	background:#999999;
+}
+
+ /* (Central Color Logo Row) */
+.row02_tb {
+	background:#FFFFFF;
+}
+.row02a_tb {
+	background:#FFFFFF;
+}
+.row02b_tb {
+	background:#FFFFFF;
+}
+.row02c_tb {
+	background:#FFFFFF;
+}
+.row02d_tb {
+	background:#CCCCCC;
+}
+.row02e_tb {
+	background:#CCCCCC;
+}
+
+ /* (Closing Color Row) */
+.row03_tb {
+	background:#999999;
+}
+
+ /****** TOP NAVIGATION *************************************************/
+  /* (Color Table) */
+.table_tn {
+	background:#FFFFFF;
+}
+
+ /* (First Color Row) */
+.row01_tn {
+	background:#000000;
+}
+
+ /* (Second Color Row) */
+.row02_tn {
+	background:#FFFFFF;
+}
+
+/* links in top banner */
+.utilityB_cw {
+	font-size:9px;
+	line-height:9px;
+	color:#FFFFFF;
+	letter-spacing:0em;
+}
+/* hover Text */
+a.utilityB_cw:hover {
+	text-decoration:underline;
+	color:#CCCCCC;
+}
+
+ /****** CENTRAL AREA ********************************************************/
+ /* (same as retailerBlock) */
+.table_ca {
+	background:#FFFFFF;
+}
+
+ /* (LEFT table 580) */
+.table_caL {
+	background:#FFFFFF;
+}
+ /* (image table 150) */
+.table_caLImg {
+	background:#FFFFFF;
+}
+ /* (content table 400) */
+.table_caLCont {
+	background:#F3F1E8;
+}
+ /* (content table 400) */
+.table_caLCont2col {
+	background:#F3F1E8;
+}
+ /* (hd line) */
+.hd01_line {
+	background:#666666;
+}
+.hd01 {
+ font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+ font-size:22px;
+ color:#666666;
+ font-weight:normal;
+ letter-spacing:0.02em;
+}
+.txtN_cid {
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:normal;
+	color:#333333;
+}
+.txtL_cid {
+	text-decoration:underline;
+	color:#333333;
+}
+.txtL_cid:hover {
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:normal;
+	color:#FF9933;
+	text-decoration:underline;
+}
+.hd02 {
+ font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+ font-size:11px;
+ color:#333333;
+ font-weight:bold;
+ letter-spacing:0.02em;
+}
+
+ /* (RIGHT table 160) */
+.table_caR {
+	background:#FFFFFF;
+}
+ /* (divider menu line) */
+.line_caR {
+	background:#666666;
+}
+ /* (right-side navigation menu) */
+.txtOFF_nav {
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:normal;
+	color:#333333;
+	text-decoration:none;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+.txtOFF_nav:hover {
+	font-size:11px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:bold;
+	color:#333333;
+	text-decoration:underline;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+.txtON_nav {
+	font-size:12px;
+	line-height:14px;
+	font-style:normal;
+	font-weight:bold;
+	color:#333333;
+	text-decoration:none;
+	letter-spacing:0.02em;
+	text-indent:4px;
+	text-transform:uppercase;
+}
+
+
+ /****** FOOTER ***********************************************************/
+ /* (Color table) */
+.table_ft {
+	background:#000000;
+}
+ /* (Light Bkg) */
+.row01_ft {
+	background:#CCCCCC;
+}
+.text01_ft {
+	font-size:10px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:normal;
+	color:#333333;
+	text-decoration:none;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+.text01_ft:hover {
+	font-size:10px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:bold;
+	color:#000000;
+	text-decoration:underline;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+
+
+ /* (Dark Bkg) */
+.row02_ft {
+	background:#333333;
+}
+.text02_ft {
+	font-size:10px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:normal;
+	color:#CCCCCC;
+	text-decoration:none;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+.text02_ft:hover {
+	font-size:10px;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+	font-style:normal;
+	font-weight:bold;
+	color:#FF9933;
+	text-decoration:none;
+	letter-spacing:0.02em;
+	text-indent:4px;
+}
+
+
+
+/****************************************************************************************************************************
+ 														CATALOG WORKS
+ ****************************************************************************************************************************/
+
+/* Brand Search Box : START */
+.tableBSBoff
+{
+	border:1px solid #999999;
+	padding:2px;
+	font-size:10px;
+	font-weight:normal;
+	color:#996699;
+	background:#DCE1E7;
+	padding-left:4px;
+}
+.tableBSBon
+{
+	border:1px solid #999999;
+	padding:2px;
+	font-size:10px;
+	font-weight:normal;
+	color:#996699;
+	background:#DCE1E7;
+	padding-left:4px;
+}
+
+.titleBSBoff
+{
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	font-style:normal;
+	color: #333333;
+}
+.titleBSBon
+{
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	font-style:normal;
+	color: #333333;
+}
+
+.textBSBoff
+{
+	font-weight:bold;
+	color:#666666;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	text-decoration:underline;
+}
+.textBSBon
+{
+	font-weight:bold;
+	color:#333333;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	text-decoration:underline;
+}
+.selectBSBoff
+{
+	width:140px;
+	font-size:10px;
+	line-height:24px;
+	color:#666666;
+	background:#DCE1E7;
+	font-weight:bold;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+}
+.selectBSBon
+{
+	width:140px;
+	font-size:10px;
+	line-height:24px;
+	color:#333333;
+	background:#F3F1E8;
+	font-weight:normal;
+	font-family:"Verdana", "Arial", "Helvetica", sans-serif;
+}
+/* Brand Quick Box : END */			
+
+/* Shopping Bag Quick Box : START */
+.tableBagQW
+{
+	border:1px solid #F3F1E8;
+	padding:1px;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	font-weight:normal;
+	color:#333333;
+	background:#F3F1E8;
+	width:160px;
+}
+
+.tBagQWtext
+{
+	font-weight:normal;
+	color:#333333;
+	text-decoration:none;
+	font-size:9px;
+	text-decoration:none;
+}		
+/* hover */
+a.tBagQWtext:hover {
+	font-weight:normal;
+	color:#333333;
+	text-decoration:underline;
+	font-size:9px;
+}
+
+.tBagQWtextB
+{
+	font-weight:normal;
+	color:#000000;
+	text-decoration:none;
+	font-size:9px;
+	text-decoration:none;
+}
+
+td.bgLineQW {
+	background:#666666 url(./images/bgLineQW.gif);
+}
+/* Shopping Bag Quick Box : END */
+
+/* Show ALL Brands/Dept Info Box : START */
+.tableShowAll {
+	border:1px solid #999999;
+	padding:2px;
+	font-size:10px;
+	font-weight:normal;
+	color:#666666;
+	background:#F3F1E8;
+	padding-left:4px;
+	width:150px;
+}
+.textShowAlloff {
+	font-weight:bold;
+	color:#666666;
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:10px;
+	letter-spacing:0em;
+	text-align:center;
+}
+/* hover Text */
+a.textShowAlloff:hover {
+	text-decoration:underline;
+	color:#990000;
+	text-align:center;
+}
+/* Show ALL Brands/Dept Info Box : END */
+
+/* End General Site Styles */
+
