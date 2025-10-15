@@ -1,6 +1,6 @@
 // This is your test publishable API key.
 
-//    const stripe = Stripe("REDACTED_STRIPE_PUBLISHABLE");
+
 
 let elements;
 let payment_intend;
