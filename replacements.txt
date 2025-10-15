@@ -1,0 +1,3 @@
+regex:sk_(live|test)_[0-9A-Za-z]{24,}==>REDACTED_STRIPE_SECRET
+regex:rk_(live|test)_[0-9A-Za-z]{24,}==>REDACTED_STRIPE_RESTRICTED
+regex:pk_(live|test)_[0-9A-Za-z]{24,}==>REDACTED_STRIPE_PUBLISHABLE
